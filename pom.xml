@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>realworld.example</groupId>
+	<artifactId>realworld-jee-thorntail-parent</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	
+	<name>Realworld in JEE/Thorntail: Parent</name>
+	<description>Realworld in JEE/Thorntail: Parent</description>
+	
+	<packaging>pom</packaging>
+	
+	<modules>
+		<module>realworld-jee-thorntail-services-auth</module>
+		<module>realworld-jee-thorntail-user-module</module>
+		<module>realworld-jee-thorntail-common</module>
+		<!--
+		<module>thorntail-realworld</module>
+		<module>thorntail-realworld-jaxrs-interfaces</module>
+		<module>thorntail-realworld-services</module>
+		<module>thorntail-realworld-services-auth</module>
+		<module>thorntail-realworld-data</module>
+		<module>thorntail-realworld-model</module>
+		-->
+	</modules>
+	
+	<properties>
+		<version.java>11</version.java>
+		
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<version.jaxb.api>2.3.1</version.jaxb.api>
+		<version.jaxb.impl>2.3.0.1</version.jaxb.impl>
+		<version.junit.jupiter>5.3.2</version.junit.jupiter>
+		<version.wildfly-swarm>2.3.0.Final</version.wildfly-swarm>
+	</properties>
+	
+	<dependencyManagement>
+		<dependencies>
+			<!-- WILDFLY SWARM  -->
+			<dependency>
+				<groupId>io.thorntail</groupId>
+				<artifactId>bom</artifactId>
+				<version>${version.wildfly-swarm}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>io.thorntail</groupId>
+				<artifactId>bom-unstable</artifactId>
+				<version>${version.wildfly-swarm}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			
+			<!-- SPECS -->
+			<dependency>
+				<groupId>org.jboss.spec.javax.ws.rs</groupId>
+				<artifactId>jboss-jaxrs-api_2.0_spec</artifactId>
+				<version>1.0.1.Final</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.enterprise</groupId>
+				<artifactId>cdi-api</artifactId>
+				<version>2.0.SP1</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.interceptor</groupId>
+				<artifactId>javax.interceptor-api</artifactId>
+				<version>1.2.2</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.annotation</groupId>
+				<artifactId>javax.annotation-api</artifactId>
+				<version>1.3.2</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.persistence</groupId>
+				<artifactId>javax.persistence-api</artifactId>
+				<version>2.2</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.transaction</groupId>
+				<artifactId>javax.transaction-api</artifactId>
+				<version>1.3</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.validation</groupId>
+				<artifactId>validation-api</artifactId>
+				<version>2.0.1.Final</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.xml.bind</groupId>
+				<artifactId>jaxb-api</artifactId>
+				<version>${version.jaxb.api}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.xml.bind</groupId>
+				<artifactId>jaxb-core</artifactId>
+				<version>${version.jaxb.impl}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.xml.bind</groupId>
+				<artifactId>jaxb-impl</artifactId>
+				<version>${version.jaxb.impl}</version>
+			</dependency>
+
+			<!--  OTHER -->
+			<dependency>
+				<groupId>com.nimbusds</groupId>
+				<artifactId>nimbus-jose-jwt</artifactId>
+				<version>6.7</version>
+			</dependency>
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-annotations</artifactId>
+				<version>1.5.21</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.json</groupId>
+				<artifactId>json</artifactId>
+				<version>20180813</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.7.25</version>
+			</dependency>
+			
+			<!-- TEST -->
+			<dependency>
+				<groupId>org.jboss.weld</groupId>
+				<artifactId>weld-junit5</artifactId>
+				<version>1.3.1.Final</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-engine</artifactId>
+				<version>${version.junit.jupiter}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>2.23.4</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.0.0-M2</version>
+				<executions>
+					<execution>
+						<id>enforce-maven</id>
+						<goals><goal>enforce</goal></goals>
+						<configuration>
+							<rules>
+								<requireMavenVersion>
+									<version>3.3.9</version>
+								</requireMavenVersion>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>io.thorntail</groupId>
+					<artifactId>thorntail-maven-plugin</artifactId>
+					<version>${version.wildfly-swarm}</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>3.1.0</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.8.0</version>
+					<configuration>
+						<release>${version.java}</release>
+						<source>${version.java}</source>
+						<target>${version.java}</target>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>3.0.0-M1</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>3.0.0-M1</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>3.1.0</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.1.0</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>3.7.1</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.22.0</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>3.2.2</version>
+					<configuration>
+						<failOnMissingWebXml>false</failOnMissingWebXml>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>h2</id>
+
+			<properties>
+				<database.driver>org.h2.Driver</database.driver>
+				<database.thorntail.name>h2</database.thorntail.name>
+			</properties>
+
+			<dependencyManagement>
+				<dependencies>
+					<dependency>
+						<groupId>com.h2database</groupId>
+						<artifactId>h2</artifactId>
+						<version>1.4.197</version>
+					</dependency>
+				</dependencies>
+			</dependencyManagement>
+		</profile>
+	</profiles>
+</project>
