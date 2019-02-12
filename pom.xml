@@ -15,14 +15,7 @@
 		<module>realworld-jee-thorntail-services-auth</module>
 		<module>realworld-jee-thorntail-user-module</module>
 		<module>realworld-jee-thorntail-common</module>
-		<!--
-		<module>thorntail-realworld</module>
-		<module>thorntail-realworld-jaxrs-interfaces</module>
-		<module>thorntail-realworld-services</module>
-		<module>thorntail-realworld-services-auth</module>
-		<module>thorntail-realworld-data</module>
-		<module>thorntail-realworld-model</module>
-		-->
+		<module>realworld-jee-thorntail-deployments</module>
 	</modules>
 	
 	<properties>
@@ -115,6 +108,12 @@
 			</dependency>
 
 			<!--  OTHER -->
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-annotations</artifactId>
+				<version>2.9.5</version>
+				<scope>provided</scope>
+			</dependency>
 			<dependency>
 				<groupId>com.nimbusds</groupId>
 				<artifactId>nimbus-jose-jwt</artifactId>

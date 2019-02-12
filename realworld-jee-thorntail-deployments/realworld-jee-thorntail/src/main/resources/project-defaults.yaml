@@ -1,0 +1,30 @@
+thorntail:
+  deployment:
+    realworld-jee-thorntail.war:
+      swagger:
+        packages:
+          # This is not necessary (i.e. works without it too) - I do not know what hapens if resources are found in more than one packages
+          - realworld.jaxrs
+  naming:
+    bindings:
+      java:/jwt.secret:
+        binding-type: simple
+        type: java.lang.String
+        value: nRvyYC4soFxBdZ-F-5Nnzz5USXstR1YylsTd-mA0aKtI9HUlriGrtkf-TiuDapkLiUCogO3JOK7kwZisrHp6wA
+      java:/jwt.sessionTime:
+        binding-type: simple
+        type: java.lang.Long
+        value: 86400
+      java:/jwt.map.userName:
+        binding-type: simple
+        type: java.lang.String
+        value: sub
+  datasources:
+    data-sources:
+      RealworldDS:
+        driver-name: ${database.thorntail.name}
+        connection-url: ${database.url}
+        user-name: ${database.username}
+        password: ${database.password}
+  cdi:
+    require-bean-descriptor: true

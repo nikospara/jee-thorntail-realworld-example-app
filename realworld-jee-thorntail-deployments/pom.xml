@@ -3,21 +3,18 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>realworld.example</groupId>
 		<artifactId>realworld-jee-thorntail-parent</artifactId>
+		<groupId>realworld.example</groupId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>realworld-jee-thorntail-user-module</artifactId>
-	
-	<name>Realworld in JEE/Thorntail: User module</name>
-	<description>Realworld in JEE/Thorntail: User module</description>
+	<artifactId>realworld-jee-thorntail-deployments</artifactId>
+
+	<name>Realworld in JEE/Thorntail: Deployments</name>
+	<description>Realworld in JEE/Thorntail: Deployments</description>
 
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>realworld-jee-thorntail-user-model</module>
-		<module>realworld-jee-thorntail-user-services</module>
-		<module>realworld-jee-thorntail-user-jpa</module>
-		<module>realworld-jee-thorntail-user-jaxrs</module>
+		<module>realworld-jee-thorntail</module>
 	</modules>
 </project>
