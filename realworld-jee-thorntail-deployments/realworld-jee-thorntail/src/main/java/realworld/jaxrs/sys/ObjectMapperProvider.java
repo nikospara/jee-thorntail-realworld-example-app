@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import realworld.jaxrs.impl.user.ProfileMixin;
+import realworld.user.model.ProfileData;
 
 /**
  * Provide the Jackson {@code ObjectMapper} to JAX-RS,
@@ -30,7 +32,7 @@ public class ObjectMapperProvider implements ContextResolver<ObjectMapper> {
 		objectMapper.setAnnotationIntrospector(new JacksonAnnotationIntrospector());
 		objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
 		objectMapper.enable(DeserializationFeature.UNWRAP_ROOT_VALUE);
-//		objectMapper.addMixIn(Article.class, ArticleMixin.class);
+		objectMapper.addMixIn(ProfileData.class, ProfileMixin.class);
 	}
 
 	@Override
