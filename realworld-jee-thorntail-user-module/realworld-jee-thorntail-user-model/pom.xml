@@ -9,7 +9,7 @@
 	</parent>
 	<artifactId>realworld-jee-thorntail-user-model</artifactId>
 	
-	<name>Realworld in JEE/Thorntail, User module: Model</name>
+	<name>Realworld in JEE/Thorntail, User model</name>
 	<description>Realworld in JEE/Thorntail, User module: Model</description>
 	
 	<packaging>jar</packaging>

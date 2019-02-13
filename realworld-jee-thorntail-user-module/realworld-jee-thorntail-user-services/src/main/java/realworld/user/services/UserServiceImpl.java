@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import realworld.EntityDoesNotExistException;
 import realworld.authentication.AuthenticationContext;
@@ -117,8 +118,21 @@ class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public UserData findByUserName(String username) throws EntityDoesNotExistException {
+		return userDao.findByUserName(username).orElseThrow(EntityDoesNotExistException::new);
+	}
+
+	@Override
 	public ProfileData findProfile(String username) {
-		UserData userData = userDao.findByUserName(username).orElseThrow(EntityDoesNotExistException::new);
+		return userDao.findByUserName(username).map(this::toProfileData).orElseThrow(EntityDoesNotExistException::new);
+	}
+
+	@Override
+	public ProfileData findProfileById(String userid) {
+		return userDao.findById(userid).map(this::toProfileData).orElseThrow(EntityDoesNotExistException::new);
+	}
+
+	private ProfileData toProfileData(UserData userData) {
 		boolean follows = Optional.ofNullable(authenticationContext.getUserPrincipal()).map(principal -> userDao.follows(principal.getUniqueId(), userData.getId())).orElse(false);
 		return ProfileData.make(userData.getUsername(), userData.getBio(), userData.getImage(), follows);
 	}

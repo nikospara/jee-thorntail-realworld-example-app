@@ -80,6 +80,21 @@
 			<artifactId>realworld-jee-thorntail-user-jaxrs</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>realworld.example</groupId>
+			<artifactId>realworld-jee-thorntail-article-services</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>realworld.example</groupId>
+			<artifactId>realworld-jee-thorntail-article-jpa</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>realworld.example</groupId>
+			<artifactId>realworld-jee-thorntail-article-jaxrs</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<!-- OTHER -->
 		<dependency>

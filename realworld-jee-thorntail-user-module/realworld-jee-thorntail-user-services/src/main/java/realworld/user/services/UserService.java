@@ -2,6 +2,7 @@ package realworld.user.services;
 
 import javax.validation.Valid;
 
+import realworld.EntityDoesNotExistException;
 import realworld.authorization.NotAuthenticatedException;
 import realworld.user.model.ProfileData;
 import realworld.user.model.UserLoginData;
@@ -47,12 +48,29 @@ public interface UserService {
 	UserData update(@Valid UserUpdateData userUpdateData);
 
 	/**
+	 * Find by user name.
+	 *
+	 * @param username The user name
+	 * @return The user
+	 * @throws EntityDoesNotExistException If not found
+	 */
+	UserData findByUserName(String username) throws EntityDoesNotExistException;
+
+	/**
 	 * Find the profile of the user with the given user name.
 	 *
 	 * @param username The user name
 	 * @return The profile
 	 */
 	ProfileData findProfile(String username);
+
+	/**
+	 * Find the profile of the user with the given id.
+	 *
+	 * @param userid The user id
+	 * @return The profile
+	 */
+	ProfileData findProfileById(String userid);
 
 	/**
 	 * As the current user, follow the given user.

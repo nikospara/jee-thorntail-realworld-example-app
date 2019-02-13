@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<artifactId>realworld-jee-thorntail-user-module</artifactId>
+		<artifactId>realworld-jee-thorntail-article-module</artifactId>
 		<groupId>realworld.example</groupId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>realworld-jee-thorntail-user-jaxrs</artifactId>
+	<artifactId>realworld-jee-thorntail-article-jaxrs</artifactId>
 
-	<name>Realworld in JEE/Thorntail, User JAX-RS</name>
-	<description>Realworld in JEE/Thorntail, User module: JAX-RS</description>
+	<name>Realworld in JEE/Thorntail, Article JAX-RS</name>
+	<description>Realworld in JEE/Thorntail, Article module: JAX-RS</description>
 
 	<packaging>jar</packaging>
 
@@ -24,7 +24,7 @@
 		<!-- PROJECT -->
 		<dependency>
 			<groupId>realworld.example</groupId>
-			<artifactId>realworld-jee-thorntail-user-model</artifactId>
+			<artifactId>realworld-jee-thorntail-article-model</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 

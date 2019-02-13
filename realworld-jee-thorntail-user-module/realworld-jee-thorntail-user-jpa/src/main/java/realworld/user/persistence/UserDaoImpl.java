@@ -99,6 +99,11 @@ class UserDaoImpl implements UserDao {
 	}
 
 	@Override
+	public Optional<UserData> findById(String userid) {
+		return Optional.ofNullable(em.find(User.class, userid)).map(u -> UserData.make(u.getId(), u.getUsername(), u.getEmail(), u.getBio(), u.getImage()));
+	}
+
+	@Override
 	public UserData update(UserData user) {
 		User u = em.find(User.class, user.getId());
 		if( u == null ) {

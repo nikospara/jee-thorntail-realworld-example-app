@@ -9,6 +9,8 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
+import realworld.article.model.ArticleData;
+import realworld.jaxrs.impl.article.ArticleMixin;
 import realworld.jaxrs.impl.user.ProfileMixin;
 import realworld.user.model.ProfileData;
 
@@ -33,6 +35,7 @@ public class ObjectMapperProvider implements ContextResolver<ObjectMapper> {
 		objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
 		objectMapper.enable(DeserializationFeature.UNWRAP_ROOT_VALUE);
 		objectMapper.addMixIn(ProfileData.class, ProfileMixin.class);
+		objectMapper.addMixIn(ArticleData.class, ArticleMixin.class);
 	}
 
 	@Override

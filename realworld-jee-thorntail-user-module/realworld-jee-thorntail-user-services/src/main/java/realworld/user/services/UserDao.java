@@ -2,7 +2,6 @@ package realworld.user.services;
 
 import java.util.Optional;
 
-import realworld.user.model.ProfileData;
 import realworld.user.model.UserData;
 
 /**
@@ -51,6 +50,14 @@ public interface UserDao {
 	 * @return The user with the given user name
 	 */
 	Optional<UserData> findByUserName(String username);
+
+	/**
+	 * Find user by id.
+	 *
+	 * @param userid The user id
+	 * @return The user with the given user name
+	 */
+	Optional<UserData> findById(String userid);
 
 	/**
 	 * Update the database for the given user.
