@@ -26,4 +26,14 @@ public class ArticleResourceImpl implements ArticleResource {
 	public ArticleData create(CreationParam param) {
 		return articleService.create(param);
 	}
+
+	@Override
+	public ArticleData favorite(String slug) {
+		return articleService.favorite(slug);
+	}
+
+	@Override
+	public ArticleData unfavorite(String slug) {
+		return articleService.unfavorite(slug);
+	}
 }

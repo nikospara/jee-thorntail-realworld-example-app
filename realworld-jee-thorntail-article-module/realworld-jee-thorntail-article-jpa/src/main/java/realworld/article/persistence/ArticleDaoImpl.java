@@ -99,4 +99,45 @@ class ArticleDaoImpl implements ArticleDao {
 		em.persist(article);
 		return ArticleWithLinks.make(article.getSlug(), article.getTitle(), article.getDescription(), article.getBody(), article.getCreatedAt(), article.getUpdatedAt(), false, 0, authorId);
 	}
+
+	@Override
+	public ArticleWithLinks favorite(String userId, String slug) throws EntityDoesNotExistException {
+		try {
+			Object[] res = em.createQuery(findArticleBySlugCriteriaQuery(userId, slug)).getSingleResult();
+			Article a = (Article) res[0];
+			boolean favorited = (Boolean) res[1];
+			int favoritesCount = ((Long) res[2]).intValue();
+			if( !favorited ) {
+				favoritesCount++;
+				ArticleFavorite af = new ArticleFavorite();
+				af.setArticleId(a.getId());
+				af.setUserId(userId);
+				em.persist(af);
+			}
+			return ArticleWithLinks.make(slug, a.getTitle(), a.getDescription(), a.getBody(), a.getCreatedAt(), a.getUpdatedAt(), true, favoritesCount, a.getAuthor());
+		}
+		catch( NoResultException e ) {
+			throw new EntityDoesNotExistException();
+		}
+	}
+
+	@Override
+	public ArticleWithLinks unfavorite(String userId, String slug) throws EntityDoesNotExistException {
+		try {
+			Object[] res = em.createQuery(findArticleBySlugCriteriaQuery(userId, slug)).getSingleResult();
+			Article a = (Article) res[0];
+			boolean favorited = (Boolean) res[1];
+			int favoritesCount = ((Long) res[2]).intValue();
+			if( favorited ) {
+				favoritesCount--;
+				ArticleFavoritePK pk = new ArticleFavoritePK(a.getId(), userId);
+				ArticleFavorite af = em.find(ArticleFavorite.class, pk);
+				em.remove(af);
+			}
+			return ArticleWithLinks.make(slug, a.getTitle(), a.getDescription(), a.getBody(), a.getCreatedAt(), a.getUpdatedAt(), false, favoritesCount, a.getAuthor());
+		}
+		catch( NoResultException e ) {
+			throw new EntityDoesNotExistException();
+		}
+	}
 }

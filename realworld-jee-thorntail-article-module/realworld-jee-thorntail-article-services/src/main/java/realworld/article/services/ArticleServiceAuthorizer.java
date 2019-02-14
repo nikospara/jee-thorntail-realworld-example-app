@@ -7,6 +7,7 @@ import javax.decorator.Decorator;
 import javax.decorator.Delegate;
 import javax.inject.Inject;
 
+import realworld.EntityDoesNotExistException;
 import realworld.article.model.ArticleCreationData;
 import realworld.article.model.ArticleData;
 import realworld.authorization.Authorization;
@@ -48,5 +49,17 @@ class ArticleServiceAuthorizer implements ArticleService {
 	@Override
 	public String makeSlug(String title) {
 		return delegate.makeSlug(title);
+	}
+
+	@Override
+	public ArticleData favorite(String slug) throws EntityDoesNotExistException {
+		authorization.requireLogin();
+		return delegate.favorite(slug);
+	}
+
+	@Override
+	public ArticleData unfavorite(String slug) throws EntityDoesNotExistException {
+		authorization.requireLogin();
+		return delegate.unfavorite(slug);
 	}
 }

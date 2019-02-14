@@ -33,4 +33,22 @@ public interface ArticleService {
 	 * @return The slug
 	 */
 	String makeSlug(String title);
+
+	/**
+	 * Favorite article.
+	 *
+	 * @param slug Article slug
+	 * @return The article
+	 * @throws EntityDoesNotExistException If the article does not exist
+	 */
+	ArticleData favorite(String slug) throws EntityDoesNotExistException;
+
+	/**
+	 * Remove article from favorites.
+	 *
+	 * @param slug Article slug
+	 * @return The article
+	 * @throws EntityDoesNotExistException If the article does not exist
+	 */
+	ArticleData unfavorite(String slug) throws EntityDoesNotExistException;
 }

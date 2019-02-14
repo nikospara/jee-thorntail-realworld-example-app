@@ -64,4 +64,18 @@ class ArticleServiceImpl implements ArticleService {
 	public String makeSlug(String title) {
 		return title.toLowerCase().replace(' ', '-');
 	}
+
+	@Override
+	public ArticleData favorite(String slug) throws EntityDoesNotExistException {
+		String userId = userService.getCurrentUser().getId();
+		ArticleWithLinks article = articleDao.favorite(userId, slug);
+		return ArticleData.make(article, userService.findProfileById(article.getAuthorId()));
+	}
+
+	@Override
+	public ArticleData unfavorite(String slug) throws EntityDoesNotExistException {
+		String userId = userService.getCurrentUser().getId();
+		ArticleWithLinks article = articleDao.unfavorite(userId, slug);
+		return ArticleData.make(article, userService.findProfileById(article.getAuthorId()));
+	}
 }
