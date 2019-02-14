@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
+>
+	<changeSet id="20181230_1" author="nikospara">
+		<createTable tableName="RWL_ARTICLE">
+			<column name="id" type="VARCHAR(64)">
+				<constraints primaryKey="true" primaryKeyName="PK_RWL_ARTICLE" />
+			</column>
+			<column name="slug" type="VARCHAR(255)">
+				<constraints nullable="false" unique="true" uniqueConstraintName="UQ_RWL_ARTICLE_SLUG" />
+			</column>
+			<column name="title" type="VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="description" type="VARCHAR(255)" />
+			<column name="body" type="CLOB" />
+			<column name="createdAt" type="TIMESTAMP">
+				<constraints nullable="false" />
+			</column>
+			<column name="updatedAt" type="TIMESTAMP" />
+			<column name="user_id" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="RWL_ARTICLE_FAV">
+			<column name="article_id" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+			<column name="user_id" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+		
+		<addPrimaryKey tableName="RWL_ARTICLE_FAV" constraintName="PK_RWL_ARTICLE_FAV" columnNames="article_id, user_id" />
+		<addForeignKeyConstraint baseTableName="RWL_ARTICLE_FAV" baseColumnNames="article_id" constraintName="FK_RWL_ARTICLE_FAV_ARTICLE_ID" referencedTableName="RWL_ARTICLE" referencedColumnNames="id" />
+	</changeSet>
+</databaseChangeLog>

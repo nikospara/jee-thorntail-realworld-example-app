@@ -19,5 +19,6 @@
 		<module>realworld-jee-thorntail-article-services</module>
 		<module>realworld-jee-thorntail-article-jpa</module>
 		<module>realworld-jee-thorntail-article-jaxrs</module>
+		<module>realworld-jee-thorntail-article-migrations</module>
 	</modules>
 </project>

@@ -19,5 +19,6 @@
 		<module>realworld-jee-thorntail-user-services</module>
 		<module>realworld-jee-thorntail-user-jpa</module>
 		<module>realworld-jee-thorntail-user-jaxrs</module>
+		<module>realworld-jee-thorntail-user-migrations</module>
 	</modules>
 </project>

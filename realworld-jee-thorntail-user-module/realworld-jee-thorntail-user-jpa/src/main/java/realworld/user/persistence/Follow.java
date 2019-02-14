@@ -14,7 +14,7 @@ import javax.persistence.Table;
  */
 @Entity
 @IdClass(FollowId.class)
-@Table(name = "RWL_FOLLOW")
+@Table(name = "RWL_USER_FOLLOW")
 public class Follow {
 
 	@Id

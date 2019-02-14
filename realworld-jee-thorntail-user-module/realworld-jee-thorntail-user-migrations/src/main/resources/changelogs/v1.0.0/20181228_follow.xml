@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+		xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
+>
+	<changeSet id="20181228_1" author="nikospara">
+		<createTable tableName="RWL_USER_FOLLOW">
+			<column name="user_id" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+			<column name="follows_id" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addPrimaryKey tableName="RWL_USER_FOLLOW" constraintName="PK_RWL_USER_FOLLOW" columnNames="user_id, follows_id" />
+
+		<addForeignKeyConstraint baseTableName="RWL_USER_FOLLOW" baseColumnNames="user_id" constraintName="FK_RWL_USER_FOLLOW_USER_ID" referencedTableName="RWL_USER" referencedColumnNames="id" />
+		<addForeignKeyConstraint baseTableName="RWL_USER_FOLLOW" baseColumnNames="follows_id" constraintName="FK_RWL_USER_FOLLOW_FOLLOWS_ID" referencedTableName="RWL_USER" referencedColumnNames="id" />
+	</changeSet>
+</databaseChangeLog>
