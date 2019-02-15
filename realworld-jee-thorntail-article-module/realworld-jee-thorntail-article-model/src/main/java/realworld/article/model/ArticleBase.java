@@ -9,6 +9,13 @@ import java.util.Date;
 public interface ArticleBase {
 
 	/**
+	 * The id.
+	 *
+	 * @return The id.
+	 */
+	String getId();
+
+	/**
 	 * The slug.
 	 *
 	 * @return The slug
@@ -71,6 +78,7 @@ public interface ArticleBase {
 
 		private static final long serialVersionUID = 1L;
 
+		private String id;
 		private String slug;
 		private String title;
 		private String description;
@@ -83,7 +91,8 @@ public interface ArticleBase {
 		/**
 		 * Full constructor.
 		 *
-		 * @param slug
+		 * @param id             The id
+		 * @param slug           The slug
 		 * @param title
 		 * @param description
 		 * @param body
@@ -92,7 +101,8 @@ public interface ArticleBase {
 		 * @param favorited
 		 * @param favoritesCount
 		 */
-		Impl(String slug, String title, String description, String body, Date createdAt, Date updatedAt, boolean favorited, int favoritesCount) {
+		Impl(String id, String slug, String title, String description, String body, Date createdAt, Date updatedAt, boolean favorited, int favoritesCount) {
+			this.id = id;
 			this.slug = slug;
 			this.title = title;
 			this.description = description;
@@ -101,6 +111,11 @@ public interface ArticleBase {
 			this.updatedAt = updatedAt;
 			this.favorited = favorited;
 			this.favoritesCount = favoritesCount;
+		}
+
+		@Override
+		public String getId() {
+			return id;
 		}
 
 		@Override

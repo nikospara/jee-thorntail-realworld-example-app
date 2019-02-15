@@ -68,14 +68,22 @@ class ArticleServiceImpl implements ArticleService {
 	@Override
 	public ArticleData favorite(String slug) throws EntityDoesNotExistException {
 		String userId = userService.getCurrentUser().getId();
-		ArticleWithLinks article = articleDao.favorite(userId, slug);
+		ArticleWithLinks article = articleDao.findArticleBySlug(userId, slug);
+		if( !article.isFavorited() ) {
+			articleDao.addFavorite(userId, article.getId());
+			return ArticleData.justFavorited(article, userService.findProfileById(article.getAuthorId()));
+		}
 		return ArticleData.make(article, userService.findProfileById(article.getAuthorId()));
 	}
 
 	@Override
 	public ArticleData unfavorite(String slug) throws EntityDoesNotExistException {
 		String userId = userService.getCurrentUser().getId();
-		ArticleWithLinks article = articleDao.unfavorite(userId, slug);
+		ArticleWithLinks article = articleDao.findArticleBySlug(userId, slug);
+		if( article.isFavorited() ) {
+			articleDao.removeFavorite(userId, article.getId());
+			return ArticleData.justUnfavorited(article, userService.findProfileById(article.getAuthorId()));
+		}
 		return ArticleData.make(article, userService.findProfileById(article.getAuthorId()));
 	}
 }

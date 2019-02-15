@@ -15,8 +15,8 @@ public interface ArticleWithLinks extends ArticleBase {
 	 */
 	String getAuthorId();
 
-	static ArticleWithLinks make(String slug, String title, String description, String body, Date createdAt, Date updatedAt, boolean favorited, int favoritesCount, String authorId) {
-		return new Impl(slug, title, description, body, createdAt, updatedAt, favorited, favoritesCount, authorId);
+	static ArticleWithLinks make(String id, String slug, String title, String description, String body, Date createdAt, Date updatedAt, boolean favorited, int favoritesCount, String authorId) {
+		return new Impl(id, slug, title, description, body, createdAt, updatedAt, favorited, favoritesCount, authorId);
 	}
 
 	/**
@@ -31,6 +31,7 @@ public interface ArticleWithLinks extends ArticleBase {
 		/**
 		 * Full constructor.
 		 *
+		 * @param id             The id
 		 * @param slug
 		 * @param title
 		 * @param description
@@ -41,8 +42,8 @@ public interface ArticleWithLinks extends ArticleBase {
 		 * @param favoritesCount
 		 * @param authorId
 		 */
-		Impl(String slug, String title, String description, String body, Date createdAt, Date updatedAt, boolean favorited, int favoritesCount, String authorId) {
-			super(slug, title, description, body, createdAt, updatedAt, favorited, favoritesCount);
+		Impl(String id, String slug, String title, String description, String body, Date createdAt, Date updatedAt, boolean favorited, int favoritesCount, String authorId) {
+			super(id, slug, title, description, body, createdAt, updatedAt, favorited, favoritesCount);
 			this.authorId = authorId;
 		}
 

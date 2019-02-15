@@ -19,12 +19,20 @@ public interface ArticleData extends ArticleBase {
 	 */
 	ProfileData getAuthor();
 
-	static ArticleData make(String slug, String title, String description, String body, Date createdAt, Date updatedAt, boolean favorited, int favoritesCount, ProfileData author) {
-		return new Impl(slug, title, description, body, createdAt, updatedAt, favorited, favoritesCount, author);
+	static ArticleData make(String id, String slug, String title, String description, String body, Date createdAt, Date updatedAt, boolean favorited, int favoritesCount, ProfileData author) {
+		return new Impl(id, slug, title, description, body, createdAt, updatedAt, favorited, favoritesCount, author);
 	}
 
 	static ArticleData make(ArticleBase base, ProfileData author) {
-		return new Impl(base.getSlug(), base.getTitle(), base.getDescription(), base.getBody(), base.getCreatedAt(), base.getUpdatedAt(), base.isFavorited(), base.getFavoritesCount(), author);
+		return new Impl(base.getId(), base.getSlug(), base.getTitle(), base.getDescription(), base.getBody(), base.getCreatedAt(), base.getUpdatedAt(), base.isFavorited(), base.getFavoritesCount(), author);
+	}
+
+	static ArticleData justFavorited(ArticleBase base, ProfileData author) {
+		return new Impl(base.getId(), base.getSlug(), base.getTitle(), base.getDescription(), base.getBody(), base.getCreatedAt(), base.getUpdatedAt(), true, base.getFavoritesCount()+1, author);
+	}
+
+	static ArticleData justUnfavorited(ArticleBase base, ProfileData author) {
+		return new Impl(base.getId(), base.getSlug(), base.getTitle(), base.getDescription(), base.getBody(), base.getCreatedAt(), base.getUpdatedAt(), false, base.getFavoritesCount()-1, author);
 	}
 
 	/**
@@ -39,6 +47,7 @@ public interface ArticleData extends ArticleBase {
 		/**
 		 * Full constructor.
 		 *
+		 * @param id             The id
 		 * @param slug
 		 * @param title
 		 * @param description
@@ -49,8 +58,8 @@ public interface ArticleData extends ArticleBase {
 		 * @param favoritesCount
 		 * @param author
 		 */
-		Impl(String slug, String title, String description, String body, Date createdAt, Date updatedAt, boolean favorited, int favoritesCount, ProfileData author) {
-			super(slug, title, description, body, createdAt, updatedAt, favorited, favoritesCount);
+		Impl(String id, String slug, String title, String description, String body, Date createdAt, Date updatedAt, boolean favorited, int favoritesCount, ProfileData author) {
+			super(id, slug, title, description, body, createdAt, updatedAt, favorited, favoritesCount);
 			this.author = author;
 		}
 

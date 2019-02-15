@@ -34,20 +34,18 @@ public interface ArticleDao {
 	/**
 	 * Add a favorite entry for the user and article.
 	 *
-	 * @param userId The user id
-	 * @param slug   Article slug
-	 * @return The article
+	 * @param userId      The user id
+	 * @param articleId   Article id
 	 * @throws EntityDoesNotExistException If the article does not exist
 	 */
-	ArticleWithLinks favorite(String userId, String slug) throws EntityDoesNotExistException;
+	void addFavorite(String userId, String articleId) throws EntityDoesNotExistException;
 
 	/**
 	 * Remove the favorite entry for the user and article, if any.
 	 *
-	 * @param userId The user id
-	 * @param slug   Article slug
-	 * @return The article
+	 * @param userId      The user id
+	 * @param articleId   Article id
 	 * @throws EntityDoesNotExistException If the article does not exist
 	 */
-	ArticleWithLinks unfavorite(String userId, String slug) throws EntityDoesNotExistException;
+	void removeFavorite(String userId, String articleId) throws EntityDoesNotExistException;
 }
