@@ -10,7 +10,10 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 import java.util.Date;
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import realworld.EntityDoesNotExistException;
 import realworld.article.model.ArticleCreationData;
@@ -87,7 +90,13 @@ class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
-	public ArticleWithLinks create(ArticleCreationData creationData, String slug, Date creationDate, String authorId) {
+	public Set<String> findTags(String articleId) throws EntityDoesNotExistException {
+		Article article = Optional.ofNullable(em.find(Article.class, articleId)).orElseThrow(EntityDoesNotExistException::new);
+		return article.getTags().stream().map(Tag::getName).collect(Collectors.toSet());
+	}
+
+	@Override
+	public ArticleWithLinks create(ArticleCreationData creationData, String slug, Date creationDate, String authorId, Set<String> tags) {
 		Article article = new Article();
 		article.setId(UUID.randomUUID().toString());
 		article.setTitle(creationData.getTitle());
@@ -96,6 +105,10 @@ class ArticleDaoImpl implements ArticleDao {
 		article.setBody(creationData.getBody());
 		article.setCreatedAt(creationDate);
 		article.setAuthor(authorId);
+		if( tags != null ) {
+			Set<Tag> dbtags = tags.stream().map(tag -> Optional.ofNullable(em.find(Tag.class, tag)).orElseGet(() -> new Tag(tag))).collect(Collectors.toSet());
+			article.setTags(dbtags);
+		}
 		em.persist(article);
 		return ArticleWithLinks.make(article.getId(), article.getSlug(), article.getTitle(), article.getDescription(), article.getBody(), article.getCreatedAt(), article.getUpdatedAt(), false, 0, authorId);
 	}

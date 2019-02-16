@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 import java.security.Principal;
 import java.util.Date;
 import java.util.Optional;
+import java.util.Set;
 
 import realworld.EntityDoesNotExistException;
 import realworld.article.model.ArticleWithLinks;
@@ -50,14 +51,15 @@ class ArticleServiceImpl implements ArticleService {
 	public ArticleData findArticleBySlug(String slug) throws EntityDoesNotExistException {
 		String userId = Optional.ofNullable(authenticationContext.getUserPrincipal()).map(Principal::getName).map(userService::findByUserName).map(UserData::getId).orElse("");
 		ArticleWithLinks article = articleDao.findArticleBySlug(userId, slug);
-		return ArticleData.make(article, userService.findProfileById(article.getAuthorId()));
+		Set<String> tags = articleDao.findTags(article.getId());
+		return ArticleData.make(article, userService.findProfileById(article.getAuthorId()), tags);
 	}
 
 	@Override
 	public ArticleData create(ArticleCreationData creationData) {
 		String authorId = userService.getCurrentUser().getId();
-		ArticleWithLinks article = articleDao.create(creationData, makeSlug(creationData.getTitle()), new Date(dateTimeService.currentTimeMillis()), authorId);
-		return ArticleData.make(article, userService.findProfileById(authorId));
+		ArticleWithLinks article = articleDao.create(creationData, makeSlug(creationData.getTitle()), new Date(dateTimeService.currentTimeMillis()), authorId, creationData.getTags());
+		return ArticleData.make(article, userService.findProfileById(authorId), creationData.getTags());
 	}
 
 	@Override
@@ -69,21 +71,23 @@ class ArticleServiceImpl implements ArticleService {
 	public ArticleData favorite(String slug) throws EntityDoesNotExistException {
 		String userId = userService.getCurrentUser().getId();
 		ArticleWithLinks article = articleDao.findArticleBySlug(userId, slug);
+		Set<String> tags = articleDao.findTags(article.getId());
 		if( !article.isFavorited() ) {
 			articleDao.addFavorite(userId, article.getId());
-			return ArticleData.justFavorited(article, userService.findProfileById(article.getAuthorId()));
+			return ArticleData.justFavorited(article, userService.findProfileById(article.getAuthorId()), tags);
 		}
-		return ArticleData.make(article, userService.findProfileById(article.getAuthorId()));
+		return ArticleData.make(article, userService.findProfileById(article.getAuthorId()), tags);
 	}
 
 	@Override
 	public ArticleData unfavorite(String slug) throws EntityDoesNotExistException {
 		String userId = userService.getCurrentUser().getId();
 		ArticleWithLinks article = articleDao.findArticleBySlug(userId, slug);
+		Set<String> tags = articleDao.findTags(article.getId());
 		if( article.isFavorited() ) {
 			articleDao.removeFavorite(userId, article.getId());
-			return ArticleData.justUnfavorited(article, userService.findProfileById(article.getAuthorId()));
+			return ArticleData.justUnfavorited(article, userService.findProfileById(article.getAuthorId()), tags);
 		}
-		return ArticleData.make(article, userService.findProfileById(article.getAuthorId()));
+		return ArticleData.make(article, userService.findProfileById(article.getAuthorId()), tags);
 	}
 }

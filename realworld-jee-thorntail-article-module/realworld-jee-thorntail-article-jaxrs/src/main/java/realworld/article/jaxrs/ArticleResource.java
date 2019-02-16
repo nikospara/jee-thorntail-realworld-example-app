@@ -17,7 +17,7 @@ import realworld.article.model.ArticleData;
  * Article operations.
  */
 @Path("/articles")
-@Api(tags= ArticleResource.TAG)
+@Api(tags = ArticleResource.TAG)
 public interface ArticleResource {
 
 	String TAG = "ArticleResource";

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
+>
+	<changeSet id="20190215_1" author="nikospara">
+		<createTable tableName="RWL_ARTICLE_TAG">
+			<column name="name" type="VARCHAR(32)">
+				<constraints primaryKey="true" primaryKeyName="PK_RWL_ARTICLE_TAG" />
+			</column>
+		</createTable>
+
+		<createTable tableName="RWL_ARTICLE_ART_TAG">
+			<column name="article_id" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+			<column name="tag_name" type="VARCHAR(32)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addPrimaryKey tableName="RWL_ARTICLE_ART_TAG" constraintName="PK_RWL_ARTICLE_ART_TAG" columnNames="article_id, tag_name" />
+		<addForeignKeyConstraint baseTableName="RWL_ARTICLE_ART_TAG" baseColumnNames="article_id" constraintName="FK_RWL_ARTICLE_ART_TAG_ARTICLE_ID" referencedTableName="RWL_ARTICLE" referencedColumnNames="id" />
+		<addForeignKeyConstraint baseTableName="RWL_ARTICLE_ART_TAG" baseColumnNames="tag_name" constraintName="FK_RWL_ARTICLE_ART_TAG_NAME" referencedTableName="RWL_ARTICLE_TAG" referencedColumnNames="name" />
+	</changeSet>
+</databaseChangeLog>

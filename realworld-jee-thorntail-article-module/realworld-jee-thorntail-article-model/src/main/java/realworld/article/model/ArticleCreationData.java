@@ -1,5 +1,7 @@
 package realworld.article.model;
 
+import java.util.Set;
+
 /**
  * ArticleData creation data.
  *
@@ -27,4 +29,11 @@ public interface ArticleCreationData {
 	 * @return The body
 	 */
 	String getBody();
+
+	/**
+	 * The tags.
+	 *
+	 * @return The tags
+	 */
+	Set<String> getTags();
 }

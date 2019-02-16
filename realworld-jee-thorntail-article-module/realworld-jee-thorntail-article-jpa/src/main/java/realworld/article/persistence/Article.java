@@ -2,13 +2,19 @@ package realworld.article.persistence;
 
 import static javax.persistence.TemporalType.TIMESTAMP;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "RWL_ARTICLE")
@@ -41,6 +47,14 @@ public class Article {
 
 	@Column(name = "user_id")
 	private String author;
+
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(
+			name = "RWL_ARTICLE_ART_TAG",
+			joinColumns = @JoinColumn(name = "article_id", nullable = false),
+			inverseJoinColumns = @JoinColumn(name = "tag_name", nullable = false)
+	)
+	private Set<Tag> tags = new HashSet<>();
 
 	public String getId() {
 		return id;
@@ -104,5 +118,13 @@ public class Article {
 
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+
+	public Set<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
 	}
 }

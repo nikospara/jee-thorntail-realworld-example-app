@@ -5,7 +5,7 @@ import realworld.article.model.ArticleData;
 import realworld.article.model.ArticleCreationData;
 
 /**
- * ArticleData services.
+ * Article services.
  */
 public interface ArticleService {
 

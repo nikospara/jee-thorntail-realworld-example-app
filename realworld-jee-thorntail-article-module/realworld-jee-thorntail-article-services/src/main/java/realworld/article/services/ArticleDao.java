@@ -1,6 +1,7 @@
 package realworld.article.services;
 
 import java.util.Date;
+import java.util.Set;
 
 import realworld.EntityDoesNotExistException;
 import realworld.article.model.ArticleCreationData;
@@ -21,15 +22,25 @@ public interface ArticleDao {
 	ArticleWithLinks findArticleBySlug(String userId, String slug) throws EntityDoesNotExistException;
 
 	/**
+	 * Find the tags of the given article.
+	 *
+	 * @param articleId The article id
+	 * @return The set of tags
+	 * @throws EntityDoesNotExistException If the article does not exist
+	 */
+	Set<String> findTags(String articleId) throws EntityDoesNotExistException;
+
+	/**
 	 * Create a new article.
 	 *
 	 * @param creationData
 	 * @param slug         The slug to use
 	 * @param creationDate The creation date
 	 * @param authorId     The author id
+	 * @param tags         The tags
 	 * @return
 	 */
-	ArticleWithLinks create(ArticleCreationData creationData, String slug, Date creationDate, String authorId);
+	ArticleWithLinks create(ArticleCreationData creationData, String slug, Date creationDate, String authorId, Set<String> tags);
 
 	/**
 	 * Add a favorite entry for the user and article.

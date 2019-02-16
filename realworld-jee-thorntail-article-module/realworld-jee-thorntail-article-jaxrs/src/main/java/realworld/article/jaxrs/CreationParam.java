@@ -1,6 +1,7 @@
 package realworld.article.jaxrs;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
 import realworld.article.model.ArticleCreationData;
@@ -18,6 +19,7 @@ public class CreationParam implements ArticleCreationData, Serializable {
 	private String title;
 	private String description;
 	private String body;
+	private Set<String> tags;
 	
 	@Override
 	public String getTitle() {
@@ -44,5 +46,14 @@ public class CreationParam implements ArticleCreationData, Serializable {
 
 	public void setBody(String body) {
 		this.body = body;
+	}
+
+	@Override
+	public Set<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(Set<String> tags) {
+		this.tags = tags;
 	}
 }
