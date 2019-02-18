@@ -7,8 +7,10 @@ import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Set;
@@ -17,8 +19,10 @@ import java.util.stream.Collectors;
 
 import realworld.EntityDoesNotExistException;
 import realworld.article.model.ArticleCreationData;
+import realworld.article.model.ArticleResult;
 import realworld.article.model.ArticleWithLinks;
 import realworld.article.services.ArticleDao;
+import realworld.article.services.ArticleSearchCriteria;
 
 /**
  * Implementation of the {@link ArticleDao}.
@@ -43,6 +47,53 @@ class ArticleDaoImpl implements ArticleDao {
 	@Inject
 	public ArticleDaoImpl(EntityManager em) {
 		this.em = em;
+	}
+
+	@Override
+	public ArticleResult<ArticleWithLinks> find(ArticleSearchCriteria criteria, ArticleSearchCriteria defaultCriteria) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+
+		CriteriaQuery<Article> query = cb.createQuery(Article.class);
+		applyCriteria(cb, query, criteria, defaultCriteria);
+		var results = em.createQuery(query)
+				.setMaxResults(criteria.getLimit() != null ? criteria.getLimit() : defaultCriteria.getLimit())
+				.setFirstResult(criteria.getOffset() != null ? criteria.getOffset() : defaultCriteria.getOffset())
+				.getResultList().stream()
+				.map(a -> ArticleWithLinks.make(a.getId(), a.getSlug(), a.getTitle(), a.getDescription(), a.getBody(), a.getCreatedAt(), a.getUpdatedAt(), false, 0, a.getAuthor()))
+				.collect(Collectors.toList());
+
+		CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+		applyCriteria(cb, countQuery, criteria, defaultCriteria);
+		var count = em.createQuery(countQuery.select(cb.count(countQuery.getRoots().iterator().next()))).getSingleResult();
+		return new ArticleResult<>(results, count);
+	}
+
+	private void applyCriteria(CriteriaBuilder cb, CriteriaQuery<?> query, ArticleSearchCriteria criteria, ArticleSearchCriteria defaultCriteria) {
+		Root<Article> articleRoot = query.from(Article.class);
+		var restrictions = new ArrayList<Predicate>();
+
+		String tag = criteria.getTag() != null ? criteria.getTag() : defaultCriteria.getTag();
+		if( tag != null ) {
+			restrictions.add(cb.isMember(new Tag(tag), articleRoot.get(Article_.tags)));
+		}
+
+		String author = criteria.getAuthor() != null ? criteria.getAuthor() : defaultCriteria.getAuthor();
+		if( author != null ) {
+			restrictions.add(cb.equal(articleRoot.get(Article_.author), author));
+		}
+
+		String favoritedBy = criteria.getFavoritedBy() != null ? criteria.getFavoritedBy() : defaultCriteria.getFavoritedBy();
+		if( favoritedBy != null ) {
+			Subquery<ArticleFavorite> favoriteSubquery = query.subquery(ArticleFavorite.class);
+			Root<ArticleFavorite> favRoot = query.from(ArticleFavorite.class);
+			favoriteSubquery.where(
+					cb.equal(favRoot.get(ArticleFavorite_.articleId), articleRoot.get(Article_.id)),
+					cb.equal(favRoot.get(ArticleFavorite_.userId), favoritedBy)
+			);
+			restrictions.add(cb.exists(favoriteSubquery));
+		}
+
+		query.where(restrictions.toArray(new Predicate[0]));
 	}
 
 	@Override

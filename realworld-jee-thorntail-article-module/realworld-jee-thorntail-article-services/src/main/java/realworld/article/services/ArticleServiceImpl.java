@@ -4,16 +4,22 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import java.security.Principal;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import realworld.EntityDoesNotExistException;
+import realworld.article.model.ArticleResult;
 import realworld.article.model.ArticleWithLinks;
 import realworld.authentication.AuthenticationContext;
 import realworld.article.model.ArticleData;
 import realworld.article.model.ArticleCreationData;
 import realworld.services.DateTimeService;
+import realworld.user.model.ProfileData;
 import realworld.user.model.UserData;
 import realworld.user.services.UserService;
 
@@ -21,7 +27,7 @@ import realworld.user.services.UserService;
  * Implementation of the {@link ArticleService}.
  */
 @ApplicationScoped
-@Transactional
+@Transactional(dontRollbackOn = EntityDoesNotExistException.class)
 class ArticleServiceImpl implements ArticleService {
 	
 	private ArticleDao articleDao;
@@ -31,6 +37,8 @@ class ArticleServiceImpl implements ArticleService {
 	private DateTimeService dateTimeService;
 
 	private UserService userService;
+
+	private static final ArticleSearchCriteria DEFAULT_CRITERIA = ArticleSearchCriteria.builder().withLimit(20).withOffset(0).build();
 	
 	/**
 	 * Default constructor for the frameworks.
@@ -45,6 +53,38 @@ class ArticleServiceImpl implements ArticleService {
 		this.authenticationContext = authenticationContext;
 		this.dateTimeService = dateTimeService;
 		this.userService = userService;
+	}
+
+	@Override
+	public ArticleResult<ArticleData> find(ArticleSearchCriteria criteria) {
+		if( criteria.getAuthor() != null ) {
+			try {
+				criteria = criteria.withAuthor(userService.findByUserName(criteria.getAuthor()).getId());
+			}
+			catch( EntityDoesNotExistException e) {
+				return new ArticleResult<>(Collections.emptyList(), 0L);
+			}
+		}
+		if( criteria.getFavoritedBy() != null ) {
+			try {
+				criteria = criteria.withFavoritedBy(userService.findByUserName(criteria.getFavoritedBy()).getId());
+			}
+			catch( EntityDoesNotExistException e) {
+				return new ArticleResult<>(Collections.emptyList(), 0L);
+			}
+		}
+		var searchResult = articleDao.find(criteria, DEFAULT_CRITERIA);
+		Map<String, ProfileData> profiles = searchResult.getArticles().stream()
+				.map(ArticleWithLinks::getAuthorId)
+				.collect(Collectors.toSet()).stream()
+				.collect(Collectors.toMap(Function.identity(), userService::findProfileById));
+		var result = new ArticleResult<ArticleData>();
+		result.setArticlesCount(searchResult.getArticlesCount());
+		result.setArticles(searchResult.getArticles().stream()
+				.map(a -> ArticleData.make(a, profiles.get(a.getAuthorId()), articleDao.findTags(a.getId())))
+				.collect(Collectors.toList())
+		);
+		return result;
 	}
 
 	@Override

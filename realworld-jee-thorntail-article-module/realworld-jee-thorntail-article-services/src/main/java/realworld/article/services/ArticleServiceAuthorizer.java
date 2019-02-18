@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import realworld.EntityDoesNotExistException;
 import realworld.article.model.ArticleCreationData;
 import realworld.article.model.ArticleData;
+import realworld.article.model.ArticleResult;
 import realworld.authorization.Authorization;
 
 /**
@@ -33,6 +34,11 @@ class ArticleServiceAuthorizer implements ArticleService {
 	public ArticleServiceAuthorizer(@Delegate ArticleService delegate, Authorization authorization) {
 		this.delegate = delegate;
 		this.authorization = authorization;
+	}
+
+	@Override
+	public ArticleResult find(ArticleSearchCriteria criteria) {
+		return delegate.find(criteria);
 	}
 
 	@Override

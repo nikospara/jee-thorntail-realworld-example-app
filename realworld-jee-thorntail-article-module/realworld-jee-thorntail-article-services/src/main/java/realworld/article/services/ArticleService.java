@@ -3,11 +3,20 @@ package realworld.article.services;
 import realworld.EntityDoesNotExistException;
 import realworld.article.model.ArticleData;
 import realworld.article.model.ArticleCreationData;
+import realworld.article.model.ArticleResult;
 
 /**
  * Article services.
  */
 public interface ArticleService {
+
+	/**
+	 * Find articles by criteria.
+	 *
+	 * @param criteria The search criteria
+	 * @return The search results
+	 */
+	ArticleResult<ArticleData> find(ArticleSearchCriteria criteria);
 
 	/**
 	 * Find article by slug.

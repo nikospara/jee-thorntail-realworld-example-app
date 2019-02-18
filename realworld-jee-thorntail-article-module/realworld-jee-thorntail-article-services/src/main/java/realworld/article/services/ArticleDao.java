@@ -5,12 +5,23 @@ import java.util.Set;
 
 import realworld.EntityDoesNotExistException;
 import realworld.article.model.ArticleCreationData;
+import realworld.article.model.ArticleResult;
 import realworld.article.model.ArticleWithLinks;
 
 /**
  * DAO interface for the ArticleData entity.
  */
 public interface ArticleDao {
+
+	/**
+	 * Search for articles.
+	 *
+	 * @param criteria The search criteria
+	 * @param defaultCriteria Default values for the search criteria
+	 * @return The results
+	 */
+	ArticleResult<ArticleWithLinks> find(ArticleSearchCriteria criteria, ArticleSearchCriteria defaultCriteria);
+
 	/**
 	 * Find an article plus accompanying statistics by slug.
 	 * 

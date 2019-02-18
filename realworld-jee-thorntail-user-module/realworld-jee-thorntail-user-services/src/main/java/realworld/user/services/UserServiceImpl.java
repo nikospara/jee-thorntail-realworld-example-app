@@ -26,7 +26,7 @@ import realworld.user.model.UserUpdateData;
  * Implementation of the {@link UserService}.
  */
 @ApplicationScoped
-@Transactional
+@Transactional(dontRollbackOn = EntityDoesNotExistException.class)
 class UserServiceImpl implements UserService {
 
 	private UserDao userDao;
