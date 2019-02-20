@@ -8,9 +8,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Root;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.BiFunction;
+import java.util.stream.Collectors;
 
 import realworld.EntityDoesNotExistException;
 import realworld.user.model.UserData;
@@ -152,5 +155,23 @@ class UserDaoImpl implements UserDao {
 		if( follow != null ) {
 			em.remove(follow);
 		}
+	}
+
+	@Override
+	public List<String> findFollowedUserIds(String followerName) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<String> query = cb.createQuery(String.class);
+		Root<Follow> follow = query.from(Follow.class);
+		query.select(follow.get(Follow_.followed).get(User_.id)).where(cb.equal(follow.get(Follow_.follower).get(User_.username), followerName));
+		return em.createQuery(query).getResultList();
+	}
+
+	@Override
+	public Map<String, String> mapUserNamesToIds(List<String> usernames) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Object[]> query = cb.createQuery(Object[].class);
+		Root<User> userRoot = query.from(User.class);
+		query.multiselect(userRoot.get(User_.id), userRoot.get(User_.username)).where(userRoot.get(User_.username).in(usernames));
+		return em.createQuery(query).getResultList().stream().collect(Collectors.toMap(o -> o[1].toString(), o -> o[0].toString()));
 	}
 }

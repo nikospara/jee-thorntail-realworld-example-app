@@ -42,6 +42,12 @@ class ArticleServiceAuthorizer implements ArticleService {
 	}
 
 	@Override
+	public ArticleResult<ArticleData> feed(ArticleSearchCriteria criteria) {
+		authorization.requireLogin();
+		return delegate.feed(criteria);
+	}
+
+	@Override
 	public ArticleData findArticleBySlug(String slug) {
 		return delegate.findArticleBySlug(slug);
 	}

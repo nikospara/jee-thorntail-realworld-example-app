@@ -1,5 +1,8 @@
 package realworld.article.services;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Article search criteria.
  */
@@ -22,11 +25,11 @@ public interface ArticleSearchCriteria {
 	String getTag();
 
 	/**
-	 * Get the author.
+	 * Get the authors.
 	 *
-	 * @return The author
+	 * @return The authors
 	 */
-	String getAuthor();
+	List<String> getAuthors();
 
 	/**
 	 * Get the favorited by criterion.
@@ -58,6 +61,14 @@ public interface ArticleSearchCriteria {
 	ArticleSearchCriteria withAuthor(String author);
 
 	/**
+	 * Return a new criteria object with the given list of authors.
+	 *
+	 * @param authors The authors
+	 * @return A new criteria object
+	 */
+	ArticleSearchCriteria withAuthors(List<String> authors);
+
+	/**
 	 * Return a new criteria object with the given favorited by user.
 	 *
 	 * @param favoritedBy The user
@@ -85,6 +96,14 @@ public interface ArticleSearchCriteria {
 		 * @return {@code this}
 		 */
 		ArticleSearchCriteriaBuilder withAuthor(String author);
+
+		/**
+		 * Set the authors.
+		 *
+		 * @param authors The list of authors
+		 * @return {@code this}
+		 */
+		ArticleSearchCriteriaBuilder withAuthors(List<String> authors);
 
 		/**
 		 * Set the favorited by.
@@ -120,14 +139,14 @@ public interface ArticleSearchCriteria {
 
 	class ArticleSearchCriteriaImpl implements ArticleSearchCriteria {
 		private String tag;
-		private String author;
+		private List<String> authors;
 		private String favoritedBy;
 		private Integer limit;
 		private Integer offset;
 
-		ArticleSearchCriteriaImpl(String tag, String author, String favoritedBy, Integer limit, Integer offset) {
+		ArticleSearchCriteriaImpl(String tag, List<String> authors, String favoritedBy, Integer limit, Integer offset) {
 			this.tag = tag;
-			this.author = author;
+			this.authors = authors;
 			this.favoritedBy = favoritedBy;
 			this.limit = limit;
 			this.offset = offset;
@@ -135,12 +154,17 @@ public interface ArticleSearchCriteria {
 
 		@Override
 		public ArticleSearchCriteria withAuthor(String author) {
-			return new ArticleSearchCriteriaImpl(this.tag, author, this.favoritedBy, this.limit, this.offset);
+			return new ArticleSearchCriteriaImpl(this.tag, Collections.singletonList(author), this.favoritedBy, this.limit, this.offset);
+		}
+
+		@Override
+		public ArticleSearchCriteria withAuthors(List<String> authors) {
+			return new ArticleSearchCriteriaImpl(this.tag, authors, this.favoritedBy, this.limit, this.offset);
 		}
 
 		@Override
 		public ArticleSearchCriteria withFavoritedBy(String favoritedBy) {
-			return new ArticleSearchCriteriaImpl(this.tag, this.author, favoritedBy, this.limit, this.offset);
+			return new ArticleSearchCriteriaImpl(this.tag, this.authors, favoritedBy, this.limit, this.offset);
 		}
 
 		@Override
@@ -149,8 +173,8 @@ public interface ArticleSearchCriteria {
 		}
 
 		@Override
-		public String getAuthor() {
-			return author;
+		public List<String> getAuthors() {
+			return authors;
 		}
 
 		@Override
@@ -171,14 +195,14 @@ public interface ArticleSearchCriteria {
 
 	class ArticleSearchCriteriaBuilderImpl implements ArticleSearchCriteriaBuilder {
 		private String tag;
-		private String author;
+		private List<String> authors;
 		private String favoritedBy;
 		private Integer limit;
 		private Integer offset;
 
 		@Override
 		public ArticleSearchCriteria build() {
-			return new ArticleSearchCriteriaImpl(tag, author, favoritedBy, limit, offset);
+			return new ArticleSearchCriteriaImpl(tag, authors, favoritedBy, limit, offset);
 		}
 
 		@Override
@@ -189,7 +213,13 @@ public interface ArticleSearchCriteria {
 
 		@Override
 		public ArticleSearchCriteriaBuilder withAuthor(String author) {
-			this.author = author;
+			this.authors = Collections.singletonList(author);
+			return this;
+		}
+
+		@Override
+		public ArticleSearchCriteriaBuilder withAuthors(List<String> authors) {
+			this.authors = authors;
 			return this;
 		}
 

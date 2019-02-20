@@ -3,9 +3,10 @@ package realworld.article.services;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -18,6 +19,7 @@ import realworld.article.model.ArticleWithLinks;
 import realworld.authentication.AuthenticationContext;
 import realworld.article.model.ArticleData;
 import realworld.article.model.ArticleCreationData;
+import realworld.authentication.User;
 import realworld.services.DateTimeService;
 import realworld.user.model.ProfileData;
 import realworld.user.model.UserData;
@@ -57,14 +59,18 @@ class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public ArticleResult<ArticleData> find(ArticleSearchCriteria criteria) {
-		if( criteria.getAuthor() != null ) {
-			try {
-				criteria = criteria.withAuthor(userService.findByUserName(criteria.getAuthor()).getId());
-			}
-			catch( EntityDoesNotExistException e) {
+		if( criteria.getAuthors() != null && !criteria.getAuthors().isEmpty() ) {
+			var authorIds = new ArrayList<>(userService.mapUserNamesToIds(criteria.getAuthors()).values());
+			if (authorIds.isEmpty()) {
 				return new ArticleResult<>(Collections.emptyList(), 0L);
 			}
+			criteria = criteria.withAuthors(authorIds);
 		}
+
+		return findWithAuthorIds(criteria);
+	}
+
+	private ArticleResult<ArticleData> findWithAuthorIds(ArticleSearchCriteria criteria) {
 		if( criteria.getFavoritedBy() != null ) {
 			try {
 				criteria = criteria.withFavoritedBy(userService.findByUserName(criteria.getFavoritedBy()).getId());
@@ -73,7 +79,7 @@ class ArticleServiceImpl implements ArticleService {
 				return new ArticleResult<>(Collections.emptyList(), 0L);
 			}
 		}
-		var searchResult = articleDao.find(criteria, DEFAULT_CRITERIA);
+		var searchResult = articleDao.find(authenticationContext.getUserPrincipal().getUniqueId(), criteria, DEFAULT_CRITERIA);
 		Map<String, ProfileData> profiles = searchResult.getArticles().stream()
 				.map(ArticleWithLinks::getAuthorId)
 				.collect(Collectors.toSet()).stream()
@@ -88,8 +94,15 @@ class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
+	public ArticleResult<ArticleData> feed(ArticleSearchCriteria criteria) {
+		List<String> followedUserIds = userService.findFollowedUserIds(authenticationContext.getUserPrincipal().getName());
+		criteria = criteria.withAuthors(followedUserIds);
+		return findWithAuthorIds(criteria);
+	}
+
+	@Override
 	public ArticleData findArticleBySlug(String slug) throws EntityDoesNotExistException {
-		String userId = Optional.ofNullable(authenticationContext.getUserPrincipal()).map(Principal::getName).map(userService::findByUserName).map(UserData::getId).orElse("");
+		String userId = Optional.ofNullable(authenticationContext.getUserPrincipal()).map(User::getUniqueId).orElse("");
 		ArticleWithLinks article = articleDao.findArticleBySlug(userId, slug);
 		Set<String> tags = articleDao.findTags(article.getId());
 		return ArticleData.make(article, userService.findProfileById(article.getAuthorId()), tags);

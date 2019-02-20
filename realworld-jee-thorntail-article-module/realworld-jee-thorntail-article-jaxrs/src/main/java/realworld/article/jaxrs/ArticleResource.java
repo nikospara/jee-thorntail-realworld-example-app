@@ -46,7 +46,19 @@ public interface ArticleResource {
 	);
 
 	@GET
-	@Path("/{slug}")
+	@Path("/feed")
+	@ApiOperation(value="Searches for articles.", tags=TAG)
+	ArticleResult<ArticleData> feed(
+			@ApiParam(value = "Limit returned results.")
+			@QueryParam("limit")
+			Integer limit,
+			@ApiParam(value = "Offset/skip number of articles.")
+			@QueryParam("offset")
+			Integer offset
+	);
+
+	@GET
+	@Path("/{slug:(?!feed)}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value="Returns an article.", tags=TAG)
 	ArticleData get(

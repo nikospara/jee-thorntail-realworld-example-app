@@ -2,6 +2,9 @@ package realworld.user.services;
 
 import javax.validation.Valid;
 
+import java.util.List;
+import java.util.Map;
+
 import realworld.EntityDoesNotExistException;
 import realworld.authorization.NotAuthenticatedException;
 import realworld.user.model.ProfileData;
@@ -87,4 +90,20 @@ public interface UserService {
 	 * @return The unfollowed user profile
 	 */
 	ProfileData unfollow(String username);
+
+	/**
+	 * Get the ids of the users followed by the given follower user.
+	 *
+	 * @param followerName The follower user name
+	 * @return The followed user ids
+	 */
+	List<String> findFollowedUserIds(String followerName);
+
+	/**
+	 * Map each of the given user names to their ids, if a user with the given name exists.
+	 *
+	 * @param usernames The list of user names
+	 * @return Map user name to id for those names that exist
+	 */
+	Map<String,String> mapUserNamesToIds(List<String> usernames);
 }

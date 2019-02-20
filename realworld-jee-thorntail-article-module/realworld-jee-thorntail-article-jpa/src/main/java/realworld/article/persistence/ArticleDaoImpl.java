@@ -12,6 +12,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -50,25 +51,40 @@ class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
-	public ArticleResult<ArticleWithLinks> find(ArticleSearchCriteria criteria, ArticleSearchCriteria defaultCriteria) {
+	public ArticleResult<ArticleWithLinks> find(String userId, ArticleSearchCriteria criteria, ArticleSearchCriteria defaultCriteria) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 
-		CriteriaQuery<Article> query = cb.createQuery(Article.class);
-		applyCriteria(cb, query, criteria, defaultCriteria);
+		CriteriaQuery<Object[]> query = cb.createQuery(Object[].class);
+		Root<Article> articleRoot = applyCriteria(cb, query, criteria, defaultCriteria);
+		query.multiselect(
+				articleRoot,
+				favoriteSubquery(cb, query, articleRoot, userId),
+				favoritesCountSubquery(cb, query, articleRoot)
+		);
+		int maxResults = criteria.getLimit() != null ? criteria.getLimit() : defaultCriteria.getLimit();
+		int firstResult = criteria.getOffset() != null ? criteria.getOffset() : defaultCriteria.getOffset();
 		var results = em.createQuery(query)
-				.setMaxResults(criteria.getLimit() != null ? criteria.getLimit() : defaultCriteria.getLimit())
-				.setFirstResult(criteria.getOffset() != null ? criteria.getOffset() : defaultCriteria.getOffset())
+				.setMaxResults(maxResults)
+				.setFirstResult(firstResult)
 				.getResultList().stream()
-				.map(a -> ArticleWithLinks.make(a.getId(), a.getSlug(), a.getTitle(), a.getDescription(), a.getBody(), a.getCreatedAt(), a.getUpdatedAt(), false, 0, a.getAuthor()))
+				.map(this::fromQueryResult)
 				.collect(Collectors.toList());
 
-		CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
-		applyCriteria(cb, countQuery, criteria, defaultCriteria);
-		var count = em.createQuery(countQuery.select(cb.count(countQuery.getRoots().iterator().next()))).getSingleResult();
+		long count = results.size();
+		if( count >= maxResults || firstResult != 0 ) {
+			CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+			applyCriteria(cb, countQuery, criteria, defaultCriteria);
+			count = em.createQuery(countQuery.select(cb.count(countQuery.getRoots().iterator().next()))).getSingleResult();
+		}
 		return new ArticleResult<>(results, count);
 	}
 
-	private void applyCriteria(CriteriaBuilder cb, CriteriaQuery<?> query, ArticleSearchCriteria criteria, ArticleSearchCriteria defaultCriteria) {
+	private ArticleWithLinks fromQueryResult(Object[] result) {
+		Article a = (Article) result[0];
+		return ArticleWithLinks.make(a.getId(), a.getSlug(), a.getTitle(), a.getDescription(), a.getBody(), a.getCreatedAt(), a.getUpdatedAt(), (Boolean) result[1], ((Long) result[2]).intValue(), a.getAuthor());
+	}
+
+	private Root<Article> applyCriteria(CriteriaBuilder cb, CriteriaQuery<?> query, ArticleSearchCriteria criteria, ArticleSearchCriteria defaultCriteria) {
 		Root<Article> articleRoot = query.from(Article.class);
 		var restrictions = new ArrayList<Predicate>();
 
@@ -77,9 +93,9 @@ class ArticleDaoImpl implements ArticleDao {
 			restrictions.add(cb.isMember(new Tag(tag), articleRoot.get(Article_.tags)));
 		}
 
-		String author = criteria.getAuthor() != null ? criteria.getAuthor() : defaultCriteria.getAuthor();
-		if( author != null ) {
-			restrictions.add(cb.equal(articleRoot.get(Article_.author), author));
+		List<String> authors = criteria.getAuthors() != null && !criteria.getAuthors().isEmpty() ? criteria.getAuthors() : defaultCriteria.getAuthors();
+		if( authors != null && !authors.isEmpty() ) {
+			restrictions.add(articleRoot.get(Article_.author).in(authors));
 		}
 
 		String favoritedBy = criteria.getFavoritedBy() != null ? criteria.getFavoritedBy() : defaultCriteria.getFavoritedBy();
@@ -94,14 +110,15 @@ class ArticleDaoImpl implements ArticleDao {
 		}
 
 		query.where(restrictions.toArray(new Predicate[0]));
+
+		return articleRoot;
 	}
 
 	@Override
 	public ArticleWithLinks findArticleBySlug(String userId, String slug) throws EntityDoesNotExistException {
 		try {
 			Object[] res = em.createQuery(findArticleBySlugCriteriaQuery(userId, slug)).getSingleResult();
-			Article a = (Article) res[0];
-			return ArticleWithLinks.make(a.getId(), slug, a.getTitle(), a.getDescription(), a.getBody(), a.getCreatedAt(), a.getUpdatedAt(), (Boolean) res[1], ((Long) res[2]).intValue(), a.getAuthor());
+			return fromQueryResult(res);
 		}
 		catch( NoResultException e ) {
 			throw new EntityDoesNotExistException();
@@ -115,13 +132,13 @@ class ArticleDaoImpl implements ArticleDao {
 		query.where(cb.equal(article.get(Article_.slug), slug));
 		query.multiselect(
 				article,
-				cb.greaterThan(favoriteSubquery(cb, query, article, userId), 0L),
+				favoriteSubquery(cb, query, article, userId),
 				favoritesCountSubquery(cb, query, article)
 		);
 		return query;
 	}
 
-	private Expression<Long> favoriteSubquery(CriteriaBuilder cb, CriteriaQuery<Object[]> query, Root<Article> article, String userId) {
+	private Expression<Boolean> favoriteSubquery(CriteriaBuilder cb, CriteriaQuery<?> query, Root<Article> article, String userId) {
 		Subquery<Long> subquery = query.subquery(Long.class);
 		Root<ArticleFavorite> articleFavorite = subquery.from(ArticleFavorite.class);
 		subquery.select(cb.count(articleFavorite));
@@ -129,10 +146,10 @@ class ArticleDaoImpl implements ArticleDao {
 				cb.equal(articleFavorite.get(ArticleFavorite_.articleId), article.get(Article_.id)),
 				cb.equal(articleFavorite.get(ArticleFavorite_.userId), userId)
 		);
-		return subquery;
+		return cb.greaterThan(subquery, 0L);
 	}
 
-	private Expression<Long> favoritesCountSubquery(CriteriaBuilder cb, CriteriaQuery<Object[]> query, Root<Article> article) {
+	private Expression<Long> favoritesCountSubquery(CriteriaBuilder cb, CriteriaQuery<?> query, Root<Article> article) {
 		Subquery<Long> subquery = query.subquery(Long.class);
 		Root<ArticleFavorite> articleFavorite = subquery.from(ArticleFavorite.class);
 		subquery.select(cb.count(articleFavorite));

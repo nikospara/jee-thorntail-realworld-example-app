@@ -16,11 +16,12 @@ public interface ArticleDao {
 	/**
 	 * Search for articles.
 	 *
-	 * @param criteria The search criteria
+	 * @param userId          The current user id, to calculate {@code favorited}
+	 * @param criteria        The search criteria
 	 * @param defaultCriteria Default values for the search criteria
 	 * @return The results
 	 */
-	ArticleResult<ArticleWithLinks> find(ArticleSearchCriteria criteria, ArticleSearchCriteria defaultCriteria);
+	ArticleResult<ArticleWithLinks> find(String userId, ArticleSearchCriteria criteria, ArticleSearchCriteria defaultCriteria);
 
 	/**
 	 * Find an article plus accompanying statistics by slug.

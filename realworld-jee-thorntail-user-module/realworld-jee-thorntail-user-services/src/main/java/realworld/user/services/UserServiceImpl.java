@@ -8,8 +8,8 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 import realworld.EntityDoesNotExistException;
 import realworld.authentication.AuthenticationContext;
@@ -149,5 +149,15 @@ class UserServiceImpl implements UserService {
 		UserData userData = userDao.findByUserName(username).orElseThrow(EntityDoesNotExistException::new);
 		userDao.unfollow(authenticationContext.getUserPrincipal().getUniqueId(), userData.getId());
 		return ProfileData.make(userData.getUsername(), userData.getBio(), userData.getImage(), false);
+	}
+
+	@Override
+	public List<String> findFollowedUserIds(String followerName) {
+		return userDao.findFollowedUserIds(followerName);
+	}
+
+	@Override
+	public Map<String, String> mapUserNamesToIds(List<String> usernames) {
+		return userDao.mapUserNamesToIds(usernames);
 	}
 }

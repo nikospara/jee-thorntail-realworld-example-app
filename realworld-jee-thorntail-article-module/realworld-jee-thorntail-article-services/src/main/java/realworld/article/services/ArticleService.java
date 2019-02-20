@@ -19,6 +19,14 @@ public interface ArticleService {
 	ArticleResult<ArticleData> find(ArticleSearchCriteria criteria);
 
 	/**
+	 * Find articles created by followed users, ordered by most recent first.
+	 *
+	 * @param criteria The search criteria
+	 * @return The search results
+	 */
+	ArticleResult<ArticleData> feed(ArticleSearchCriteria criteria);
+
+	/**
 	 * Find article by slug.
 	 *
 	 * @param slug The slug
