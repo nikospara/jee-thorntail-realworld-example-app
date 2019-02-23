@@ -9,7 +9,7 @@
 	</parent>
 	<artifactId>realworld-jee-thorntail-user-services</artifactId>
 	
-	<name>Realworld in JEE/Thorntail, User module: Services</name>
+	<name>Realworld in JEE/Thorntail, User services</name>
 	<description>Realworld in JEE/Thorntail, User module: Services or the Domain in Hexagonal Architecture</description>
 	
 	<packaging>jar</packaging>

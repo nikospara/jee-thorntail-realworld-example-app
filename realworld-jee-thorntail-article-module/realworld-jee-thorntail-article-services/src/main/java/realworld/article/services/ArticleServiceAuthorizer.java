@@ -11,7 +11,11 @@ import realworld.EntityDoesNotExistException;
 import realworld.article.model.ArticleCreationData;
 import realworld.article.model.ArticleData;
 import realworld.article.model.ArticleResult;
+import realworld.article.model.ArticleUpdateData;
+import realworld.article.model.ArticleWithLinks;
+import realworld.authentication.AuthenticationContext;
 import realworld.authorization.Authorization;
+import realworld.authorization.NotAuthenticatedException;
 
 /**
  * Security for the {@link ArticleService} implementation.
@@ -24,20 +28,24 @@ class ArticleServiceAuthorizer implements ArticleService {
 
 	private Authorization authorization;
 
+	private ArticleAuthorization articleAuthorization;
+
 	/**
 	 * Injection constructor.
 	 *
-	 * @param delegate      The delegate of this decorator
-	 * @param authorization The authorization utilities
+	 * @param delegate              The delegate of this decorator
+	 * @param authorization         The authorization utilities
+	 * @param articleAuthorization  The article authorization
 	 */
 	@Inject
-	public ArticleServiceAuthorizer(@Delegate ArticleService delegate, Authorization authorization) {
+	public ArticleServiceAuthorizer(@Delegate ArticleService delegate, Authorization authorization, ArticleAuthorization articleAuthorization) {
 		this.delegate = delegate;
 		this.authorization = authorization;
+		this.articleAuthorization = articleAuthorization;
 	}
 
 	@Override
-	public ArticleResult find(ArticleSearchCriteria criteria) {
+	public ArticleResult<ArticleData> find(ArticleSearchCriteria criteria) {
 		return delegate.find(criteria);
 	}
 
@@ -56,6 +64,12 @@ class ArticleServiceAuthorizer implements ArticleService {
 	public ArticleData create(ArticleCreationData creationData) {
 		authorization.requireLogin();
 		return delegate.create(creationData);
+	}
+
+	@Override
+	public ArticleData update(String slug, ArticleUpdateData updateData) {
+		articleAuthorization.requireCurrentUserToBeAuthorOf(slug);
+		return delegate.update(slug, updateData);
 	}
 
 	@Override

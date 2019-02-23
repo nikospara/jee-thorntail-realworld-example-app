@@ -1,18 +1,16 @@
 package realworld.authorization;
 
 /**
- * An exception during authorization indicating that the client does
- * not have access rights to the requested resource or operation.
- * This exception should not be thrown to indicate system problems.
+ * Generic superclass of security-related exceptions in this application.
  */
-public class AuthorizationException extends RuntimeException {
+public abstract class AppSecurityException extends RuntimeException {
 
 	private static final long serialVersionUID = -6122838389218067566L;
 
 	/**
 	 * Default constructor.
 	 */
-	public AuthorizationException() {
+	public AppSecurityException() {
 		super();
 	}
 
@@ -21,7 +19,7 @@ public class AuthorizationException extends RuntimeException {
 	 * 
 	 * @param message The message
 	 */
-	public AuthorizationException(String message) {
+	public AppSecurityException(String message) {
 		super(message);
 	}
 
@@ -30,7 +28,7 @@ public class AuthorizationException extends RuntimeException {
 	 * 
 	 * @param cause
 	 */
-	public AuthorizationException(Throwable cause) {
+	public AppSecurityException(Throwable cause) {
 		super(cause);
 	}
 
@@ -40,7 +38,7 @@ public class AuthorizationException extends RuntimeException {
 	 * @param message
 	 * @param cause
 	 */
-	public AuthorizationException(String message, Throwable cause) {
+	public AppSecurityException(String message, Throwable cause) {
 		super(message, cause);
 	}
 }

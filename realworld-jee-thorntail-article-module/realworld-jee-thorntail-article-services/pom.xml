@@ -9,8 +9,8 @@
 	</parent>
 	<artifactId>realworld-jee-thorntail-article-services</artifactId>
 
-	<name>Realworld in JEE/Thorntail, User module: Services</name>
-	<description>Realworld in JEE/Thorntail, User module: Services or the Domain in Hexagonal Architecture</description>
+	<name>Realworld in JEE/Thorntail, Article services</name>
+	<description>Realworld in JEE/Thorntail, Article module: Services or the Domain in Hexagonal Architecture</description>
 
 	<packaging>jar</packaging>
 
@@ -53,6 +53,20 @@
 			<groupId>realworld.example</groupId>
 			<artifactId>realworld-jee-thorntail-user-services</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+
+		<!-- TEST -->
+		<dependency>
+			<groupId>org.jboss.weld</groupId>
+			<artifactId>weld-junit5</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
 		</dependency>
 	</dependencies>
 </project>

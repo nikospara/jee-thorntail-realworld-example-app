@@ -55,6 +55,20 @@ public interface ArticleDao {
 	ArticleWithLinks create(ArticleCreationData creationData, String slug, Date creationDate, String authorId, Set<String> tags);
 
 	/**
+	 * Update the article having the given id.
+	 *
+	 * @param id          The article id
+	 * @param title       The new title
+	 * @param slug        The new slug
+	 * @param description The new description
+	 * @param body        The new body
+	 * @param tags        The new tags, set to {@code null} to leave unchanged!
+	 * @param updatedAt   The time of update
+	 * @throws EntityDoesNotExistException If the article does not exist
+	 */
+	void update(String id, String title, String slug, String description, String body, Set<String> tags, Date updatedAt) throws EntityDoesNotExistException;
+
+	/**
 	 * Add a favorite entry for the user and article.
 	 *
 	 * @param userId      The user id
@@ -71,4 +85,13 @@ public interface ArticleDao {
 	 * @throws EntityDoesNotExistException If the article does not exist
 	 */
 	void removeFavorite(String userId, String articleId) throws EntityDoesNotExistException;
+
+	/**
+	 * Check that the article with the given slug is written by the user with the given id.
+	 *
+	 * @param slug   Article slug
+	 * @param userId Id of author
+	 * @return {@code true}   If the given article is written by the given author
+	 */
+	boolean checkArticleAuthor(String slug, String userId);
 }

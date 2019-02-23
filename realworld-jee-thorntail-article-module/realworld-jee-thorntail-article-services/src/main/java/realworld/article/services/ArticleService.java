@@ -4,6 +4,7 @@ import realworld.EntityDoesNotExistException;
 import realworld.article.model.ArticleData;
 import realworld.article.model.ArticleCreationData;
 import realworld.article.model.ArticleResult;
+import realworld.article.model.ArticleUpdateData;
 
 /**
  * Article services.
@@ -42,6 +43,16 @@ public interface ArticleService {
 	 * @return The new article
 	 */
 	ArticleData create(ArticleCreationData creationData);
+
+	/**
+	 * Update the article identified by the given slug.
+	 *
+	 * @param slug       The slug
+	 * @param updateData The data to update
+	 * @return The full article
+	 * @throws EntityDoesNotExistException If an article with the given slug does not exist
+	 */
+	ArticleData update(String slug, ArticleUpdateData updateData) throws EntityDoesNotExistException;
 
 	/**
 	 * Transform a title to a slug.

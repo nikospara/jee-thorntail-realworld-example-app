@@ -3,7 +3,7 @@ package realworld.authorization;
 /**
  * No authentication information could be retrieved or authentication failed.
  */
-public class NotAuthenticatedException extends AuthorizationException {
+public class NotAuthenticatedException extends AppSecurityException {
 
 	private static final long serialVersionUID = -4393652987864432259L;
 

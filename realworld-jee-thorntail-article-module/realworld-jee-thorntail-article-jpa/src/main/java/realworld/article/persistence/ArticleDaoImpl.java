@@ -66,7 +66,7 @@ class ArticleDaoImpl implements ArticleDao {
 		var results = em.createQuery(query)
 				.setMaxResults(maxResults)
 				.setFirstResult(firstResult)
-				.getResultList().stream()
+				.getResultStream()
 				.map(this::fromQueryResult)
 				.collect(Collectors.toList());
 
@@ -173,12 +173,28 @@ class ArticleDaoImpl implements ArticleDao {
 		article.setBody(creationData.getBody());
 		article.setCreatedAt(creationDate);
 		article.setAuthor(authorId);
+		handleTags(article, tags);
+		em.persist(article);
+		return ArticleWithLinks.make(article.getId(), article.getSlug(), article.getTitle(), article.getDescription(), article.getBody(), article.getCreatedAt(), article.getUpdatedAt(), false, 0, authorId);
+	}
+
+	@Override
+	public void update(String id, String title, String slug, String description, String body, Set<String> tags, Date updatedAt) {
+		Article article = em.find(Article.class, id);
+		article.setTitle(title);
+		article.setTitle(title);
+		article.setSlug(slug);
+		article.setDescription(description);
+		article.setBody(body);
+		article.setUpdatedAt(updatedAt);
+		handleTags(article, tags);
+	}
+
+	private void handleTags(Article article, Set<String> tags) {
 		if( tags != null ) {
 			Set<Tag> dbtags = tags.stream().map(tag -> Optional.ofNullable(em.find(Tag.class, tag)).orElseGet(() -> new Tag(tag))).collect(Collectors.toSet());
 			article.setTags(dbtags);
 		}
-		em.persist(article);
-		return ArticleWithLinks.make(article.getId(), article.getSlug(), article.getTitle(), article.getDescription(), article.getBody(), article.getCreatedAt(), article.getUpdatedAt(), false, 0, authorId);
 	}
 
 	@Override
@@ -203,5 +219,15 @@ class ArticleDaoImpl implements ArticleDao {
 		catch( NoResultException e ) {
 			throw new EntityDoesNotExistException();
 		}
+	}
+
+	@Override
+	public boolean checkArticleAuthor(String slug, String userId) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<String> query = cb.createQuery(String.class);
+		Root<Article> article = query.from(Article.class);
+		query.select(article.get(Article_.author));
+		query.where(cb.equal(article.get(Article_.slug), slug));
+		return em.createQuery(query).getResultStream().findFirst().map(userId::equals).orElse(false);
 	}
 }

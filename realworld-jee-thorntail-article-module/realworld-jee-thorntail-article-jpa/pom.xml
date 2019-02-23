@@ -9,8 +9,8 @@
 	</parent>
 	<artifactId>realworld-jee-thorntail-article-jpa</artifactId>
 
-	<name>Realworld in JEE/Thorntail, Article JAX-RS</name>
-	<description>Realworld in JEE/Thorntail, Article module: JAX-RS</description>
+	<name>Realworld in JEE/Thorntail, Article JPA</name>
+	<description>Realworld in JEE/Thorntail, Article module: JPA</description>
 
 	<packaging>jar</packaging>
 

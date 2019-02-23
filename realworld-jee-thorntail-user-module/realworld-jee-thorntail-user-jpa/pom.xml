@@ -9,7 +9,7 @@
 	</parent>
 	<artifactId>realworld-jee-thorntail-user-jpa</artifactId>
 	
-	<name>Realworld in JEE/Thorntail, User module: JPA</name>
+	<name>Realworld in JEE/Thorntail, User JPA</name>
 	<description>Realworld in JEE/Thorntail, User module: DAO and Entities implemented in JPA</description>
 
 	<packaging>jar</packaging>

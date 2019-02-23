@@ -12,7 +12,6 @@ import realworld.authorization.NotAuthenticatedException;
  */
 @Provider
 public class NotAuthenticatedExceptionMapper implements ExceptionMapper<NotAuthenticatedException> {
-
 	@Override
 	public Response toResponse(NotAuthenticatedException exception) {
 		Response.ResponseBuilder builder = Response.status(Response.Status.UNAUTHORIZED);

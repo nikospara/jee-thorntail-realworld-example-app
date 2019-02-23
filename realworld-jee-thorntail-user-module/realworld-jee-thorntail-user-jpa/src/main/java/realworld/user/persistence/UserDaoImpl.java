@@ -85,7 +85,7 @@ class UserDaoImpl implements UserDao {
 				cb.equal(cb.lower(root.get(User_.email)), email.toLowerCase()),
 				cb.equal(root.get(User_.password), password)
 		));
-		return em.createQuery(query).setMaxResults(1).getResultList().stream()
+		return em.createQuery(query).setMaxResults(1).getResultStream()
 				.findFirst()
 				.map(u -> UserData.make(u.getId(), u.getUsername(), u.getEmail(), u.getBio(), u.getImage()));
 	}
@@ -96,7 +96,7 @@ class UserDaoImpl implements UserDao {
 		CriteriaQuery<User> query = cb.createQuery(User.class);
 		Root<User> root = query.from(User.class);
 		query.where(cb.equal(root.get(User_.username), username));
-		return em.createQuery(query).setMaxResults(1).getResultList().stream()
+		return em.createQuery(query).setMaxResults(1).getResultStream()
 				.findFirst()
 				.map(u -> UserData.make(u.getId(), u.getUsername(), u.getEmail(), u.getBio(), u.getImage()));
 	}
@@ -172,6 +172,6 @@ class UserDaoImpl implements UserDao {
 		CriteriaQuery<Object[]> query = cb.createQuery(Object[].class);
 		Root<User> userRoot = query.from(User.class);
 		query.multiselect(userRoot.get(User_.id), userRoot.get(User_.username)).where(userRoot.get(User_.username).in(usernames));
-		return em.createQuery(query).getResultList().stream().collect(Collectors.toMap(o -> o[1].toString(), o -> o[0].toString()));
+		return em.createQuery(query).getResultStream().collect(Collectors.toMap(o -> o[1].toString(), o -> o[0].toString()));
 	}
 }

@@ -1,5 +1,9 @@
 package realworld.article.services;
 
+import static realworld.article.model.ArticleUpdateData.PropName.BODY;
+import static realworld.article.model.ArticleUpdateData.PropName.DESCRIPTION;
+import static realworld.article.model.ArticleUpdateData.PropName.TITLE;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -15,6 +19,7 @@ import java.util.stream.Collectors;
 
 import realworld.EntityDoesNotExistException;
 import realworld.article.model.ArticleResult;
+import realworld.article.model.ArticleUpdateData;
 import realworld.article.model.ArticleWithLinks;
 import realworld.authentication.AuthenticationContext;
 import realworld.article.model.ArticleData;
@@ -22,7 +27,6 @@ import realworld.article.model.ArticleCreationData;
 import realworld.authentication.User;
 import realworld.services.DateTimeService;
 import realworld.user.model.ProfileData;
-import realworld.user.model.UserData;
 import realworld.user.services.UserService;
 
 /**
@@ -110,14 +114,26 @@ class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public ArticleData create(ArticleCreationData creationData) {
-		String authorId = userService.getCurrentUser().getId();
+		String authorId = authenticationContext.getUserPrincipal().getUniqueId();
 		ArticleWithLinks article = articleDao.create(creationData, makeSlug(creationData.getTitle()), new Date(dateTimeService.currentTimeMillis()), authorId, creationData.getTags());
 		return ArticleData.make(article, userService.findProfileById(authorId), creationData.getTags());
 	}
 
 	@Override
+	public ArticleData update(String slug, ArticleUpdateData updateData) throws EntityDoesNotExistException {
+		ArticleData article = findArticleBySlug(slug);
+		String newTitle = updateData.isExplicitlySet(TITLE) ? updateData.getTitle() : article.getTitle();
+		String newSlug = updateData.isExplicitlySet(TITLE) ? makeSlug(updateData.getTitle()) : article.getSlug();
+		String newDescription = updateData.isExplicitlySet(DESCRIPTION) ? updateData.getDescription() : article.getDescription();
+		String newBody = updateData.isExplicitlySet(BODY) ? updateData.getBody() : article.getBody();
+		Date updatedAt = new Date(dateTimeService.currentTimeMillis());
+		articleDao.update(article.getId(), newTitle, newSlug, newDescription, newBody, updateData.getTags(), updatedAt);
+		return ArticleData.make(article.getId(), newSlug, newTitle, newDescription, newBody, article.getCreatedAt(), updatedAt, article.isFavorited(), article.getFavoritesCount(), article.getAuthor(), article.getTags());
+	}
+
+	@Override
 	public String makeSlug(String title) {
-		return title.toLowerCase().replace(' ', '-');
+		return title.toLowerCase().replace(' ', '-').replaceAll("[^a-z0-9-]", "");
 	}
 
 	@Override

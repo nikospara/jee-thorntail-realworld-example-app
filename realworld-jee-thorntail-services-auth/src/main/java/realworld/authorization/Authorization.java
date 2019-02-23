@@ -8,7 +8,7 @@ public interface Authorization {
 	/**
 	 * Require a logged-in user.
 	 * 
-	 * @throws AuthorizationException If the requirement is not met
+	 * @throws AppSecurityException If the requirement is not met
 	 */
-	void requireLogin() throws AuthorizationException;
+	void requireLogin() throws AppSecurityException;
 }

@@ -5,9 +5,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Context;
 
-import java.util.Collections;
-
 import realworld.article.jaxrs.ArticleResource;
+import realworld.article.jaxrs.UpdateParam;
 import realworld.article.model.ArticleResult;
 import realworld.article.jaxrs.CreationParam;
 import realworld.article.model.ArticleData;
@@ -40,16 +39,6 @@ public class ArticleResourceImpl implements ArticleResource {
 	}
 
 	@Override
-	public ArticleResult<ArticleData> feed(Integer limit, Integer offset) {
-		response.setHeader("X-Realworld-API", "THIS RESPONSE VIOLATES THE REALWORLD API");
-		return articleService.feed(ArticleSearchCriteria.builder()
-				.withLimit(limit)
-				.withOffset(offset)
-				.build()
-		);
-	}
-
-	@Override
 	public ArticleData get(String slug) {
 		return articleService.findArticleBySlug(slug);
 	}
@@ -57,6 +46,11 @@ public class ArticleResourceImpl implements ArticleResource {
 	@Override
 	public ArticleData create(CreationParam param) {
 		return articleService.create(param);
+	}
+
+	@Override
+	public ArticleData update(String slug, UpdateParam updateParam) {
+		return articleService.update(slug, updateParam);
 	}
 
 	@Override
