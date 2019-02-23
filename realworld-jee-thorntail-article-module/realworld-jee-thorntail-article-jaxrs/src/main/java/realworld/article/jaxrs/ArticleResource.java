@@ -76,6 +76,16 @@ public interface ArticleResource {
 			UpdateParam updateParam
 	);
 
+	@DELETE
+	@Path("/{slug}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value="Deletes an article.", tags=TAG)
+	void delete(
+			@ApiParam(value = "The slug of the article.", required = true)
+			@PathParam("slug")
+			String slug
+	);
+
 	@POST
 	@Path("/{slug}/favorite")
 	@Produces(MediaType.APPLICATION_JSON)

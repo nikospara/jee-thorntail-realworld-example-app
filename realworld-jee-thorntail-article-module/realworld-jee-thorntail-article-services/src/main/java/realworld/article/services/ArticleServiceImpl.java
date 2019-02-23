@@ -132,6 +132,11 @@ class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
+	public void delete(String slug) throws EntityDoesNotExistException {
+		articleDao.delete(slug);
+	}
+
+	@Override
 	public String makeSlug(String title) {
 		return title.toLowerCase().replace(' ', '-').replaceAll("[^a-z0-9-]", "");
 	}

@@ -55,6 +55,14 @@ public interface ArticleService {
 	ArticleData update(String slug, ArticleUpdateData updateData) throws EntityDoesNotExistException;
 
 	/**
+	 * Delete the article.
+	 *
+	 * @param slug The slug
+	 * @throws EntityDoesNotExistException If the article does not exist
+	 */
+	void delete(String slug) throws EntityDoesNotExistException;
+
+	/**
 	 * Transform a title to a slug.
 	 *
 	 * @param title The title to transform

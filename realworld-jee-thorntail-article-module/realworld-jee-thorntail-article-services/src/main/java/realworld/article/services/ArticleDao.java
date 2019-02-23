@@ -69,6 +69,14 @@ public interface ArticleDao {
 	void update(String id, String title, String slug, String description, String body, Set<String> tags, Date updatedAt) throws EntityDoesNotExistException;
 
 	/**
+	 * Delete the article with the given slug.
+	 *
+	 * @param slug The slug
+	 * @throws EntityDoesNotExistException If the article does not exist
+	 */
+	void delete(String slug) throws EntityDoesNotExistException;
+
+	/**
 	 * Add a favorite entry for the user and article.
 	 *
 	 * @param userId      The user id

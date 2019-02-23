@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
@@ -188,6 +189,25 @@ class ArticleDaoImpl implements ArticleDao {
 		article.setBody(body);
 		article.setUpdatedAt(updatedAt);
 		handleTags(article, tags);
+	}
+
+	@Override
+	public void delete(String slug) throws EntityDoesNotExistException {
+		try {
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+			CriteriaQuery<Article> query = cb.createQuery(Article.class);
+			Root<Article> articleRoot = query.from(Article.class);
+			query.where(cb.equal(articleRoot.get(Article_.slug), slug));
+			Article article = em.createQuery(query).getSingleResult();
+			em.remove(article);
+			CriteriaDelete<ArticleFavorite> deleteQuery = cb.createCriteriaDelete(ArticleFavorite.class);
+			Root<ArticleFavorite> articleFavoriteRoot = deleteQuery.from(ArticleFavorite.class);
+			deleteQuery.where(cb.equal(articleFavoriteRoot.get(ArticleFavorite_.articleId), article.getId()));
+			em.createQuery(deleteQuery).executeUpdate();
+		}
+		catch( NoResultException e ) {
+			throw new EntityDoesNotExistException();
+		}
 	}
 
 	private void handleTags(Article article, Set<String> tags) {

@@ -54,6 +54,11 @@ public class ArticleResourceImpl implements ArticleResource {
 	}
 
 	@Override
+	public void delete(String slug) {
+		articleService.delete(slug);
+	}
+
+	@Override
 	public ArticleData favorite(String slug) {
 		return articleService.favorite(slug);
 	}

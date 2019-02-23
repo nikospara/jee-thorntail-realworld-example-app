@@ -73,6 +73,12 @@ class ArticleServiceAuthorizer implements ArticleService {
 	}
 
 	@Override
+	public void delete(String slug) throws EntityDoesNotExistException {
+		articleAuthorization.requireCurrentUserToBeAuthorOf(slug);
+		delegate.delete(slug);
+	}
+
+	@Override
 	public String makeSlug(String title) {
 		return delegate.makeSlug(title);
 	}
