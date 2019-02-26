@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * A list of tags for serialization.
  */
-@JsonRootName("tags")
+@JsonTypeName("tags")
+@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT ,use = JsonTypeInfo.Id.NAME)
 public class TagList extends ArrayList<String> {
 
 	/**

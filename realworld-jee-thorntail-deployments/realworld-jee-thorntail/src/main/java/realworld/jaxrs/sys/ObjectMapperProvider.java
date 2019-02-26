@@ -34,7 +34,6 @@ public class ObjectMapperProvider implements ContextResolver<ObjectMapper> {
 	void init() {
 		objectMapper = new ObjectMapper();
 		objectMapper.setAnnotationIntrospector(new JacksonAnnotationIntrospector());
-		objectMapper.enable(SerializationFeature.WRAP_ROOT_VALUE);
 		objectMapper.enable(DeserializationFeature.UNWRAP_ROOT_VALUE);
 		objectMapper.addMixIn(ProfileData.class, ProfileMixin.class);
 		objectMapper.addMixIn(ArticleData.class, ArticleMixin.class);

@@ -3,10 +3,12 @@ package realworld.comments.jaxrs;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import realworld.comments.model.CommentData;
 
-@JsonRootName("comments")
+@JsonTypeName("comments")
+@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT ,use = JsonTypeInfo.Id.NAME)
 public class CommentsList extends ArrayList<CommentData> {
 
 	/**

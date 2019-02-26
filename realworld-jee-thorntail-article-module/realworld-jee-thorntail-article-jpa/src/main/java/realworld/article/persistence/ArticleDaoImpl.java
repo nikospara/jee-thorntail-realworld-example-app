@@ -153,15 +153,23 @@ class ArticleDaoImpl implements ArticleDao {
 		return query;
 	}
 
+	/**
+	 * Query whether the given user has favorited an article.
+	 */
 	private Expression<Boolean> favoriteSubquery(CriteriaBuilder cb, CriteriaQuery<?> query, Root<Article> article, String userId) {
-		Subquery<Long> subquery = query.subquery(Long.class);
-		Root<ArticleFavorite> articleFavorite = subquery.from(ArticleFavorite.class);
-		subquery.select(cb.count(articleFavorite));
-		subquery.where(
-				cb.equal(articleFavorite.get(ArticleFavorite_.articleId), article.get(Article_.id)),
-				cb.equal(articleFavorite.get(ArticleFavorite_.userId), userId)
-		);
-		return cb.greaterThan(subquery, 0L);
+		if( userId == null ) {
+			return cb.literal(false);
+		}
+		else {
+			Subquery<Long> subquery = query.subquery(Long.class);
+			Root<ArticleFavorite> articleFavorite = subquery.from(ArticleFavorite.class);
+			subquery.select(cb.count(articleFavorite));
+			subquery.where(
+					cb.equal(articleFavorite.get(ArticleFavorite_.articleId), article.get(Article_.id)),
+					cb.equal(articleFavorite.get(ArticleFavorite_.userId), userId)
+			);
+			return cb.greaterThan(subquery, 0L);
+		}
 	}
 
 	private Expression<Long> favoritesCountSubquery(CriteriaBuilder cb, CriteriaQuery<?> query, Root<Article> article) {

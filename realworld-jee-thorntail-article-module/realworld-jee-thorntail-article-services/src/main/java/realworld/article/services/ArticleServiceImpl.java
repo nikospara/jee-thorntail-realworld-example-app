@@ -83,7 +83,7 @@ class ArticleServiceImpl implements ArticleService {
 				return new ArticleResult<>(Collections.emptyList(), 0L);
 			}
 		}
-		var searchResult = articleDao.find(authenticationContext.getUserPrincipal().getUniqueId(), criteria, DEFAULT_CRITERIA);
+		var searchResult = articleDao.find(Optional.ofNullable(authenticationContext.getUserPrincipal()).map(User::getUniqueId).orElse(null), criteria, DEFAULT_CRITERIA);
 		Map<String, ProfileData> profiles = searchResult.getArticles().stream()
 				.map(ArticleWithLinks::getAuthorId)
 				.distinct()

@@ -2,14 +2,12 @@ package realworld.jaxrs.impl.article;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.Context;
 
 import realworld.article.jaxrs.ArticleResource;
-import realworld.article.jaxrs.UpdateParam;
-import realworld.article.model.ArticleResult;
 import realworld.article.jaxrs.CreationParam;
+import realworld.article.jaxrs.UpdateParam;
 import realworld.article.model.ArticleData;
+import realworld.article.model.ArticleResult;
 import realworld.article.services.ArticleSearchCriteria;
 import realworld.article.services.ArticleService;
 
@@ -22,12 +20,8 @@ public class ArticleResourceImpl implements ArticleResource {
 	@Inject
 	private ArticleService articleService;
 
-	@Context
-	private HttpServletResponse response;
-
 	@Override
 	public ArticleResult<ArticleData> find(String tag, String author, String favoritedBy, Integer limit, Integer offset) {
-		response.setHeader("X-Realworld-API", "THIS RESPONSE VIOLATES THE REALWORLD API");
 		return articleService.find(ArticleSearchCriteria.builder()
 				.withTag(tag)
 				.withAuthor(author)

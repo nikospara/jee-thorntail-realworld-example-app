@@ -2,14 +2,16 @@ package realworld.user.jaxrs;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Full user representation, including token to access APIs that require login.
  *
  * @see <a href="https://github.com/gothinkster/realworld/tree/master/api#users-for-authentication" target="_top">Specification</a>
  */
-@JsonRootName("user")
+@JsonTypeName("user")
+@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT ,use = JsonTypeInfo.Id.NAME)
 public class UserWithToken implements Serializable {
 
 	private static final long serialVersionUID = 1L;
