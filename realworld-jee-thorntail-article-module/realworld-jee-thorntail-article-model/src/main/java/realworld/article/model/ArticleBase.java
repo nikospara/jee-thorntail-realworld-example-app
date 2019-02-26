@@ -78,15 +78,15 @@ public interface ArticleBase {
 
 		private static final long serialVersionUID = 1L;
 
-		private String id;
-		private String slug;
-		private String title;
-		private String description;
-		private String body;
-		private Date createdAt;
-		private Date updatedAt;
-		private boolean favorited;
-		private int favoritesCount;
+		private final String id;
+		private final String slug;
+		private final String title;
+		private final String description;
+		private final String body;
+		private final Date createdAt;
+		private final Date updatedAt;
+		private final boolean favorited;
+		private final int favoritesCount;
 
 		/**
 		 * Full constructor.

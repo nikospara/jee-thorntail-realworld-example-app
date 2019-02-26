@@ -34,6 +34,15 @@ public interface ArticleDao {
 	ArticleWithLinks findArticleBySlug(String userId, String slug) throws EntityDoesNotExistException;
 
 	/**
+	 * Find an article id by slug.
+	 *
+	 * @param slug The slug to search
+	 * @return The article id
+	 * @throws EntityDoesNotExistException If the article does not exist
+	 */
+	String findArticleIdBySlug(String slug) throws EntityDoesNotExistException;
+
+	/**
 	 * Find the tags of the given article.
 	 *
 	 * @param articleId The article id

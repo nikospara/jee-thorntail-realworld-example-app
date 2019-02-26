@@ -126,6 +126,20 @@ class ArticleDaoImpl implements ArticleDao {
 		}
 	}
 
+	@Override
+	public String findArticleIdBySlug(String slug) throws EntityDoesNotExistException {
+		try {
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+			CriteriaQuery<String> query = cb.createQuery(String.class);
+			Root<Article> article = query.from(Article.class);
+			query.select(article.get(Article_.id)).where(cb.equal(article.get(Article_.slug), slug));
+			return em.createQuery(query).getSingleResult();
+		}
+		catch( NoResultException e ) {
+			throw new EntityDoesNotExistException();
+		}
+	}
+
 	private CriteriaQuery<Object[]> findArticleBySlugCriteriaQuery(String userId, String slug) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Object[]> query = cb.createQuery(Object[].class);

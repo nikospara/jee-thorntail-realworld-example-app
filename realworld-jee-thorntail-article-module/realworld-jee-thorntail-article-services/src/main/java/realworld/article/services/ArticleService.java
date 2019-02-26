@@ -37,6 +37,15 @@ public interface ArticleService {
 	ArticleData findArticleBySlug(String slug) throws EntityDoesNotExistException;
 
 	/**
+	 * Find article id by slug.
+	 *
+	 * @param slug The slug
+	 * @return The article id
+	 * @throws EntityDoesNotExistException If an article with the given slug does not exist
+	 */
+	String findArticleIdBySlug(String slug) throws EntityDoesNotExistException;
+
+	/**
 	 * Create an article.
 	 *
 	 * @param creationData ArticleData creation data

@@ -26,7 +26,7 @@ public interface ArticleWithLinks extends ArticleBase {
 
 		private static final long serialVersionUID = 1L;
 
-		private String authorId;
+		private final String authorId;
 
 		/**
 		 * Full constructor.

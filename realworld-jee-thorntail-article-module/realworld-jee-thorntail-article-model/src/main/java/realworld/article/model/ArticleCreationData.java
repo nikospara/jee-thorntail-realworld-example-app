@@ -3,7 +3,7 @@ package realworld.article.model;
 import java.util.Set;
 
 /**
- * ArticleData creation data.
+ * Article creation data.
  *
  * @see <a href="https://github.com/gothinkster/realworld/tree/master/api#create-article">Specification</a>
  */

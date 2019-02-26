@@ -61,6 +61,11 @@ class ArticleServiceAuthorizer implements ArticleService {
 	}
 
 	@Override
+	public String findArticleIdBySlug(String slug) throws EntityDoesNotExistException {
+		return delegate.findArticleIdBySlug(slug);
+	}
+
+	@Override
 	public ArticleData create(ArticleCreationData creationData) {
 		authorization.requireLogin();
 		return delegate.create(creationData);

@@ -16,6 +16,9 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The article entity.
+ */
 @Entity
 @Table(name = "RWL_ARTICLE")
 public class Article {

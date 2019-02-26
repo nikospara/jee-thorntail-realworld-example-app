@@ -17,6 +17,7 @@
 		<module>realworld-jee-thorntail-common</module>
 		<module>realworld-jee-thorntail-deployments</module>
 		<module>realworld-jee-thorntail-article-module</module>
+		<module>realworld-jee-thorntail-comments-module</module>
 	</modules>
 	
 	<properties>

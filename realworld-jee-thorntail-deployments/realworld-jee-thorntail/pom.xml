@@ -95,6 +95,21 @@
 			<artifactId>realworld-jee-thorntail-article-jaxrs</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>realworld.example</groupId>
+			<artifactId>realworld-jee-thorntail-comments-services</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>realworld.example</groupId>
+			<artifactId>realworld-jee-thorntail-comments-jpa</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>realworld.example</groupId>
+			<artifactId>realworld-jee-thorntail-comments-jaxrs</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<!-- OTHER -->
 		<dependency>

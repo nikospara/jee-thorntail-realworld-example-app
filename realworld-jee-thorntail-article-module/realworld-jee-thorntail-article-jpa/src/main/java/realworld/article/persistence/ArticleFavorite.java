@@ -6,6 +6,9 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+/**
+ * Entity representing a like of a user for an article.
+ */
 @Entity
 @Table(name = "RWL_ARTICLE_FAV")
 @IdClass(ArticleFavoritePK.class)

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
+>
+	<changeSet id="20190225_1" author="nikospara">
+		<createTable tableName="RWL_COMMENT">
+			<column name="id" type="VARCHAR(64)">
+				<constraints primaryKey="true" primaryKeyName="PK_RWL_COMMENT" />
+			</column>
+			<column name="body" type="CLOB" />
+			<column name="createdAt" type="TIMESTAMP">
+				<constraints nullable="false" />
+			</column>
+			<column name="updatedAt" type="TIMESTAMP" />
+			<column name="user_id" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="RWL_COMMENT_ARTICLE">
+			<column name="article_id" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+			<column name="comment_id" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addPrimaryKey tableName="RWL_COMMENT_ARTICLE" constraintName="PK_RWL_COMMENT_ARTICLE" columnNames="article_id, comment_id" />
+		<addForeignKeyConstraint baseTableName="RWL_COMMENT_ARTICLE" baseColumnNames="comment_id" constraintName="FK_RWL_COMMENT_ARTICLE_COMMENT_ID" referencedTableName="RWL_COMMENT" referencedColumnNames="id" />
+	</changeSet>
+</databaseChangeLog>

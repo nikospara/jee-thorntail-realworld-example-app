@@ -50,8 +50,8 @@ public interface ArticleData extends ArticleBase {
 
 		private static final long serialVersionUID = 1L;
 
-		private ProfileData author;
-		private Set<String> tags;
+		private final ProfileData author;
+		private final Set<String> tags;
 
 		/**
 		 * Full constructor.

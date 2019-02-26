@@ -47,7 +47,7 @@ class ArticleServiceImpl implements ArticleService {
 	private static final ArticleSearchCriteria DEFAULT_CRITERIA = ArticleSearchCriteria.builder().withLimit(20).withOffset(0).build();
 	
 	/**
-	 * Default constructor for the frameworks.
+	 * Default constructor for frameworks.
 	 */
 	ArticleServiceImpl() {
 		// NOOP
@@ -86,7 +86,7 @@ class ArticleServiceImpl implements ArticleService {
 		var searchResult = articleDao.find(authenticationContext.getUserPrincipal().getUniqueId(), criteria, DEFAULT_CRITERIA);
 		Map<String, ProfileData> profiles = searchResult.getArticles().stream()
 				.map(ArticleWithLinks::getAuthorId)
-				.collect(Collectors.toSet()).stream()
+				.distinct()
 				.collect(Collectors.toMap(Function.identity(), userService::findProfileById));
 		var result = new ArticleResult<ArticleData>();
 		result.setArticlesCount(searchResult.getArticlesCount());
@@ -110,6 +110,11 @@ class ArticleServiceImpl implements ArticleService {
 		ArticleWithLinks article = articleDao.findArticleBySlug(userId, slug);
 		Set<String> tags = articleDao.findTags(article.getId());
 		return ArticleData.make(article, userService.findProfileById(article.getAuthorId()), tags);
+	}
+
+	@Override
+	public String findArticleIdBySlug(String slug) throws EntityDoesNotExistException {
+		return articleDao.findArticleIdBySlug(slug);
 	}
 
 	@Override
