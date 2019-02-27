@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.EnumSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import realworld.article.model.ArticleUpdateData;
 
@@ -20,6 +21,7 @@ public class UpdateParam implements Serializable, ArticleUpdateData {
 	private String title;
 	private String description;
 	private String body;
+	@JsonProperty("tagList")
 	private Set<String> tags;
 	private EnumSet<PropName> explicitlySetProps = EnumSet.noneOf(PropName.class);
 

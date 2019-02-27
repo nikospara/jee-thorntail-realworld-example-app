@@ -2,7 +2,9 @@ package realworld.article.jaxrs;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +19,7 @@ import realworld.article.model.ArticleResult;
 @Api(tags = ArticleResource.TAG)
 public interface ArticleFeedResource {
 	@GET
+	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value="Searches for articles.", tags=ArticleResource.TAG)
 	ArticleResult<ArticleData> feed(
 			@ApiParam(value = "Limit returned results.")

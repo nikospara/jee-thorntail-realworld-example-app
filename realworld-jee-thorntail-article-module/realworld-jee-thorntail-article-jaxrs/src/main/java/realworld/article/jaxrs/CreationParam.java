@@ -3,6 +3,7 @@ package realworld.article.jaxrs;
 import java.io.Serializable;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import realworld.article.model.ArticleCreationData;
 
@@ -17,6 +18,7 @@ public class CreationParam implements ArticleCreationData, Serializable {
 	private String title;
 	private String description;
 	private String body;
+	@JsonProperty("tagList")
 	private Set<String> tags;
 	
 	@Override
