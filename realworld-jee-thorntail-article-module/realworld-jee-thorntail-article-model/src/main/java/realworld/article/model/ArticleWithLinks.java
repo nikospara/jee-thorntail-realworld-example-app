@@ -1,7 +1,7 @@
 package realworld.article.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Article that has links to its related entities, i.e. contains only their ids.
@@ -15,7 +15,7 @@ public interface ArticleWithLinks extends ArticleBase {
 	 */
 	String getAuthorId();
 
-	static ArticleWithLinks make(String id, String slug, String title, String description, String body, Date createdAt, Date updatedAt, boolean favorited, int favoritesCount, String authorId) {
+	static ArticleWithLinks make(String id, String slug, String title, String description, String body, LocalDateTime createdAt, LocalDateTime updatedAt, boolean favorited, int favoritesCount, String authorId) {
 		return new Impl(id, slug, title, description, body, createdAt, updatedAt, favorited, favoritesCount, authorId);
 	}
 
@@ -42,7 +42,7 @@ public interface ArticleWithLinks extends ArticleBase {
 		 * @param favoritesCount
 		 * @param authorId
 		 */
-		Impl(String id, String slug, String title, String description, String body, Date createdAt, Date updatedAt, boolean favorited, int favoritesCount, String authorId) {
+		Impl(String id, String slug, String title, String description, String body, LocalDateTime createdAt, LocalDateTime updatedAt, boolean favorited, int favoritesCount, String authorId) {
 			super(id, slug, title, description, body, createdAt, updatedAt, favorited, favoritesCount);
 			this.authorId = authorId;
 		}

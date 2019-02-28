@@ -1,7 +1,7 @@
 package realworld.comments.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Base comment, containing only its own fields, not related entities.
@@ -21,14 +21,14 @@ public interface CommentBase {
 	 *
 	 * @return the creation date
 	 */
-	Date getCreatedAt();
+	LocalDateTime getCreatedAt();
 
 	/**
 	 * The last modification date.
 	 *
 	 * @return The last modification date
 	 */
-	Date getUpdatedAt();
+	LocalDateTime getUpdatedAt();
 
 	/**
 	 * The body.
@@ -46,18 +46,18 @@ public interface CommentBase {
 
 		private final String id;
 		private final String body;
-		private final Date createdAt;
-		private final Date updatedAt;
+		private final LocalDateTime createdAt;
+		private final LocalDateTime updatedAt;
 
 		/**
 		 * Full constructor.
 		 *
 		 * @param id             The id
-		 * @param body
-		 * @param createdAt
-		 * @param updatedAt
+		 * @param body           The body
+		 * @param createdAt      The creation datetime
+		 * @param updatedAt      The last updated datetime
 		 */
-		Impl(String id, String body, Date createdAt, Date updatedAt) {
+		Impl(String id, String body, LocalDateTime createdAt, LocalDateTime updatedAt) {
 			this.id = id;
 			this.body = body;
 			this.createdAt = createdAt;
@@ -75,12 +75,12 @@ public interface CommentBase {
 		}
 
 		@Override
-		public Date getCreatedAt() {
+		public LocalDateTime getCreatedAt() {
 			return createdAt;
 		}
 
 		@Override
-		public Date getUpdatedAt() {
+		public LocalDateTime getUpdatedAt() {
 			return updatedAt;
 		}
 	}

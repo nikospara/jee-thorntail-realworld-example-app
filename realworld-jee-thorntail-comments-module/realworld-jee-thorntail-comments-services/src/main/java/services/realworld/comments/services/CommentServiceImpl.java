@@ -4,10 +4,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -68,7 +66,7 @@ class CommentServiceImpl implements CommentService {
 		String articleId = articleService.findArticleIdBySlug(articleSlug);
 		String userId = authenticationContext.getUserPrincipal().getUniqueId();
 		ProfileData author = userService.findProfileById(userId);
-		CommentWithLinks comment = commentDao.add(creationData, articleId, userId, new Date(dateTimeService.currentTimeMillis()));
+		CommentWithLinks comment = commentDao.add(creationData, articleId, userId, dateTimeService.getNow());
 		return CommentData.make(comment, author);
 	}
 

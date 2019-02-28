@@ -7,9 +7,9 @@ import static realworld.article.model.ArticleUpdateData.PropName.TITLE;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -120,7 +120,7 @@ class ArticleServiceImpl implements ArticleService {
 	@Override
 	public ArticleData create(ArticleCreationData creationData) {
 		String authorId = authenticationContext.getUserPrincipal().getUniqueId();
-		ArticleWithLinks article = articleDao.create(creationData, makeSlug(creationData.getTitle()), new Date(dateTimeService.currentTimeMillis()), authorId, creationData.getTags());
+		ArticleWithLinks article = articleDao.create(creationData, makeSlug(creationData.getTitle()), dateTimeService.getNow(), authorId, creationData.getTags());
 		return ArticleData.make(article, userService.findProfileById(authorId), creationData.getTags());
 	}
 
@@ -131,7 +131,7 @@ class ArticleServiceImpl implements ArticleService {
 		String newSlug = updateData.isExplicitlySet(TITLE) ? makeSlug(updateData.getTitle()) : article.getSlug();
 		String newDescription = updateData.isExplicitlySet(DESCRIPTION) ? updateData.getDescription() : article.getDescription();
 		String newBody = updateData.isExplicitlySet(BODY) ? updateData.getBody() : article.getBody();
-		Date updatedAt = new Date(dateTimeService.currentTimeMillis());
+		LocalDateTime updatedAt = dateTimeService.getNow();
 		articleDao.update(article.getId(), newTitle, newSlug, newDescription, newBody, updateData.getTags(), updatedAt);
 		return ArticleData.make(article.getId(), newSlug, newTitle, newDescription, newBody, article.getCreatedAt(), updatedAt, article.isFavorited(), article.getFavoritesCount(), article.getAuthor(), article.getTags());
 	}

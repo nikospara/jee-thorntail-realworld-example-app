@@ -1,7 +1,7 @@
 package realworld.article.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Base article, containing only its own fields, not related entities.
@@ -48,14 +48,14 @@ public interface ArticleBase {
 	 *
 	 * @return the creation date
 	 */
-	Date getCreatedAt();
+	LocalDateTime getCreatedAt();
 
 	/**
 	 * The last modification date.
 	 *
 	 * @return The last modification date
 	 */
-	Date getUpdatedAt();
+	LocalDateTime getUpdatedAt();
 
 	/**
 	 * Whether the current user has favorited this article.
@@ -83,8 +83,8 @@ public interface ArticleBase {
 		private final String title;
 		private final String description;
 		private final String body;
-		private final Date createdAt;
-		private final Date updatedAt;
+		private final LocalDateTime createdAt;
+		private final LocalDateTime updatedAt;
 		private final boolean favorited;
 		private final int favoritesCount;
 
@@ -101,7 +101,7 @@ public interface ArticleBase {
 		 * @param favorited
 		 * @param favoritesCount
 		 */
-		Impl(String id, String slug, String title, String description, String body, Date createdAt, Date updatedAt, boolean favorited, int favoritesCount) {
+		Impl(String id, String slug, String title, String description, String body, LocalDateTime createdAt, LocalDateTime updatedAt, boolean favorited, int favoritesCount) {
 			this.id = id;
 			this.slug = slug;
 			this.title = title;
@@ -139,12 +139,12 @@ public interface ArticleBase {
 		}
 
 		@Override
-		public Date getCreatedAt() {
+		public LocalDateTime getCreatedAt() {
 			return createdAt;
 		}
 
 		@Override
-		public Date getUpdatedAt() {
+		public LocalDateTime getUpdatedAt() {
 			return updatedAt;
 		}
 

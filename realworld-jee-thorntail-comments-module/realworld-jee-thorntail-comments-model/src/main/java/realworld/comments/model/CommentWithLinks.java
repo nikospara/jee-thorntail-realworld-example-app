@@ -1,7 +1,7 @@
 package realworld.comments.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Comment that has links to its related entities, i.e. contains only their ids.
@@ -15,7 +15,7 @@ public interface CommentWithLinks extends CommentBase {
 	 */
 	String getAuthorId();
 
-	static CommentWithLinks make(String id, String body, Date createdAt, Date updatedAt, String authorId) {
+	static CommentWithLinks make(String id, String body, LocalDateTime createdAt, LocalDateTime updatedAt, String authorId) {
 		return new Impl(id, body, createdAt, updatedAt, authorId);
 	}
 
@@ -37,7 +37,7 @@ public interface CommentWithLinks extends CommentBase {
 		 * @param updatedAt
 		 * @param authorId
 		 */
-		Impl(String id, String body, Date createdAt, Date updatedAt, String authorId) {
+		Impl(String id, String body, LocalDateTime createdAt, LocalDateTime updatedAt, String authorId) {
 			super(id, body, createdAt, updatedAt);
 			this.authorId = authorId;
 		}

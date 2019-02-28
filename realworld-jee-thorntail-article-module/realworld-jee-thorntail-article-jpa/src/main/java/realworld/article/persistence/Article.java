@@ -1,7 +1,5 @@
 package realworld.article.persistence;
 
-import static javax.persistence.TemporalType.TIMESTAMP;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,8 +9,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,12 +38,10 @@ public class Article {
 	private String body;
 
 	@Column(name = "createdAt")
-	@Temporal(TIMESTAMP)
-	private Date createdAt;
+	private LocalDateTime createdAt;
 
 	@Column(name = "updatedAt")
-	@Temporal(TIMESTAMP)
-	private Date updatedAt;
+	private LocalDateTime updatedAt;
 
 	@Column(name = "user_id")
 	private String author;
@@ -99,19 +94,19 @@ public class Article {
 		this.body = body;
 	}
 
-	public Date getCreatedAt() {
+	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Date getUpdatedAt() {
+	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Date updatedAt) {
+	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 

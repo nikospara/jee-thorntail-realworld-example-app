@@ -1,6 +1,6 @@
 package services.realworld.comments.services;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import realworld.EntityDoesNotExistException;
@@ -21,7 +21,7 @@ public interface CommentDao {
 	 * @param createdAt    The creation timestamp
 	 * @return The new comment
 	 */
-	CommentWithLinks add(CommentCreationData creationData, String articleId, String authorId, Date createdAt) throws EntityDoesNotExistException;
+	CommentWithLinks add(CommentCreationData creationData, String articleId, String authorId, LocalDateTime createdAt) throws EntityDoesNotExistException;
 
 	/**
 	 * Fetch the comments of an article.

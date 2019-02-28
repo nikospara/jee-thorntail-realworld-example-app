@@ -8,7 +8,7 @@ import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -44,7 +44,7 @@ public class CommentDaoImpl implements CommentDao {
 	}
 
 	@Override
-	public CommentWithLinks add(CommentCreationData creationData, String articleId, String authorId, Date createdAt) throws EntityDoesNotExistException {
+	public CommentWithLinks add(CommentCreationData creationData, String articleId, String authorId, LocalDateTime createdAt) throws EntityDoesNotExistException {
 		Comment comment = new Comment();
 		comment.setId(UUID.randomUUID().toString());
 		comment.setBody(creationData.getBody());

@@ -26,6 +26,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+		<version.jackson>2.9.5</version.jackson>
 		<version.jaxb.api>2.3.1</version.jaxb.api>
 		<version.jaxb.impl>2.3.0.1</version.jaxb.impl>
 		<version.junit.jupiter>5.3.2</version.junit.jupiter>
@@ -113,8 +114,13 @@
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-annotations</artifactId>
-				<version>2.9.5</version>
+				<version>${version.jackson}</version>
 				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.fasterxml.jackson.datatype</groupId>
+				<artifactId>jackson-datatype-jsr310</artifactId>
+				<version>${version.jackson}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.nimbusds</groupId>

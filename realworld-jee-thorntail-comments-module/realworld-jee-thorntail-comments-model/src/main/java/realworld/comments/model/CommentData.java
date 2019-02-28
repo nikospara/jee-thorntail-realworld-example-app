@@ -1,7 +1,7 @@
 package realworld.comments.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import realworld.user.model.ProfileData;
 
@@ -36,12 +36,12 @@ public interface CommentData extends CommentBase {
 		 * Full constructor.
 		 *
 		 * @param id             The id
-		 * @param body
-		 * @param createdAt
-		 * @param updatedAt
+		 * @param body           The body
+		 * @param createdAt      The creation timestamp
+		 * @param updatedAt      The last updated timestamp
 		 * @param author         The author
 		 */
-		Impl(String id, String body, Date createdAt, Date updatedAt, ProfileData author) {
+		Impl(String id, String body, LocalDateTime createdAt, LocalDateTime updatedAt, ProfileData author) {
 			super(id, body, createdAt, updatedAt);
 			this.author = author;
 		}

@@ -1,6 +1,6 @@
 package realworld.article.services;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import realworld.EntityDoesNotExistException;
@@ -61,7 +61,7 @@ public interface ArticleDao {
 	 * @param tags         The tags
 	 * @return
 	 */
-	ArticleWithLinks create(ArticleCreationData creationData, String slug, Date creationDate, String authorId, Set<String> tags);
+	ArticleWithLinks create(ArticleCreationData creationData, String slug, LocalDateTime creationDate, String authorId, Set<String> tags);
 
 	/**
 	 * Update the article having the given id.
@@ -75,7 +75,7 @@ public interface ArticleDao {
 	 * @param updatedAt   The time of update
 	 * @throws EntityDoesNotExistException If the article does not exist
 	 */
-	void update(String id, String title, String slug, String description, String body, Set<String> tags, Date updatedAt) throws EntityDoesNotExistException;
+	void update(String id, String title, String slug, String description, String body, Set<String> tags, LocalDateTime updatedAt) throws EntityDoesNotExistException;
 
 	/**
 	 * Delete the article with the given slug.

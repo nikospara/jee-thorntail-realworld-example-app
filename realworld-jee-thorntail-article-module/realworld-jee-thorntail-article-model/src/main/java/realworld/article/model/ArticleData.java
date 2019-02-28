@@ -1,7 +1,7 @@
 package realworld.article.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import realworld.user.model.ProfileData;
@@ -27,7 +27,7 @@ public interface ArticleData extends ArticleBase {
 	 */
 	Set<String> getTags();
 
-	static ArticleData make(String id, String slug, String title, String description, String body, Date createdAt, Date updatedAt, boolean favorited, int favoritesCount, ProfileData author, Set<String> tags) {
+	static ArticleData make(String id, String slug, String title, String description, String body, LocalDateTime createdAt, LocalDateTime updatedAt, boolean favorited, int favoritesCount, ProfileData author, Set<String> tags) {
 		return new Impl(id, slug, title, description, body, createdAt, updatedAt, favorited, favoritesCount, author, tags);
 	}
 
@@ -68,7 +68,7 @@ public interface ArticleData extends ArticleBase {
 		 * @param author
 		 * @param tags           The tags
 		 */
-		Impl(String id, String slug, String title, String description, String body, Date createdAt, Date updatedAt, boolean favorited, int favoritesCount, ProfileData author, Set<String> tags) {
+		Impl(String id, String slug, String title, String description, String body, LocalDateTime createdAt, LocalDateTime updatedAt, boolean favorited, int favoritesCount, ProfileData author, Set<String> tags) {
 			super(id, slug, title, description, body, createdAt, updatedAt, favorited, favoritesCount);
 			this.author = author;
 			this.tags = tags;

@@ -11,8 +11,8 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -187,7 +187,7 @@ class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
-	public ArticleWithLinks create(ArticleCreationData creationData, String slug, Date creationDate, String authorId, Set<String> tags) {
+	public ArticleWithLinks create(ArticleCreationData creationData, String slug, LocalDateTime creationDate, String authorId, Set<String> tags) {
 		Article article = new Article();
 		article.setId(UUID.randomUUID().toString());
 		article.setTitle(creationData.getTitle());
@@ -202,7 +202,7 @@ class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
-	public void update(String id, String title, String slug, String description, String body, Set<String> tags, Date updatedAt) {
+	public void update(String id, String title, String slug, String description, String body, Set<String> tags, LocalDateTime updatedAt) {
 		Article article = em.find(Article.class, id);
 		article.setTitle(title);
 		article.setTitle(title);
