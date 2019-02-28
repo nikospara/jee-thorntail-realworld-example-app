@@ -11,7 +11,6 @@ import javax.ws.rs.core.MediaType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import realworld.user.model.ProfileData;
 
 /**
  * Profile operations.
@@ -25,7 +24,7 @@ public interface ProfileResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value="Returns the profile of the given user.", tags=TAG)
-	ProfileData get(
+	ProfileDataWrapper get(
 			@ApiParam(value = "The user name to apply this operation to.", required = true)
 			@PathParam("username")
 			String username
@@ -35,7 +34,7 @@ public interface ProfileResource {
 	@Path("/follow")
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value="Follow the given user.", tags=TAG)
-	ProfileData follow(
+	ProfileDataWrapper follow(
 			@ApiParam(value = "The user name to apply this operation to.", required = true)
 			@PathParam("username")
 			String username
@@ -45,7 +44,7 @@ public interface ProfileResource {
 	@Path("/follow")
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value="Unfollow the given user.", tags=TAG)
-	ProfileData unfollow(
+	ProfileDataWrapper unfollow(
 			@ApiParam(value = "The user name to apply this operation to.", required = true)
 			@PathParam("username")
 			String username

@@ -4,9 +4,9 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import realworld.comments.jaxrs.ArticleCommentsResource;
+import realworld.comments.jaxrs.CommentDataWrapper;
 import realworld.comments.jaxrs.CommentsList;
 import realworld.comments.jaxrs.CreationParam;
-import realworld.comments.model.CommentData;
 import services.realworld.comments.services.CommentService;
 
 /**
@@ -24,8 +24,8 @@ public class ArticleCommentsResourceImpl implements ArticleCommentsResource {
 	}
 
 	@Override
-	public CommentData add(String slug, CreationParam param) {
-		return commentService.add(slug, param);
+	public CommentDataWrapper add(String slug, CreationParam param) {
+		return new CommentDataWrapper(commentService.add(slug, param));
 	}
 
 	@Override

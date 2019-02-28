@@ -3,8 +3,8 @@ package realworld.jaxrs.impl.user;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import realworld.user.jaxrs.ProfileDataWrapper;
 import realworld.user.jaxrs.ProfileResource;
-import realworld.user.model.ProfileData;
 import realworld.user.services.UserService;
 
 /**
@@ -17,17 +17,17 @@ public class ProfileResourceImpl implements ProfileResource {
 	private UserService userService;
 
 	@Override
-	public ProfileData get(String username) {
-		return userService.findProfile(username);
+	public ProfileDataWrapper get(String username) {
+		return new ProfileDataWrapper(userService.findProfile(username));
 	}
 
 	@Override
-	public ProfileData follow(String username) {
-		return userService.follow(username);
+	public ProfileDataWrapper follow(String username) {
+		return new ProfileDataWrapper(userService.follow(username));
 	}
 
 	@Override
-	public ProfileData unfollow(String username) {
-		return userService.unfollow(username);
+	public ProfileDataWrapper unfollow(String username) {
+		return new ProfileDataWrapper(userService.unfollow(username));
 	}
 }

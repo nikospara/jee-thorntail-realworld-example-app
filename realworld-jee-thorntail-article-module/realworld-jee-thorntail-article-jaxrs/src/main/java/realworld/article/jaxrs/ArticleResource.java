@@ -50,7 +50,7 @@ public interface ArticleResource {
 	@Path("/{slug}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value="Returns an article.", tags=TAG)
-	ArticleData get(
+	ArticleDataWrapper get(
 			@ApiParam(value = "The slug of the article.", required = true)
 			@PathParam("slug")
 			String slug
@@ -59,7 +59,7 @@ public interface ArticleResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value="Creates an article.", tags=TAG)
-	ArticleData create(
+	ArticleDataWrapper create(
 			@ApiParam(value = "Creation data.", required = true)
 			CreationParam param
 	);
@@ -68,7 +68,7 @@ public interface ArticleResource {
 	@Path("/{slug}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value="Updates an article.", tags=TAG)
-	ArticleData update(
+	ArticleDataWrapper update(
 			@ApiParam(value = "The slug of the article.", required = true)
 			@PathParam("slug")
 			String slug,
@@ -90,7 +90,7 @@ public interface ArticleResource {
 	@Path("/{slug}/favorite")
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value="Favorite article.", tags=TAG)
-	ArticleData favorite(
+	ArticleDataWrapper favorite(
 			@ApiParam(value = "The slug of the article to favorite.", required = true)
 			@PathParam("slug")
 			String slug
@@ -100,7 +100,7 @@ public interface ArticleResource {
 	@Path("/{slug}/favorite")
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value="Favorite article.", tags=TAG)
-	ArticleData unfavorite(
+	ArticleDataWrapper unfavorite(
 			@ApiParam(value = "The slug of the article to favorite.", required = true)
 			@PathParam("slug")
 			String slug

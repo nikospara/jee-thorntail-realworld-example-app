@@ -11,7 +11,6 @@ import javax.ws.rs.core.MediaType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import realworld.comments.model.CommentData;
 
 /**
  * Article comments endpoints.
@@ -34,7 +33,7 @@ public interface ArticleCommentsResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value="Adds a comment to an article.", tags=TAG)
-	CommentData add(
+	CommentDataWrapper add(
 			@ApiParam(value = "The slug of the article.", required = true)
 			@PathParam("slug")
 			String slug,

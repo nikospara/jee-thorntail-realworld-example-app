@@ -3,6 +3,7 @@ package realworld.jaxrs.impl.article;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import realworld.article.jaxrs.ArticleDataWrapper;
 import realworld.article.jaxrs.ArticleResource;
 import realworld.article.jaxrs.CreationParam;
 import realworld.article.jaxrs.UpdateParam;
@@ -33,18 +34,18 @@ public class ArticleResourceImpl implements ArticleResource {
 	}
 
 	@Override
-	public ArticleData get(String slug) {
-		return articleService.findArticleBySlug(slug);
+	public ArticleDataWrapper get(String slug) {
+		return new ArticleDataWrapper(articleService.findArticleBySlug(slug));
 	}
 
 	@Override
-	public ArticleData create(CreationParam param) {
-		return articleService.create(param);
+	public ArticleDataWrapper create(CreationParam param) {
+		return new ArticleDataWrapper(articleService.create(param));
 	}
 
 	@Override
-	public ArticleData update(String slug, UpdateParam updateParam) {
-		return articleService.update(slug, updateParam);
+	public ArticleDataWrapper update(String slug, UpdateParam updateParam) {
+		return new ArticleDataWrapper(articleService.update(slug, updateParam));
 	}
 
 	@Override
@@ -53,12 +54,12 @@ public class ArticleResourceImpl implements ArticleResource {
 	}
 
 	@Override
-	public ArticleData favorite(String slug) {
-		return articleService.favorite(slug);
+	public ArticleDataWrapper favorite(String slug) {
+		return new ArticleDataWrapper(articleService.favorite(slug));
 	}
 
 	@Override
-	public ArticleData unfavorite(String slug) {
-		return articleService.unfavorite(slug);
+	public ArticleDataWrapper unfavorite(String slug) {
+		return new ArticleDataWrapper(articleService.unfavorite(slug));
 	}
 }
