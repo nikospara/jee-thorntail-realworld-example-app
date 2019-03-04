@@ -4,7 +4,7 @@
 	
 	<parent>
 		<groupId>realworld.example</groupId>
-		<artifactId>realworld-jee-thorntail-parent</artifactId>
+		<artifactId>realworld-jee-thorntail-common</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>realworld-jee-thorntail-services-auth</artifactId>
