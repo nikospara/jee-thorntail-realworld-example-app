@@ -12,10 +12,7 @@ import realworld.article.model.ArticleCreationData;
 import realworld.article.model.ArticleData;
 import realworld.article.model.ArticleResult;
 import realworld.article.model.ArticleUpdateData;
-import realworld.article.model.ArticleWithLinks;
-import realworld.authentication.AuthenticationContext;
 import realworld.authorization.Authorization;
-import realworld.authorization.NotAuthenticatedException;
 
 /**
  * Security for the {@link ArticleService} implementation.

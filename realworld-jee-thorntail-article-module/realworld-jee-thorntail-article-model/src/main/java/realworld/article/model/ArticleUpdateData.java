@@ -1,6 +1,5 @@
 package realworld.article.model;
 
-import javax.validation.constraints.Pattern;
 import java.util.Set;
 
 /**

@@ -1,10 +1,14 @@
 package realworld.services;
 
+import java.io.Serializable;
+
 /**
  * A simple validation error for custom validations that do not
  * require the complexity of a {@code ConstraintViolation}.
  */
-public class SimpleConstraintViolation {
+public class SimpleConstraintViolation implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String fieldName;
 	private String message;

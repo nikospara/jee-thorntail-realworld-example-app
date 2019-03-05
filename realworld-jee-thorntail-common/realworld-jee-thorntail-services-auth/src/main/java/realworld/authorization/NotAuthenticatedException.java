@@ -8,10 +8,10 @@ public class NotAuthenticatedException extends AppSecurityException {
 	private static final long serialVersionUID = -4393652987864432259L;
 
 	/**
-	 * 
+	 * Default constructor.
 	 */
 	public NotAuthenticatedException() {
-		// TODO Auto-generated constructor stub
+		// NOOP
 	}
 
 	/**
@@ -19,7 +19,6 @@ public class NotAuthenticatedException extends AppSecurityException {
 	 */
 	public NotAuthenticatedException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -27,7 +26,6 @@ public class NotAuthenticatedException extends AppSecurityException {
 	 */
 	public NotAuthenticatedException(Throwable cause) {
 		super(cause);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -36,6 +34,5 @@ public class NotAuthenticatedException extends AppSecurityException {
 	 */
 	public NotAuthenticatedException(String message, Throwable cause) {
 		super(message, cause);
-		// TODO Auto-generated constructor stub
 	}
 }
