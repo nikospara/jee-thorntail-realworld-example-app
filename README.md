@@ -115,3 +115,15 @@ In general:
 - Activate the appropriate DB profile (e.g. `h2`) in your IDE, so that the IDE includes the driver in the classpath
 	- In IntelliJ IDEA open the Maven drawer, expand "Profiles" and make sure the appropriate is selected
 	- In Eclipse right-click on the WAR project, Maven, "Select Maven Profiles..." and select the appropriate one; make sure the one selected is from the WAR project
+
+## Code quality
+
+This project integrates with SonarQube. First run a build with coverage by activating the `jacoco` profile:
+
+	mvn clean package -Pjacoco,<selected database type>[,<other necessary profiles>]
+
+The run `sonar:sonar`:
+
+	mvn sonar:sonar
+
+This assumes you have SonarQube running on `localhost:9000`.
