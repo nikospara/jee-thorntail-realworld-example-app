@@ -49,13 +49,14 @@ public class CommentDaoImpl implements CommentDao {
 		comment.setId(UUID.randomUUID().toString());
 		comment.setBody(creationData.getBody());
 		comment.setCreatedAt(createdAt);
+		comment.setUpdatedAt(createdAt);
 		comment.setAuthorId(authorId);
 		em.persist(comment);
 		ArticleComment articleComment = new ArticleComment();
 		articleComment.setArticleId(articleId);
 		articleComment.setCommentId(comment.getId());
 		em.persist(articleComment);
-		return CommentWithLinks.make(comment.getId(), comment.getBody(), comment.getCreatedAt(), null, authorId);
+		return CommentWithLinks.make(comment.getId(), comment.getBody(), comment.getCreatedAt(), comment.getUpdatedAt(), authorId);
 	}
 
 	@Override

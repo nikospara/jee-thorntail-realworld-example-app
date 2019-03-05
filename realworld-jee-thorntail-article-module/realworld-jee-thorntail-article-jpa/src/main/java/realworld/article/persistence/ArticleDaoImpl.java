@@ -195,6 +195,7 @@ class ArticleDaoImpl implements ArticleDao {
 		article.setDescription(creationData.getDescription());
 		article.setBody(creationData.getBody());
 		article.setCreatedAt(creationDate);
+		article.setUpdatedAt(creationDate);
 		article.setAuthor(authorId);
 		handleTags(article, tags);
 		em.persist(article);
