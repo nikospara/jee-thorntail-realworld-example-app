@@ -29,6 +29,7 @@
 		<version.jaxb.api>2.3.1</version.jaxb.api>
 		<version.jaxb.impl>2.3.0.1</version.jaxb.impl>
 		<version.junit.jupiter>5.3.2</version.junit.jupiter>
+		<version.mockito>2.25.0</version.mockito>
 		<version.wildfly-swarm>2.3.0.Final</version.wildfly-swarm>
 	</properties>
 	
@@ -165,7 +166,13 @@
 			<dependency>
 				<groupId>org.mockito</groupId>
 				<artifactId>mockito-core</artifactId>
-				<version>2.23.4</version>
+				<version>${version.mockito}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-junit-jupiter</artifactId>
+				<version>${version.mockito}</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
