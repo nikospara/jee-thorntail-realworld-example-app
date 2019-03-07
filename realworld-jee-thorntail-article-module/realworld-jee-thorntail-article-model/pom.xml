@@ -27,5 +27,11 @@
 			<artifactId>realworld-jee-thorntail-user-model</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
+		<!--  OTHER -->
+		<dependency>
+			<groupId>org.immutables</groupId>
+			<artifactId>value</artifactId>
+		</dependency>
 	</dependencies>
 </project>

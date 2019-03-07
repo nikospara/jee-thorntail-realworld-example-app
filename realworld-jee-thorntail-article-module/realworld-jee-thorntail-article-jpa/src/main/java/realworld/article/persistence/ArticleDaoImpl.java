@@ -23,6 +23,7 @@ import realworld.EntityDoesNotExistException;
 import realworld.article.model.ArticleCreationData;
 import realworld.article.model.ArticleResult;
 import realworld.article.model.ArticleWithLinks;
+import realworld.article.model.ImmutableArticleWithLinks;
 import realworld.article.services.ArticleDao;
 import realworld.article.services.ArticleSearchCriteria;
 
@@ -81,8 +82,23 @@ class ArticleDaoImpl implements ArticleDao {
 	}
 
 	private ArticleWithLinks fromQueryResult(Object[] result) {
-		Article a = (Article) result[0];
-		return ArticleWithLinks.make(a.getId(), a.getSlug(), a.getTitle(), a.getDescription(), a.getBody(), a.getCreatedAt(), a.getUpdatedAt(), (Boolean) result[1], ((Long) result[2]).intValue(), a.getAuthor());
+		Article article = (Article) result[0];
+		return fromArticle(article, (Boolean) result[1], ((Long) result[2]).intValue());
+	}
+
+	private ArticleWithLinks fromArticle(Article a, boolean isFavorited, int favoritesCount) {
+		return ImmutableArticleWithLinks.builder()
+				.id(a.getId())
+				.slug(a.getSlug())
+				.title(a.getTitle())
+				.description(a.getDescription())
+				.body(a.getBody())
+				.createdAt(a.getCreatedAt())
+				.updatedAt(a.getUpdatedAt())
+				.isFavorited(isFavorited)
+				.favoritesCount(favoritesCount)
+				.authorId(a.getAuthor())
+				.build();
 	}
 
 	private Root<Article> applyCriteria(CriteriaBuilder cb, CriteriaQuery<?> query, ArticleSearchCriteria criteria, ArticleSearchCriteria defaultCriteria) {
@@ -188,18 +204,18 @@ class ArticleDaoImpl implements ArticleDao {
 
 	@Override
 	public ArticleWithLinks create(ArticleCreationData creationData, String slug, LocalDateTime creationDate, String authorId, Set<String> tags) {
-		Article article = new Article();
-		article.setId(UUID.randomUUID().toString());
-		article.setTitle(creationData.getTitle());
-		article.setSlug(slug);
-		article.setDescription(creationData.getDescription());
-		article.setBody(creationData.getBody());
-		article.setCreatedAt(creationDate);
-		article.setUpdatedAt(creationDate);
-		article.setAuthor(authorId);
-		handleTags(article, tags);
-		em.persist(article);
-		return ArticleWithLinks.make(article.getId(), article.getSlug(), article.getTitle(), article.getDescription(), article.getBody(), article.getCreatedAt(), article.getUpdatedAt(), false, 0, authorId);
+		Article a = new Article();
+		a.setId(UUID.randomUUID().toString());
+		a.setTitle(creationData.getTitle());
+		a.setSlug(slug);
+		a.setDescription(creationData.getDescription());
+		a.setBody(creationData.getBody());
+		a.setCreatedAt(creationDate);
+		a.setUpdatedAt(creationDate);
+		a.setAuthor(authorId);
+		handleTags(a, tags);
+		em.persist(a);
+		return fromArticle(a, false, 0);
 	}
 
 	@Override

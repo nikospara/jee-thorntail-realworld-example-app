@@ -21,6 +21,7 @@ import realworld.EntityDoesNotExistException;
 import realworld.article.model.ArticleResult;
 import realworld.article.model.ArticleUpdateData;
 import realworld.article.model.ArticleWithLinks;
+import realworld.article.model.ImmutableArticleData;
 import realworld.authentication.AuthenticationContext;
 import realworld.article.model.ArticleData;
 import realworld.article.model.ArticleCreationData;
@@ -91,7 +92,7 @@ class ArticleServiceImpl implements ArticleService {
 		var result = new ArticleResult<ArticleData>();
 		result.setArticlesCount(searchResult.getArticlesCount());
 		result.setArticles(searchResult.getArticles().stream()
-				.map(a -> ArticleData.make(a, profiles.get(a.getAuthorId()), articleDao.findTags(a.getId())))
+				.map(a -> ImmutableArticleData.builder().from(a).author(profiles.get(a.getAuthorId())).tags(articleDao.findTags(a.getId())).build())
 				.collect(Collectors.toList())
 		);
 		return result;
@@ -109,7 +110,7 @@ class ArticleServiceImpl implements ArticleService {
 		String userId = Optional.ofNullable(authenticationContext.getUserPrincipal()).map(User::getUniqueId).orElse("");
 		ArticleWithLinks article = articleDao.findArticleBySlug(userId, slug);
 		Set<String> tags = articleDao.findTags(article.getId());
-		return ArticleData.make(article, userService.findProfileById(article.getAuthorId()), tags);
+		return ImmutableArticleData.builder().from(article).author(userService.findProfileById(article.getAuthorId())).tags(tags).build();
 	}
 
 	@Override
@@ -121,19 +122,19 @@ class ArticleServiceImpl implements ArticleService {
 	public ArticleData create(ArticleCreationData creationData) {
 		String authorId = authenticationContext.getUserPrincipal().getUniqueId();
 		ArticleWithLinks article = articleDao.create(creationData, makeSlug(creationData.getTitle()), dateTimeService.getNow(), authorId, creationData.getTags());
-		return ArticleData.make(article, userService.findProfileById(authorId), creationData.getTags());
+		return ImmutableArticleData.builder().from(article).author(userService.findProfileById(authorId)).tags(creationData.getTags()).build();
 	}
 
 	@Override
 	public ArticleData update(String slug, ArticleUpdateData updateData) throws EntityDoesNotExistException {
-		ArticleData article = findArticleBySlug(slug);
-		String newTitle = updateData.isExplicitlySet(TITLE) ? updateData.getTitle() : article.getTitle();
-		String newSlug = updateData.isExplicitlySet(TITLE) ? makeSlug(updateData.getTitle()) : article.getSlug();
-		String newDescription = updateData.isExplicitlySet(DESCRIPTION) ? updateData.getDescription() : article.getDescription();
-		String newBody = updateData.isExplicitlySet(BODY) ? updateData.getBody() : article.getBody();
+		ArticleData a = findArticleBySlug(slug);
+		String newTitle = updateData.isExplicitlySet(TITLE) ? updateData.getTitle() : a.getTitle();
+		String newSlug = updateData.isExplicitlySet(TITLE) ? makeSlug(updateData.getTitle()) : a.getSlug();
+		String newDescription = updateData.isExplicitlySet(DESCRIPTION) ? updateData.getDescription() : a.getDescription();
+		String newBody = updateData.isExplicitlySet(BODY) ? updateData.getBody() : a.getBody();
 		LocalDateTime updatedAt = dateTimeService.getNow();
-		articleDao.update(article.getId(), newTitle, newSlug, newDescription, newBody, updateData.getTags(), updatedAt);
-		return ArticleData.make(article.getId(), newSlug, newTitle, newDescription, newBody, article.getCreatedAt(), updatedAt, article.isFavorited(), article.getFavoritesCount(), article.getAuthor(), article.getTags());
+		articleDao.update(a.getId(), newTitle, newSlug, newDescription, newBody, updateData.getTags(), updatedAt);
+		return ImmutableArticleData.builder().from(a).slug(newSlug).title(newTitle).description(newDescription).body(newBody).updatedAt(updatedAt).build();
 	}
 
 	@Override
@@ -153,9 +154,9 @@ class ArticleServiceImpl implements ArticleService {
 		Set<String> tags = articleDao.findTags(article.getId());
 		if( !article.isFavorited() ) {
 			articleDao.addFavorite(userId, article.getId());
-			return ArticleData.justFavorited(article, userService.findProfileById(article.getAuthorId()), tags);
+			return ImmutableArticleData.builder().from(article).isFavorited(true).favoritesCount(article.getFavoritesCount()+1).author(userService.findProfileById(article.getAuthorId())).tags(tags).build();
 		}
-		return ArticleData.make(article, userService.findProfileById(article.getAuthorId()), tags);
+		return ImmutableArticleData.builder().from(article).author(userService.findProfileById(article.getAuthorId())).tags(tags).build();
 	}
 
 	@Override
@@ -165,8 +166,8 @@ class ArticleServiceImpl implements ArticleService {
 		Set<String> tags = articleDao.findTags(article.getId());
 		if( article.isFavorited() ) {
 			articleDao.removeFavorite(userId, article.getId());
-			return ArticleData.justUnfavorited(article, userService.findProfileById(article.getAuthorId()), tags);
+			return ImmutableArticleData.builder().from(article).isFavorited(false).favoritesCount(article.getFavoritesCount()-1).author(userService.findProfileById(article.getAuthorId())).tags(tags).build();
 		}
-		return ArticleData.make(article, userService.findProfileById(article.getAuthorId()), tags);
+		return ImmutableArticleData.builder().from(article).author(userService.findProfileById(article.getAuthorId())).tags(tags).build();
 	}
 }

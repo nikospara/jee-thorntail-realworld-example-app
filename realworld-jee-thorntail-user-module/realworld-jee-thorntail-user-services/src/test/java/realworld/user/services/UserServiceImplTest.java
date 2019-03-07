@@ -13,20 +13,19 @@ import static org.mockito.Mockito.when;
 
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
-
 import java.util.Optional;
 
 import org.jboss.weld.junit5.auto.EnableAutoWeld;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockSettings;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import realworld.EntityDoesNotExistException;
 import realworld.authentication.AuthenticationContext;
 import realworld.authentication.User;
 import realworld.services.SimpleValidationException;
+import realworld.user.model.ImmutableUserData;
 import realworld.user.model.ProfileData;
 import realworld.user.model.UserData;
 import realworld.user.model.UserRegistrationData;
@@ -202,7 +201,7 @@ public class UserServiceImplTest {
 	@Test
 	void testFollow() {
 		UserData cu = mockCurrentUser();
-		UserData u = UserData.make(USERID2, USERNAME2, EMAIL2, BIO2, IMAGE2);
+		UserData u = ImmutableUserData.builder().id(USERID2).username(USERNAME2).email(EMAIL2).bio(BIO2).image(IMAGE2).build();
 		when(userDao.findByUserName(USERNAME2)).thenReturn(Optional.of(u));
 
 		ProfileData result = sut.follow(USERNAME2);
@@ -258,6 +257,6 @@ public class UserServiceImplTest {
 		when(user.getUniqueId()).thenReturn(USERID1);
 		when(authenticationContext.getUserPrincipal()).thenReturn(user);
 
-		return UserData.make(USERID1, USERNAME1, EMAIL1, "", "");
+		return ImmutableUserData.builder().id(USERID1).username(USERNAME1).email(EMAIL1).bio("").image("").build();
 	}
 }

@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import realworld.EntityDoesNotExistException;
 import realworld.comments.model.CommentCreationData;
 import realworld.comments.model.CommentWithLinks;
+import realworld.comments.model.ImmutableCommentWithLinks;
 import services.realworld.comments.services.CommentDao;
 
 /**
@@ -56,7 +57,7 @@ public class CommentDaoImpl implements CommentDao {
 		articleComment.setArticleId(articleId);
 		articleComment.setCommentId(comment.getId());
 		em.persist(articleComment);
-		return CommentWithLinks.make(comment.getId(), comment.getBody(), comment.getCreatedAt(), comment.getUpdatedAt(), authorId);
+		return fromComment(comment);
 	}
 
 	@Override
@@ -69,8 +70,18 @@ public class CommentDaoImpl implements CommentDao {
 		subquery.select(articleComment.get(ArticleComment_.commentId)).where(cb.equal(articleComment.get(ArticleComment_.articleId), articleId));
 		query.where(comment.get(Comment_.id).in(subquery));
 		return em.createQuery(query).getResultStream()
-				.map(c -> CommentWithLinks.make(c.getId(), c.getBody(), c.getCreatedAt(), c.getUpdatedAt(), c.getAuthorId()))
+				.map(this::fromComment)
 				.collect(Collectors.toList());
+	}
+
+	private CommentWithLinks fromComment(Comment c) {
+		return ImmutableCommentWithLinks.builder()
+				.id(c.getId())
+				.body(c.getBody())
+				.createdAt(c.getCreatedAt())
+				.updatedAt(c.getUpdatedAt())
+				.authorId(c.getAuthorId())
+				.build();
 	}
 
 	@Override

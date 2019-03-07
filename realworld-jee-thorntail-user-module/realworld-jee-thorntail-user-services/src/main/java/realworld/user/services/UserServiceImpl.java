@@ -16,6 +16,8 @@ import realworld.authentication.AuthenticationContext;
 import realworld.authorization.NotAuthenticatedException;
 import realworld.services.SimpleConstraintViolation;
 import realworld.services.SimpleValidationException;
+import realworld.user.model.ImmutableProfileData;
+import realworld.user.model.ImmutableUserData;
 import realworld.user.model.ProfileData;
 import realworld.user.model.UserData;
 import realworld.user.model.UserLoginData;
@@ -71,7 +73,7 @@ class UserServiceImpl implements UserService {
 			throw new SimpleValidationException(errors);
 		}
 
-		return userDao.add(UserData.make(registrationData.getUsername(), registrationData.getEmail(), null, null), encrypter.apply(registrationData.getPassword()));
+		return userDao.add(ImmutableUserData.builder().username(registrationData.getUsername()).email(registrationData.getEmail()).build(), encrypter.apply(registrationData.getPassword()));
 	}
 
 	@Override
@@ -102,13 +104,13 @@ class UserServiceImpl implements UserService {
 			throw new SimpleValidationException(errors);
 		}
 
-		UserData newUserData = UserData.make(
-				u.getId(),
-				userUpdateData.isExplicitlySet(USERNAME) ? userUpdateData.getUsername() : u.getUsername(),
-				userUpdateData.isExplicitlySet(EMAIL) ? userUpdateData.getEmail() : u.getEmail(),
-				userUpdateData.isExplicitlySet(BIO) ? userUpdateData.getBio() : u.getBio(),
-				userUpdateData.isExplicitlySet(IMAGE) ? userUpdateData.getImage() : u.getImage()
-		);
+		UserData newUserData = ImmutableUserData.builder()
+				.id(u.getId())
+				.username(userUpdateData.isExplicitlySet(USERNAME) ? userUpdateData.getUsername() : u.getUsername())
+				.email(userUpdateData.isExplicitlySet(EMAIL) ? userUpdateData.getEmail() : u.getEmail())
+				.bio(userUpdateData.isExplicitlySet(BIO) ? userUpdateData.getBio() : u.getBio())
+				.image(userUpdateData.isExplicitlySet(IMAGE) ? userUpdateData.getImage() : u.getImage())
+				.build();
 		userDao.update(newUserData);
 		if( userUpdateData.isExplicitlySet(PASSWORD) ) {
 			userDao.changePassword(u.getId(), userUpdateData.getPassword());
@@ -132,23 +134,23 @@ class UserServiceImpl implements UserService {
 		return userDao.findById(userid).map(this::toProfileData).orElseThrow(EntityDoesNotExistException::new);
 	}
 
-	private ProfileData toProfileData(UserData userData) {
+	private ImmutableProfileData toProfileData(UserData userData) {
 		boolean follows = Optional.ofNullable(authenticationContext.getUserPrincipal()).map(principal -> userDao.follows(principal.getUniqueId(), userData.getId())).orElse(false);
-		return ProfileData.make(userData.getUsername(), userData.getBio(), userData.getImage(), follows);
+		return ImmutableProfileData.builder().username(userData.getUsername()).bio(userData.getBio()).image(userData.getImage()).isFollowing(follows).build();
 	}
 
 	@Override
 	public ProfileData follow(String username) {
 		UserData userData = userDao.findByUserName(username).orElseThrow(EntityDoesNotExistException::new);
 		userDao.follow(authenticationContext.getUserPrincipal().getUniqueId(), userData.getId());
-		return ProfileData.make(userData.getUsername(), userData.getBio(), userData.getImage(), true);
+		return toProfileData(userData).withIsFollowing(true);
 	}
 
 	@Override
 	public ProfileData unfollow(String username) {
 		UserData userData = userDao.findByUserName(username).orElseThrow(EntityDoesNotExistException::new);
 		userDao.unfollow(authenticationContext.getUserPrincipal().getUniqueId(), userData.getId());
-		return ProfileData.make(userData.getUsername(), userData.getBio(), userData.getImage(), false);
+		return toProfileData(userData).withIsFollowing(false);
 	}
 
 	@Override

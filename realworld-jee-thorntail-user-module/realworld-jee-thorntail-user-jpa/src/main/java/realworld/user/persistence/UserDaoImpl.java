@@ -16,6 +16,7 @@ import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 import realworld.EntityDoesNotExistException;
+import realworld.user.model.ImmutableUserData;
 import realworld.user.model.UserData;
 import realworld.user.services.UserDao;
 
@@ -54,7 +55,11 @@ class UserDaoImpl implements UserDao {
 		u.setBio(user.getBio());
 		u.setImage(user.getImage());
 		em.persist(u);
-		return UserData.make(u.getId(), u.getUsername(), u.getEmail(), u.getBio(), u.getImage());
+		return fromUser(u);
+	}
+
+	private UserData fromUser(User u) {
+		return ImmutableUserData.builder().id(u.getId()).username(u.getUsername()).email(u.getEmail()).bio(u.getBio()).image(u.getImage()).build();
 	}
 
 	@Override
@@ -87,7 +92,7 @@ class UserDaoImpl implements UserDao {
 		));
 		return em.createQuery(query).setMaxResults(1).getResultStream()
 				.findFirst()
-				.map(u -> UserData.make(u.getId(), u.getUsername(), u.getEmail(), u.getBio(), u.getImage()));
+				.map(this::fromUser);
 	}
 
 	@Override
@@ -98,12 +103,12 @@ class UserDaoImpl implements UserDao {
 		query.where(cb.equal(root.get(User_.username), username));
 		return em.createQuery(query).setMaxResults(1).getResultStream()
 				.findFirst()
-				.map(u -> UserData.make(u.getId(), u.getUsername(), u.getEmail(), u.getBio(), u.getImage()));
+				.map(this::fromUser);
 	}
 
 	@Override
 	public Optional<UserData> findById(String userid) {
-		return Optional.ofNullable(em.find(User.class, userid)).map(u -> UserData.make(u.getId(), u.getUsername(), u.getEmail(), u.getBio(), u.getImage()));
+		return Optional.ofNullable(em.find(User.class, userid)).map(this::fromUser);
 	}
 
 	@Override

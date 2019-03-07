@@ -15,6 +15,7 @@ import realworld.authentication.AuthenticationContext;
 import realworld.comments.model.CommentCreationData;
 import realworld.comments.model.CommentData;
 import realworld.comments.model.CommentWithLinks;
+import realworld.comments.model.ImmutableCommentData;
 import realworld.services.DateTimeService;
 import realworld.user.model.ProfileData;
 import realworld.user.services.UserService;
@@ -67,7 +68,7 @@ class CommentServiceImpl implements CommentService {
 		String userId = authenticationContext.getUserPrincipal().getUniqueId();
 		ProfileData author = userService.findProfileById(userId);
 		CommentWithLinks comment = commentDao.add(creationData, articleId, userId, dateTimeService.getNow());
-		return CommentData.make(comment, author);
+		return ImmutableCommentData.builder().from(comment).author(author).build();
 	}
 
 	@Override
@@ -79,7 +80,7 @@ class CommentServiceImpl implements CommentService {
 				.distinct()
 				.collect(Collectors.toMap(Function.identity(), userService::findProfileById));
 		return comments.stream()
-				.map(c -> CommentData.make(c, profiles.get(c.getAuthorId())))
+				.map(c -> ImmutableCommentData.builder().from(c).author(profiles.get(c.getAuthorId())).build())
 				.collect(Collectors.toList());
 	}
 
