@@ -51,16 +51,6 @@
 		</dependency>
 		<dependency>
 			<groupId>realworld.example</groupId>
-			<artifactId>realworld-jee-thorntail-article-model</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>realworld.example</groupId>
-			<artifactId>realworld-jee-thorntail-article-services</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>realworld.example</groupId>
 			<artifactId>realworld-jee-thorntail-user-services</artifactId>
 			<version>${project.version}</version>
 		</dependency>

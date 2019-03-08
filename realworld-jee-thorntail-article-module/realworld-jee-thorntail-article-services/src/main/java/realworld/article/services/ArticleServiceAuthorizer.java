@@ -7,12 +7,16 @@ import javax.decorator.Decorator;
 import javax.decorator.Delegate;
 import javax.inject.Inject;
 
+import java.util.List;
+
 import realworld.EntityDoesNotExistException;
 import realworld.article.model.ArticleCreationData;
 import realworld.article.model.ArticleData;
 import realworld.article.model.ArticleResult;
 import realworld.article.model.ArticleUpdateData;
 import realworld.authorization.Authorization;
+import realworld.comments.model.CommentCreationData;
+import realworld.comments.model.CommentData;
 
 /**
  * Security for the {@link ArticleService} implementation.
@@ -95,5 +99,21 @@ class ArticleServiceAuthorizer implements ArticleService {
 	public ArticleData unfavorite(String slug) throws EntityDoesNotExistException {
 		authorization.requireLogin();
 		return delegate.unfavorite(slug);
+	}
+
+	@Override
+	public CommentData comment(String articleSlug, CommentCreationData creationData) throws EntityDoesNotExistException {
+		authorization.requireLogin();
+		return delegate.comment(articleSlug, creationData);
+	}
+
+	@Override
+	public List<CommentData> findArticleComments(String slug) throws EntityDoesNotExistException {
+		return delegate.findArticleComments(slug);
+	}
+
+	@Override
+	public void deleteArticleComment(String slug, String commentId) {
+		delegate.deleteArticleComment(slug, commentId);
 	}
 }

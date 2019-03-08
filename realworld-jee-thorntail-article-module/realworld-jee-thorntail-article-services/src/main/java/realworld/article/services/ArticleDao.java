@@ -1,6 +1,7 @@
 package realworld.article.services;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 import realworld.EntityDoesNotExistException;
@@ -111,4 +112,31 @@ public interface ArticleDao {
 	 * @return {@code true}   If the given article is written by the given author
 	 */
 	boolean checkArticleAuthor(String slug, String userId);
+
+	/**
+	 * Link the comment with the given id to this article.
+	 *
+	 * @param articleId        The article id
+	 * @param commentId        The comment id
+	 * @param commentCreatedAt The comment creation timestamp
+	 * @throws EntityDoesNotExistException If the article does not exist
+	 */
+	void comment(String articleId, String commentId, LocalDateTime commentCreatedAt) throws EntityDoesNotExistException;
+
+	/**
+	 * Find the ids of comments attached to the given article.
+	 *
+	 * @param articleId The article id
+	 * @return The list of comment ids
+	 * @throws EntityDoesNotExistException If the article does not exist
+	 */
+	List<String> findCommentIds(String articleId) throws EntityDoesNotExistException;
+
+	/**
+	 * Delete the comment from the given article.
+	 *
+	 * @param slug      Article slug
+	 * @param commentId Comment id
+	 */
+	void deleteComment(String slug, String commentId);
 }

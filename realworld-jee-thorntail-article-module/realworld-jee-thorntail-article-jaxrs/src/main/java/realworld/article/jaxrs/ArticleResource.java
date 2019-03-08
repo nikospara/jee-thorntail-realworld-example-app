@@ -15,6 +15,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import realworld.article.model.ArticleData;
 import realworld.article.model.ArticleResult;
+import realworld.comments.jaxrs.CommentCreationParam;
+import realworld.comments.jaxrs.CommentDataWrapper;
+import realworld.comments.jaxrs.CommentsList;
 
 /**
  * Article operations.
@@ -104,5 +107,40 @@ public interface ArticleResource {
 			@ApiParam(value = "The slug of the article to favorite.", required = true)
 			@PathParam("slug")
 			String slug
+	);
+
+	@GET
+	@Path("/{slug}/comments")
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value="Get comments from an article.", tags=TAG)
+	CommentsList getComments(
+			@ApiParam(value = "The slug of the article.", required = true)
+			@PathParam("slug")
+			String slug
+	);
+
+	@POST
+	@Path("/{slug}/comments")
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value="Adds a comment to an article.", tags=TAG)
+	CommentDataWrapper comment(
+			@ApiParam(value = "The slug of the article.", required = true)
+			@PathParam("slug")
+			String slug,
+			@ApiParam(value = "Creation data.", required = true)
+			CommentCreationParam param
+	);
+
+	@DELETE
+	@Path("/{slug}/comments/{commentId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value="Delete comment.", tags=TAG)
+	void delete(
+			@ApiParam(value = "The slug of the article.", required = true)
+			@PathParam("slug")
+			String slug,
+			@ApiParam(value = "The comment id.", required = true)
+			@PathParam("commentId")
+			String commentId
 	);
 }

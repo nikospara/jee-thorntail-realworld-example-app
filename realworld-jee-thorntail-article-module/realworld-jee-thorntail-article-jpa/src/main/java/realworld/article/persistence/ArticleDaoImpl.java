@@ -239,14 +239,28 @@ class ArticleDaoImpl implements ArticleDao {
 			query.where(cb.equal(articleRoot.get(Article_.slug), slug));
 			Article article = em.createQuery(query).getSingleResult();
 			em.remove(article);
-			CriteriaDelete<ArticleFavorite> deleteQuery = cb.createCriteriaDelete(ArticleFavorite.class);
-			Root<ArticleFavorite> articleFavoriteRoot = deleteQuery.from(ArticleFavorite.class);
-			deleteQuery.where(cb.equal(articleFavoriteRoot.get(ArticleFavorite_.articleId), article.getId()));
-			em.createQuery(deleteQuery).executeUpdate();
+			deleteAllFavorites(article.getId());
+			deleteAllComments(article.getId());
 		}
 		catch( NoResultException e ) {
 			throw new EntityDoesNotExistException();
 		}
+	}
+
+	private void deleteAllFavorites(String articleId) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaDelete<ArticleFavorite> deleteQuery = cb.createCriteriaDelete(ArticleFavorite.class);
+		Root<ArticleFavorite> articleFavoriteRoot = deleteQuery.from(ArticleFavorite.class);
+		deleteQuery.where(cb.equal(articleFavoriteRoot.get(ArticleFavorite_.articleId), articleId));
+		em.createQuery(deleteQuery).executeUpdate();
+	}
+
+	private void deleteAllComments(String articleId) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaDelete<ArticleComment> deleteQuery = cb.createCriteriaDelete(ArticleComment.class);
+		Root<ArticleComment> articleCommentRoot = deleteQuery.from(ArticleComment.class);
+		deleteQuery.where(cb.equal(articleCommentRoot.get(ArticleComment_.articleId), articleId));
+		em.createQuery(deleteQuery).executeUpdate();
 	}
 
 	private void handleTags(Article article, Set<String> tags) {
@@ -288,5 +302,38 @@ class ArticleDaoImpl implements ArticleDao {
 		query.select(article.get(Article_.author));
 		query.where(cb.equal(article.get(Article_.slug), slug));
 		return em.createQuery(query).getResultStream().findFirst().map(userId::equals).orElse(false);
+	}
+
+	@Override
+	public void comment(String articleId, String commentId, LocalDateTime commentCreatedAt) throws EntityDoesNotExistException {
+		ArticleComment articleComment = new ArticleComment();
+		articleComment.setArticleId(articleId);
+		articleComment.setCommentId(commentId);
+		articleComment.setCreatedAt(commentCreatedAt);
+		em.persist(articleComment);
+	}
+
+	@Override
+	public List<String> findCommentIds(String articleId) throws EntityDoesNotExistException {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<String> query = cb.createQuery(String.class);
+		Root<ArticleComment> articleComment = query.from(ArticleComment.class);
+		query.select(articleComment.get(ArticleComment_.commentId)).where(cb.equal(articleComment.get(ArticleComment_.articleId), articleId));
+		return em.createQuery(query).getResultList();
+	}
+
+	@Override
+	public void deleteComment(String slug, String commentId) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaDelete<ArticleComment> deleteQuery = cb.createCriteriaDelete(ArticleComment.class);
+		Root<ArticleComment> articleCommentRoot = deleteQuery.from(ArticleComment.class);
+		Subquery<String> articleBySlug = deleteQuery.subquery(String.class);
+		Root<Article> article = articleBySlug.from(Article.class);
+		articleBySlug.select(article.get(Article_.id)).where(cb.equal(article.get(Article_.slug), slug));
+		deleteQuery.where(cb.and(
+				cb.equal(articleCommentRoot.get(ArticleComment_.commentId), commentId),
+				cb.equal(articleCommentRoot.get(ArticleComment_.articleId), articleBySlug)
+		));
+		em.createQuery(deleteQuery).executeUpdate();
 	}
 }

@@ -17,10 +17,10 @@
 			</column>
 			<column name="description" type="VARCHAR(255)" />
 			<column name="body" type="CLOB" />
-			<column name="createdAt" type="TIMESTAMP">
+			<column name="created_at" type="TIMESTAMP">
 				<constraints nullable="false" />
 			</column>
-			<column name="updatedAt" type="TIMESTAMP" />
+			<column name="updated_at" type="TIMESTAMP" />
 			<column name="user_id" type="VARCHAR(64)">
 				<constraints nullable="false" />
 			</column>

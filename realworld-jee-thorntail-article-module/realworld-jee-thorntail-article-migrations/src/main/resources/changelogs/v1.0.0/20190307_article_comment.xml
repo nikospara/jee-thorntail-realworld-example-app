@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+		xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd"
+>
+	<changeSet id="20190225_1" author="nikospara">
+		<createTable tableName="RWL_ARTICLE_COMMENT">
+			<column name="article_id" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+			<column name="comment_id" type="VARCHAR(64)">
+				<constraints nullable="false" />
+			</column>
+			<column name="created_at" type="TIMESTAMP">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addPrimaryKey tableName="RWL_ARTICLE_COMMENT" constraintName="PK_RWL_ARTICLE_COMMENT" columnNames="article_id, comment_id" />
+		<addForeignKeyConstraint baseTableName="RWL_ARTICLE_COMMENT" baseColumnNames="article_id" constraintName="FK_RWL_ARTICLE_COMMENT_ARTICLE_ID" referencedTableName="RWL_ARTICLE" referencedColumnNames="id" />
+	</changeSet>
+</databaseChangeLog>

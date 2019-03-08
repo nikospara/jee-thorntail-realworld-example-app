@@ -7,7 +7,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Subquery;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -45,7 +44,7 @@ public class CommentDaoImpl implements CommentDao {
 	}
 
 	@Override
-	public CommentWithLinks add(CommentCreationData creationData, String articleId, String authorId, LocalDateTime createdAt) throws EntityDoesNotExistException {
+	public CommentWithLinks create(CommentCreationData creationData, String authorId, LocalDateTime createdAt) throws EntityDoesNotExistException {
 		Comment comment = new Comment();
 		comment.setId(UUID.randomUUID().toString());
 		comment.setBody(creationData.getBody());
@@ -53,22 +52,15 @@ public class CommentDaoImpl implements CommentDao {
 		comment.setUpdatedAt(createdAt);
 		comment.setAuthorId(authorId);
 		em.persist(comment);
-		ArticleComment articleComment = new ArticleComment();
-		articleComment.setArticleId(articleId);
-		articleComment.setCommentId(comment.getId());
-		em.persist(articleComment);
 		return fromComment(comment);
 	}
 
 	@Override
-	public List<CommentWithLinks> findArticleComments(String articleId) throws EntityDoesNotExistException {
+	public List<CommentWithLinks> findCommentsWithIds(List<String> ids) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<Comment> query = cb.createQuery(Comment.class);
 		Root<Comment> comment = query.from(Comment.class);
-		Subquery<String> subquery = query.subquery(String.class);
-		Root<ArticleComment> articleComment = subquery.from(ArticleComment.class);
-		subquery.select(articleComment.get(ArticleComment_.commentId)).where(cb.equal(articleComment.get(ArticleComment_.articleId), articleId));
-		query.where(comment.get(Comment_.id).in(subquery));
+		query.where(comment.get(Comment_.id).in(ids));
 		return em.createQuery(query).getResultStream()
 				.map(this::fromComment)
 				.collect(Collectors.toList());
@@ -87,10 +79,6 @@ public class CommentDaoImpl implements CommentDao {
 	@Override
 	public void delete(String id) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaDelete<ArticleComment> delArticleComment = cb.createCriteriaDelete(ArticleComment.class);
-		Root<ArticleComment> articleCommentRoot = delArticleComment.from(ArticleComment.class);
-		delArticleComment.where(cb.equal(articleCommentRoot.get(ArticleComment_.commentId), id));
-		em.createQuery(delArticleComment).executeUpdate();
 		CriteriaDelete<Comment> delComment = cb.createCriteriaDelete(Comment.class);
 		Root<Comment> commentRoot = delComment.from(Comment.class);
 		delComment.where(cb.equal(commentRoot.get(Comment_.id), id));

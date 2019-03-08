@@ -11,6 +11,9 @@ import realworld.article.model.ArticleData;
 import realworld.article.model.ArticleResult;
 import realworld.article.services.ArticleSearchCriteria;
 import realworld.article.services.ArticleService;
+import realworld.comments.jaxrs.CommentCreationParam;
+import realworld.comments.jaxrs.CommentDataWrapper;
+import realworld.comments.jaxrs.CommentsList;
 
 /**
  * Article operations implementation.
@@ -61,5 +64,20 @@ public class ArticleResourceImpl implements ArticleResource {
 	@Override
 	public ArticleDataWrapper unfavorite(String slug) {
 		return new ArticleDataWrapper(articleService.unfavorite(slug));
+	}
+
+	@Override
+	public CommentsList getComments(String slug) {
+		return new CommentsList(articleService.findArticleComments(slug));
+	}
+
+	@Override
+	public CommentDataWrapper comment(String slug, CommentCreationParam param) {
+		return new CommentDataWrapper(articleService.comment(slug, param));
+	}
+
+	@Override
+	public void delete(String slug, String commentId) {
+
 	}
 }

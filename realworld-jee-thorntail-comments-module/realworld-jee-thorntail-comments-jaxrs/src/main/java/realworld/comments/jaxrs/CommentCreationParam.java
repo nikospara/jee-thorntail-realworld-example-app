@@ -9,7 +9,7 @@ import realworld.comments.model.CommentCreationData;
  * Comment creation data implementation.
  */
 @JsonRootName("comment")
-public class CreationParam implements CommentCreationData, Serializable {
+public class CommentCreationParam implements CommentCreationData, Serializable {
 
 	private static final long serialVersionUID = 1L;
 

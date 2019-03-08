@@ -1,10 +1,14 @@
 package realworld.article.services;
 
+import java.util.List;
+
 import realworld.EntityDoesNotExistException;
 import realworld.article.model.ArticleData;
 import realworld.article.model.ArticleCreationData;
 import realworld.article.model.ArticleResult;
 import realworld.article.model.ArticleUpdateData;
+import realworld.comments.model.CommentCreationData;
+import realworld.comments.model.CommentData;
 
 /**
  * Article services.
@@ -96,4 +100,31 @@ public interface ArticleService {
 	 * @throws EntityDoesNotExistException If the article does not exist
 	 */
 	ArticleData unfavorite(String slug) throws EntityDoesNotExistException;
+
+	/**
+	 * Add a comment to an article as the current user.
+	 *
+	 * @param slug         The slug of the article
+	 * @param creationData The comment creation data
+	 * @return The full comment data
+	 * @throws EntityDoesNotExistException If an article with the given slug does not exist
+	 */
+	CommentData comment(String slug, CommentCreationData creationData) throws EntityDoesNotExistException;
+
+	/**
+	 * Fetch the comments of an article.
+	 *
+	 * @param slug  The slug of the article
+	 * @return The list of full comment data
+	 * @throws EntityDoesNotExistException If an article with the given slug does not exist
+	 */
+	List<CommentData> findArticleComments(String slug) throws EntityDoesNotExistException;
+
+	/**
+	 * Delete the comment from the given article.
+	 *
+	 * @param slug      Article slug
+	 * @param commentId Comment id
+	 */
+	void deleteArticleComment(String slug, String commentId);
 }

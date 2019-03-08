@@ -13,24 +13,22 @@ import realworld.comments.model.CommentWithLinks;
 public interface CommentDao {
 
 	/**
-	 * Add a comment to an article.
+	 * Create a comment.
 	 *
 	 * @param creationData The comment creation data
-	 * @param articleId    The article id
 	 * @param authorId     The author id
 	 * @param createdAt    The creation timestamp
 	 * @return The new comment
 	 */
-	CommentWithLinks add(CommentCreationData creationData, String articleId, String authorId, LocalDateTime createdAt) throws EntityDoesNotExistException;
+	CommentWithLinks create(CommentCreationData creationData, String authorId, LocalDateTime createdAt) throws EntityDoesNotExistException;
 
 	/**
-	 * Fetch the comments of an article.
+	 * Find the comments with the given ids.
 	 *
-	 * @param articleId  The id of the article
-	 * @return The list of comment data
-	 * @throws EntityDoesNotExistException If an article with the given slug does not exist
+	 * @param ids The ids to look for
+	 * @return A list of comment data
 	 */
-	List<CommentWithLinks> findArticleComments(String articleId) throws EntityDoesNotExistException;
+	List<CommentWithLinks> findCommentsWithIds(List<String> ids);
 
 	/**
 	 * Delete the comment with the given id.

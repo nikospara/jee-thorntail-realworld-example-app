@@ -42,19 +42,19 @@ public class CommentServiceAuthorizer implements CommentService {
 	}
 
 	@Override
-	public CommentData add(String articleSlug, CommentCreationData creationData) throws EntityDoesNotExistException {
+	public CommentData create(CommentCreationData creationData) {
 		authorization.requireLogin();
-		return delegate.add(articleSlug, creationData);
-	}
-
-	@Override
-	public List<CommentData> findArticleComments(String articleSlug) throws EntityDoesNotExistException {
-		return delegate.findArticleComments(articleSlug);
+		return delegate.create(creationData);
 	}
 
 	@Override
 	public void delete(String id) {
 		commentAuthorization.requireCurrentUserToBeAuthorOf(id);
 		delegate.delete(id);
+	}
+
+	@Override
+	public List<CommentData> findCommentsWithIds(List<String> ids) {
+		return delegate.findCommentsWithIds(ids);
 	}
 }

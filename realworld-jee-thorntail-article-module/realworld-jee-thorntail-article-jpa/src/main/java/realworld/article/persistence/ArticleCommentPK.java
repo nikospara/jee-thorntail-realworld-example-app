@@ -1,4 +1,4 @@
-package realworld.comments.persistence;
+package realworld.article.persistence;
 
 import java.io.Serializable;
 import java.util.Objects;

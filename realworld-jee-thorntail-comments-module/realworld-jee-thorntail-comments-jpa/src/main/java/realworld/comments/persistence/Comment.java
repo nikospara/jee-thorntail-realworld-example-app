@@ -22,10 +22,10 @@ public class Comment {
 	@Lob
 	private String body;
 
-	@Column(name = "createdAt")
+	@Column(name = "created_at")
 	private LocalDateTime createdAt;
 
-	@Column(name = "updatedAt")
+	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
 
 	@Column(name = "user_id")

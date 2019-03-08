@@ -18,17 +18,20 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import realworld.EntityDoesNotExistException;
+import realworld.article.model.ArticleCreationData;
+import realworld.article.model.ArticleData;
 import realworld.article.model.ArticleResult;
 import realworld.article.model.ArticleUpdateData;
 import realworld.article.model.ArticleWithLinks;
 import realworld.article.model.ImmutableArticleData;
 import realworld.authentication.AuthenticationContext;
-import realworld.article.model.ArticleData;
-import realworld.article.model.ArticleCreationData;
 import realworld.authentication.User;
+import realworld.comments.model.CommentCreationData;
+import realworld.comments.model.CommentData;
 import realworld.services.DateTimeService;
 import realworld.user.model.ProfileData;
 import realworld.user.services.UserService;
+import services.realworld.comments.services.CommentService;
 
 /**
  * Implementation of the {@link ArticleService}.
@@ -36,7 +39,9 @@ import realworld.user.services.UserService;
 @ApplicationScoped
 @Transactional(dontRollbackOn = EntityDoesNotExistException.class)
 class ArticleServiceImpl implements ArticleService {
-	
+
+	private static final ArticleSearchCriteria DEFAULT_CRITERIA = ArticleSearchCriteria.builder().withLimit(20).withOffset(0).build();
+
 	private ArticleDao articleDao;
 
 	private AuthenticationContext authenticationContext;
@@ -45,8 +50,8 @@ class ArticleServiceImpl implements ArticleService {
 
 	private UserService userService;
 
-	private static final ArticleSearchCriteria DEFAULT_CRITERIA = ArticleSearchCriteria.builder().withLimit(20).withOffset(0).build();
-	
+	private CommentService commentService;
+
 	/**
 	 * Default constructor for frameworks.
 	 */
@@ -55,11 +60,12 @@ class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Inject
-	public ArticleServiceImpl(ArticleDao articleDao, AuthenticationContext authenticationContext, DateTimeService dateTimeService, UserService userService) {
+	public ArticleServiceImpl(ArticleDao articleDao, AuthenticationContext authenticationContext, DateTimeService dateTimeService, UserService userService, CommentService commentService) {
 		this.articleDao = articleDao;
 		this.authenticationContext = authenticationContext;
 		this.dateTimeService = dateTimeService;
 		this.userService = userService;
+		this.commentService = commentService;
 	}
 
 	@Override
@@ -169,5 +175,26 @@ class ArticleServiceImpl implements ArticleService {
 			return ImmutableArticleData.builder().from(article).isFavorited(false).favoritesCount(article.getFavoritesCount()-1).author(userService.findProfileById(article.getAuthorId())).tags(tags).build();
 		}
 		return ImmutableArticleData.builder().from(article).author(userService.findProfileById(article.getAuthorId())).tags(tags).build();
+	}
+
+	@Override
+	public CommentData comment(String slug, CommentCreationData creationData) throws EntityDoesNotExistException {
+		String articleId = articleDao.findArticleIdBySlug(slug);
+		CommentData comment = commentService.create(creationData);
+		articleDao.comment(articleId, comment.getId(), comment.getCreatedAt());
+		return comment;
+	}
+
+	@Override
+	public List<CommentData> findArticleComments(String slug) throws EntityDoesNotExistException {
+		String articleId = findArticleIdBySlug(slug);
+		List<String> commentIds = articleDao.findCommentIds(articleId);
+		return commentService.findCommentsWithIds(commentIds);
+	}
+
+	@Override
+	public void deleteArticleComment(String slug, String commentId) {
+		commentService.delete(commentId);
+		articleDao.deleteComment(slug, commentId);
 	}
 }
