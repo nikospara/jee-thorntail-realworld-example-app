@@ -53,14 +53,6 @@ public interface ArticleSearchCriteria {
 	Integer getOffset();
 
 	/**
-	 * Return a new criteria object with the given author.
-	 *
-	 * @param author The author
-	 * @return A new criteria object
-	 */
-	ArticleSearchCriteria withAuthor(String author);
-
-	/**
 	 * Return a new criteria object with the given list of authors.
 	 *
 	 * @param authors The authors
@@ -153,11 +145,6 @@ public interface ArticleSearchCriteria {
 		}
 
 		@Override
-		public ArticleSearchCriteria withAuthor(String author) {
-			return new ArticleSearchCriteriaImpl(this.tag, Collections.singletonList(author), this.favoritedBy, this.limit, this.offset);
-		}
-
-		@Override
 		public ArticleSearchCriteria withAuthors(List<String> authors) {
 			return new ArticleSearchCriteriaImpl(this.tag, authors, this.favoritedBy, this.limit, this.offset);
 		}
@@ -213,7 +200,7 @@ public interface ArticleSearchCriteria {
 
 		@Override
 		public ArticleSearchCriteriaBuilder withAuthor(String author) {
-			this.authors = Collections.singletonList(author);
+			this.authors = author != null ? Collections.singletonList(author) : Collections.emptyList();
 			return this;
 		}
 

@@ -78,6 +78,6 @@ public class ArticleResourceImpl implements ArticleResource {
 
 	@Override
 	public void delete(String slug, String commentId) {
-
+		articleService.deleteArticleComment(slug, commentId);
 	}
 }
