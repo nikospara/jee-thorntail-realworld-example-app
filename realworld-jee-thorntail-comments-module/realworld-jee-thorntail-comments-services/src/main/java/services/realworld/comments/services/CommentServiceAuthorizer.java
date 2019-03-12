@@ -6,10 +6,8 @@ import javax.annotation.Priority;
 import javax.decorator.Decorator;
 import javax.decorator.Delegate;
 import javax.inject.Inject;
-
 import java.util.List;
 
-import realworld.EntityDoesNotExistException;
 import realworld.authorization.Authorization;
 import realworld.comments.model.CommentCreationData;
 import realworld.comments.model.CommentData;

@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class SimpleValidationException extends RuntimeException {
 
-	private List<SimpleConstraintViolation> violations;
+	private final List<SimpleConstraintViolation> violations;
 
 	public SimpleValidationException(List<SimpleConstraintViolation> violations) {
 		this.violations = violations;

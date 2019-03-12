@@ -2,7 +2,6 @@ package services.realworld.comments.services;
 
 import java.util.List;
 
-import realworld.EntityDoesNotExistException;
 import realworld.comments.model.CommentCreationData;
 import realworld.comments.model.CommentData;
 
