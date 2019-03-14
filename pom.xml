@@ -351,6 +351,7 @@
 			<properties>
 				<database.driver>org.h2.Driver</database.driver>
 				<database.thorntail.name>h2</database.thorntail.name>
+				<database.hibernate.dialect>org.hibernate.dialect.H2Dialect</database.hibernate.dialect>
 			</properties>
 
 			<dependencyManagement>
