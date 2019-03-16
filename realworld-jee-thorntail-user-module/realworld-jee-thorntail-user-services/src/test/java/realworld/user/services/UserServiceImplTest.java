@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import java.util.Optional;
 
 import org.jboss.weld.junit5.auto.EnableAutoWeld;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -54,7 +55,7 @@ public class UserServiceImplTest {
 	@Produces @Mock
 	private UserDao userDao;
 
-	@Produces @Mock
+	@Produces @Mock(lenient = true)
 	private PasswordEncrypter encrypter;
 
 	@Produces @Mock
@@ -62,6 +63,11 @@ public class UserServiceImplTest {
 
 	@Inject
 	private UserServiceImpl sut;
+
+	@BeforeEach
+	void init() {
+		when(encrypter.apply(anyString())).thenAnswer(a -> "ENC:" + a.getArgument(0));
+	}
 
 	@Test
 	void testRegisterWithExistingUsername() {
@@ -161,7 +167,7 @@ public class UserServiceImplTest {
 
 		sut.update(userUpdateData);
 
-		verify(userDao).changePassword(USERID1, PASSWORD2);
+		verify(userDao).changePassword(USERID1, "ENC:" + PASSWORD2);
 	}
 
 	@Test

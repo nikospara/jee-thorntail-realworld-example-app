@@ -78,7 +78,7 @@ class UserServiceImpl implements UserService {
 
 	@Override
 	public UserData login(UserLoginData loginData) throws NotAuthenticatedException {
-		return userDao.findByEmailAndPassword(loginData.getEmail(), loginData.getPassword())
+		return userDao.findByEmailAndPassword(loginData.getEmail(), encrypter.apply(loginData.getPassword()))
 				.orElseThrow(NotAuthenticatedException::new);
 	}
 
@@ -113,7 +113,7 @@ class UserServiceImpl implements UserService {
 				.build();
 		userDao.update(newUserData);
 		if( userUpdateData.isExplicitlySet(PASSWORD) ) {
-			userDao.changePassword(u.getId(), userUpdateData.getPassword());
+			userDao.changePassword(u.getId(), encrypter.apply(userUpdateData.getPassword()));
 		}
 
 		return newUserData;
