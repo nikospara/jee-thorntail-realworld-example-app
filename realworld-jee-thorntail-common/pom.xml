@@ -18,5 +18,6 @@
 		<module>realworld-jee-thorntail-common-jpa</module>
 		<module>realworld-jee-thorntail-common-services</module>
 		<module>realworld-jee-thorntail-services-auth</module>
+		<module>realworld-jee-thorntail-common-testutils</module>
 	</modules>
 </project>

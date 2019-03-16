@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>realworld-jee-thorntail-common</artifactId>
+		<groupId>realworld.example</groupId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>realworld-jee-thorntail-common-testutils</artifactId>
+
+	<name>Realworld in JEE/Thorntail, test utils</name>
+	<description>Realworld in JEE/Thorntail, test utilities</description>
+
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<!-- SPECS -->
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>javax.persistence-api</artifactId>
+		</dependency>
+
+		<!-- OTHER -->
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>${version.liquibase}</version>
+		</dependency>
+
+		<!-- TEST -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+</project>

@@ -1,0 +1,15 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd" version="2.2">
+	<persistence-unit name="default-persistence-unit" transaction-type="RESOURCE_LOCAL">
+		<class>realworld.comments.persistence.Comment</class>
+
+		<properties>
+			<property name="javax.persistence.jdbc.url"      value="${database-test.url}" />
+			<property name="javax.persistence.jdbc.user"     value="${database-test.username}" />
+			<property name="javax.persistence.jdbc.password" value="${database-test.password}" />
+			<property name="hibernate.show_sql"              value="false" />
+			<property name="hibernate.format_sql"            value="true" />
+			<property name="hibernate.hbm2ddl.auto"          value="none" />
+			<property name="hibernate.dialect"               value="${database-test.hibernate.dialect}" />
+		</properties>
+	</persistence-unit>
+</persistence>

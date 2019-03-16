@@ -21,15 +21,20 @@
 	
 	<properties>
 		<version.java>11</version.java>
+
+		<database-test.active>false</database-test.active>
 		
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+		<version.h2>1.4.197</version.h2>
+		<version.hibernate>5.4.0.Final</version.hibernate>
 		<version.jackson>2.9.5</version.jackson>
 		<version.javax.json-test>1.1.2</version.javax.json-test>
 		<version.jaxb.api>2.3.1</version.jaxb.api>
 		<version.jaxb.impl>2.3.0.1</version.jaxb.impl>
-		<version.junit.jupiter>5.3.2</version.junit.jupiter>
+		<version.junit.jupiter>5.4.0</version.junit.jupiter>
+		<version.liquibase>3.6.3</version.liquibase>
 		<version.mockito>2.25.0</version.mockito>
 		<version.resteasy-test>3.6.3.Final</version.resteasy-test>
 		<version.wildfly-swarm>2.3.0.Final</version.wildfly-swarm>
@@ -136,6 +141,18 @@
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>${version.hibernate}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-jpamodelgen</artifactId>
+				<version>${version.hibernate}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
 				<groupId>org.immutables</groupId>
 				<artifactId>value</artifactId>
 				<version>2.7.5</version>
@@ -153,11 +170,6 @@
 			</dependency>
 			
 			<!-- TEST -->
-			<dependency>
-				<groupId>com.fasterxml.jackson.datatype</groupId>
-				<artifactId>jackson-datatype-jsr310</artifactId>
-				<version>${version.jackson}</version>
-			</dependency>
 			<dependency>
 				<groupId>javax.json</groupId>
 				<artifactId>javax.json-api</artifactId>
@@ -359,7 +371,30 @@
 					<dependency>
 						<groupId>com.h2database</groupId>
 						<artifactId>h2</artifactId>
-						<version>1.4.197</version>
+						<version>${version.h2}</version>
+					</dependency>
+				</dependencies>
+			</dependencyManagement>
+		</profile>
+
+		<profile>
+			<id>test-h2</id>
+
+			<properties>
+				<database-test.active>true</database-test.active>
+				<database-test.driver>org.h2.Driver</database-test.driver>
+				<database-test.hibernate.dialect>org.hibernate.dialect.H2Dialect</database-test.hibernate.dialect>
+				<database-test.url>jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1</database-test.url>
+				<database-test.username>sa</database-test.username>
+				<database-test.password>sa</database-test.password>
+			</properties>
+
+			<dependencyManagement>
+				<dependencies>
+					<dependency>
+						<groupId>com.h2database</groupId>
+						<artifactId>h2</artifactId>
+						<version>${version.h2}</version>
 					</dependency>
 				</dependencies>
 			</dependencyManagement>

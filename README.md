@@ -51,6 +51,14 @@ Profiles used by the build:
 
 		mvn process-resources -Ph2,dbmigrate[,<other necessary profiles>]
 
+### Executing the DB tests
+
+This example comes with tests for the DAOs. These use a real database - actually they deploy the real schema to an
+empty database and then run the tests. To activate, use the `test-<DBTYPE>` profile. At this moment only H2 is
+implemented. It starts in in-memory mode, so it is always clean and discarded after the test. To run it execute:
+
+	mvn clean package -Ptest-h2[,<other necessary profiles>]
+
 ### Example setup
 
 Suppose you want an H2 DB placed under `/home/myuser/.h2/thorntail-realworld`.
@@ -82,11 +90,13 @@ These values will be used both from the application at runtime and from Liquibas
 You need to activate this profile for every build - from IDEs too! Since the database is H2, you also need the `h2` profile,
 so cd to the root directory of the project and run:
 
-	mvn clean package -Ph2,thorntail-realworld-local-h2
+	mvn clean package -Ph2,thorntail-realworld-local-h2,test-h2
 
 If you also want to run the DB migrations, which you *SHOULD* the first time, run:
 
-	mvn clean package -Ph2,thorntail-realworld-local-h2,dbmigrate
+	mvn clean package -Ph2,thorntail-realworld-local-h2,test-h2,dbmigrate
+
+These commands run the DB tests as well on an in-memory H2.
 
 ## Running
 
