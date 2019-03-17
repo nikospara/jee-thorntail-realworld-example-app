@@ -9,6 +9,8 @@ import java.util.List;
  */
 public class SimpleValidationException extends RuntimeException {
 
+	private static final long serialVersionUID = 1L;
+	
 	private final List<SimpleConstraintViolation> violations;
 
 	public SimpleValidationException(List<SimpleConstraintViolation> violations) {

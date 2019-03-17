@@ -6,4 +6,5 @@ package realworld.authorization;
  * This exception should not be thrown to indicate system problems.
  */
 public class NotAuthorizedException extends AppSecurityException {
+	private static final long serialVersionUID = 1L;
 }

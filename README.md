@@ -124,7 +124,42 @@ In general:
 	- `-Ddatabase.password=<same value as in settings.xml>`
 - Activate the appropriate DB profile (e.g. `h2`) in your IDE, so that the IDE includes the driver in the classpath
 	- In IntelliJ IDEA open the Maven drawer, expand "Profiles" and make sure the appropriate is selected
-	- In Eclipse right-click on the WAR project, Maven, "Select Maven Profiles..." and select the appropriate one; make sure the one selected is from the WAR project
+	- In Eclipse right-click on the WAR project, Maven, "Select Maven Profiles..." and select the appropriate one; make sure the one selected is from the WAR project (see the "Source" column)
+
+### Eclipse specific
+
+Several settings are not understood automatically by Eclipse. Please execute the following manual steps - NOTE: Eclipse distribution is JEE, JBoss Tools installed:
+
+1. Add the Immutables annotation processor to model projects (realworld-jee-thorntail-article-model, realworld-jee-thorntail-comments-model, realworld-jee-thorntail-user-model):
+	- Right click project, select properties (or select project, press Alt+Enter)
+	- Select "Java Compiler" -> "Annotation Processing"
+	- Check the following:
+		- "Enable project specific settings"
+		- "Enable annotation processing"
+		- "Enable processing in editor"
+		- Generated source directory: `target/generated-sources/annotations/` (this is where Maven puts them by default)
+	- Select "Factory Path" (it is a child of "Java Compiler" on the tree)
+	- Add the following external jars, from your Maven repository:
+		- `org/immutables/value/2.7.5/value-2.7.5.jar`
+2. Add the hibernate-jpamodelgen annotation processor to the JPA projects (realworld-jee-thorntail-article-jpa, realworld-jee-thorntail-comments-jpa, realworld-jee-thorntail-user-jpa):
+	- Follow the steps above
+	- Add the following external jars, from your Maven repository:
+		- `org/hibernate/hibernate-jpamodelgen/5.4.0.Final/hibernate-jpamodelgen-5.4.0.Final.jar`
+		- `javax/persistence/persistence-api/1.0.2/persistence-api-1.0.2.jar`
+3. "No persistence.xml file found in project" errors:
+	- Project properties -> JPA -> Errors/Warnings:
+		- Enable project-specific settings
+	 	- Project -> "No persistence.xml file found in project": Ignore
+4. "The persistence.xml file does not have supported content for this JPA platform." errors (this occurs because, for the time being, the JPA tools do not recognize JPA 2.2):
+	- Project properties -> JPA -> Errors/Warnings:
+		- Enable project-specific settings
+	 	- Project -> "The persistence.xml file does not have supported content for this JPA platform.": Ignore
+5. To run DAO tests from within the IDE, the following system properties must be defined in the test configuration of each test:
+	- `database-test.active=true`
+	- `database-test.hibernate.dialect=<see DB test profile in parent pom.xml>`
+	- `database-test.url=<see DB test profile in parent pom.xml>`
+	- `database-test.username=<see DB test profile in parent pom.xml>`
+	- `database-test.password=<see DB test profile in parent pom.xml>`
 
 ## Code quality
 

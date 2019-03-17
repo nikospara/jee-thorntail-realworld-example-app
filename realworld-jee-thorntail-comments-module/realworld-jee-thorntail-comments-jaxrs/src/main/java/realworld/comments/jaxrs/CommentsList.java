@@ -11,6 +11,8 @@ import realworld.comments.model.CommentData;
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT ,use = JsonTypeInfo.Id.NAME)
 public class CommentsList extends ArrayList<CommentData> {
 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Default constructor.
 	 */

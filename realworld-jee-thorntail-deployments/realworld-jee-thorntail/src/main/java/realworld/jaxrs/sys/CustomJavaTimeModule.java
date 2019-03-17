@@ -11,6 +11,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
  * Customize the way Jackson serializes the {@code java.time.LocalDateTime}.
  */
 class CustomJavaTimeModule extends SimpleModule {
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Construct and customize behavior.
 	 */

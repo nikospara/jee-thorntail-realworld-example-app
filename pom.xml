@@ -382,7 +382,6 @@
 
 			<properties>
 				<database-test.active>true</database-test.active>
-				<database-test.driver>org.h2.Driver</database-test.driver>
 				<database-test.hibernate.dialect>org.hibernate.dialect.H2Dialect</database-test.hibernate.dialect>
 				<database-test.url>jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1</database-test.url>
 				<database-test.username>sa</database-test.username>

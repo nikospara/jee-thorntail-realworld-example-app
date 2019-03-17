@@ -206,7 +206,6 @@ public class UserServiceImplTest {
 
 	@Test
 	void testFollow() {
-		UserData cu = mockCurrentUser();
 		UserData u = ImmutableUserData.builder().id(USERID2).username(USERNAME2).email(EMAIL2).bio(BIO2).image(IMAGE2).build();
 		when(userDao.findByUserName(USERNAME2)).thenReturn(Optional.of(u));
 
