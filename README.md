@@ -144,7 +144,7 @@ Several settings are not understood automatically by Eclipse. Please execute the
 2. Add the hibernate-jpamodelgen annotation processor to the JPA projects (realworld-jee-thorntail-article-jpa, realworld-jee-thorntail-comments-jpa, realworld-jee-thorntail-user-jpa):
 	- Follow the steps above
 	- Add the following external jars, from your Maven repository:
-		- `org/hibernate/hibernate-jpamodelgen/5.4.0.Final/hibernate-jpamodelgen-5.4.0.Final.jar`
+		- `org/hibernate/hibernate-jpamodelgen/5.4.1.Final/hibernate-jpamodelgen-5.4.1.Final.jar`
 		- `javax/persistence/persistence-api/1.0.2/persistence-api-1.0.2.jar`
 3. "No persistence.xml file found in project" errors:
 	- Project properties -> JPA -> Errors/Warnings:

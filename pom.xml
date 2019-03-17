@@ -28,14 +28,14 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<version.h2>1.4.197</version.h2>
-		<version.hibernate>5.4.0.Final</version.hibernate>
-		<version.jackson>2.9.5</version.jackson>
+		<version.hibernate>5.4.1.Final</version.hibernate>
+		<version.jackson>2.9.8</version.jackson>
 		<version.javax.json-test>1.1.2</version.javax.json-test>
 		<version.jaxb.api>2.3.1</version.jaxb.api>
 		<version.jaxb.impl>2.3.0.1</version.jaxb.impl>
-		<version.junit.jupiter>5.4.0</version.junit.jupiter>
+		<version.junit.jupiter>5.4.1</version.junit.jupiter>
 		<version.liquibase>3.6.3</version.liquibase>
-		<version.mockito>2.25.0</version.mockito>
+		<version.mockito>2.25.1</version.mockito>
 		<version.resteasy-test>3.6.3.Final</version.resteasy-test>
 		<version.wildfly-swarm>2.3.0.Final</version.wildfly-swarm>
 	</properties>
@@ -132,7 +132,7 @@
 			<dependency>
 				<groupId>com.nimbusds</groupId>
 				<artifactId>nimbus-jose-jwt</artifactId>
-				<version>6.7</version>
+				<version>7.0.1</version>
 			</dependency>
 			<dependency>
 				<groupId>io.swagger</groupId>
@@ -320,7 +320,7 @@
 						<plugin>
 							<groupId>org.jacoco</groupId>
 							<artifactId>jacoco-maven-plugin</artifactId>
-							<version>0.8.2</version>
+							<version>0.8.3</version>
 						</plugin>
 					</plugins>
 				</pluginManagement>
