@@ -1,0 +1,27 @@
+language: java
+
+dist: trusty
+
+sudo: false
+
+cache:
+  directories:
+    - "$HOME/.m2"
+    - '$HOME/.sonar/cache'
+
+jdk: openjdk11
+
+git:
+  depth: 3
+  quiet: true
+
+install: true
+
+script:
+  - "mkdir -p $HOME/.scratch/h2 && mvn -B clean install -Dmaven.javadoc.skip=true -Ddatabase.thorntail.name=h2 -Ddatabase.url=jdbc:h2:$HOME/.scratch/h2/realworld-jee-thorntail -Ddatabase.username=sa -Ddatabase.password=sa -Ph2,test-h2,jacoco"
+  - "mvn -B sonar:sonar"
+
+addons:
+  sonarcloud:
+    organization: "nikospara-github"
+# The token is defined in Travis' SONAR_TOKEN env variable

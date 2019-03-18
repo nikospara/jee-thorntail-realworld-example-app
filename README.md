@@ -1,5 +1,7 @@
 # ![RealWorld Example App using JEE 8 and Thorntail](logo.png)
 
+[![Build Status](https://travis-ci.com/nikospara/jee-thorntail-realworld-example-app.svg?branch=master)](https://travis-ci.com/nikospara/jee-thorntail-realworld-example-app)
+
 > ### Java EE and Java 11 in Thorntail (with CDI, JAX-RS, JPA and others) codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
 
 This codebase was created to demonstrate a fully fledged fullstack application built with **Java EE** including CRUD operations, authentication, routing, pagination, and more.
