@@ -32,7 +32,7 @@ public interface ArticleDao {
 	 * @return The article
 	 * @throws EntityDoesNotExistException If the article does not exist
 	 */
-	ArticleWithLinks findArticleBySlug(String userId, String slug) throws EntityDoesNotExistException;
+	ArticleWithLinks findArticleBySlug(String userId, String slug);
 
 	/**
 	 * Find an article id by slug.
@@ -41,7 +41,7 @@ public interface ArticleDao {
 	 * @return The article id
 	 * @throws EntityDoesNotExistException If the article does not exist
 	 */
-	String findArticleIdBySlug(String slug) throws EntityDoesNotExistException;
+	String findArticleIdBySlug(String slug);
 
 	/**
 	 * Find the tags of the given article.
@@ -50,7 +50,7 @@ public interface ArticleDao {
 	 * @return The set of tags
 	 * @throws EntityDoesNotExistException If the article does not exist
 	 */
-	Set<String> findTags(String articleId) throws EntityDoesNotExistException;
+	Set<String> findTags(String articleId);
 
 	/**
 	 * Create a new article.
@@ -76,7 +76,7 @@ public interface ArticleDao {
 	 * @param updatedAt   The time of update
 	 * @throws EntityDoesNotExistException If the article does not exist
 	 */
-	void update(String id, String title, String slug, String description, String body, Set<String> tags, LocalDateTime updatedAt) throws EntityDoesNotExistException;
+	void update(String id, String title, String slug, String description, String body, Set<String> tags, LocalDateTime updatedAt);
 
 	/**
 	 * Delete the article with the given slug.
@@ -84,7 +84,7 @@ public interface ArticleDao {
 	 * @param slug The slug
 	 * @throws EntityDoesNotExistException If the article does not exist
 	 */
-	void delete(String slug) throws EntityDoesNotExistException;
+	void delete(String slug);
 
 	/**
 	 * Add a favorite entry for the user and article.
@@ -93,7 +93,7 @@ public interface ArticleDao {
 	 * @param articleId   Article id
 	 * @throws EntityDoesNotExistException If the article does not exist
 	 */
-	void addFavorite(String userId, String articleId) throws EntityDoesNotExistException;
+	void addFavorite(String userId, String articleId);
 
 	/**
 	 * Remove the favorite entry for the user and article, if any.
@@ -102,7 +102,7 @@ public interface ArticleDao {
 	 * @param articleId   Article id
 	 * @throws EntityDoesNotExistException If the article does not exist
 	 */
-	void removeFavorite(String userId, String articleId) throws EntityDoesNotExistException;
+	void removeFavorite(String userId, String articleId);
 
 	/**
 	 * Check that the article with the given slug is written by the user with the given id.
@@ -121,7 +121,7 @@ public interface ArticleDao {
 	 * @param commentCreatedAt The comment creation timestamp
 	 * @throws EntityDoesNotExistException If the article does not exist
 	 */
-	void comment(String articleId, String commentId, LocalDateTime commentCreatedAt) throws EntityDoesNotExistException;
+	void comment(String articleId, String commentId, LocalDateTime commentCreatedAt);
 
 	/**
 	 * Find the ids of comments attached to the given article.
@@ -130,7 +130,7 @@ public interface ArticleDao {
 	 * @return The list of comment ids
 	 * @throws EntityDoesNotExistException If the article does not exist
 	 */
-	List<String> findCommentIds(String articleId) throws EntityDoesNotExistException;
+	List<String> findCommentIds(String articleId);
 
 	/**
 	 * Delete the comment from the given article.

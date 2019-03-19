@@ -4,7 +4,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import realworld.authentication.AuthenticationContext;
-import realworld.authorization.AppSecurityException;
 import realworld.authorization.NotAuthenticatedException;
 import realworld.authorization.NotAuthorizedException;
 
@@ -38,7 +37,7 @@ class CommentAuthorizationImpl implements CommentAuthorization {
 	}
 
 	@Override
-	public void requireCurrentUserToBeAuthorOf(String id) throws AppSecurityException {
+	public void requireCurrentUserToBeAuthorOf(String id) {
 		if( authenticationContext.getUserPrincipal() == null ) {
 			throw new NotAuthenticatedException();
 		}

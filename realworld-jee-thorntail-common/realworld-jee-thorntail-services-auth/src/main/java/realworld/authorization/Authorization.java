@@ -10,5 +10,5 @@ public interface Authorization {
 	 * 
 	 * @throws AppSecurityException If the requirement is not met
 	 */
-	void requireLogin() throws AppSecurityException;
+	void requireLogin();
 }

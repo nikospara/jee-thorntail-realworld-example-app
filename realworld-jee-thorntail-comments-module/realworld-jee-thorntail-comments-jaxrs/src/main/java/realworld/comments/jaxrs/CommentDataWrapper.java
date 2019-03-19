@@ -1,7 +1,5 @@
 package realworld.comments.jaxrs;
 
-import java.io.Serializable;
-
 import realworld.comments.model.CommentData;
 
 /**
@@ -20,9 +18,7 @@ import realworld.comments.model.CommentData;
  * We choose to serialize the {@code CommentData} as is and manually wrap it in this class,
  * when returned directly.
  */
-public class CommentDataWrapper implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class CommentDataWrapper {
 
 	private CommentData comment;
 

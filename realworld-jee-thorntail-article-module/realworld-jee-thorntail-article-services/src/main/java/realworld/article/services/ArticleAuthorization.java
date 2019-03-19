@@ -13,5 +13,5 @@ public interface ArticleAuthorization {
 	 * @param slug The slug
 	 * @throws AppSecurityException If the check fails
 	 */
-	void requireCurrentUserToBeAuthorOf(String slug) throws AppSecurityException;
+	void requireCurrentUserToBeAuthorOf(String slug);
 }

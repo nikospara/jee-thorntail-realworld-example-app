@@ -77,7 +77,7 @@ class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserData login(UserLoginData loginData) throws NotAuthenticatedException {
+	public UserData login(UserLoginData loginData) {
 		return userDao.findByEmailAndPassword(loginData.getEmail(), encrypter.apply(loginData.getPassword()))
 				.orElseThrow(NotAuthenticatedException::new);
 	}
@@ -120,7 +120,7 @@ class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserData findByUserName(String username) throws EntityDoesNotExistException {
+	public UserData findByUserName(String username) {
 		return userDao.findByUserName(username).orElseThrow(EntityDoesNotExistException::new);
 	}
 

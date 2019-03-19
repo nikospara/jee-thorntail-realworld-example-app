@@ -132,7 +132,7 @@ class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
-	public ArticleWithLinks findArticleBySlug(String userId, String slug) throws EntityDoesNotExistException {
+	public ArticleWithLinks findArticleBySlug(String userId, String slug) {
 		try {
 			Object[] res = em.createQuery(findArticleBySlugCriteriaQuery(userId, slug)).getSingleResult();
 			return fromQueryResult(res);
@@ -143,7 +143,7 @@ class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
-	public String findArticleIdBySlug(String slug) throws EntityDoesNotExistException {
+	public String findArticleIdBySlug(String slug) {
 		try {
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<String> query = cb.createQuery(String.class);
@@ -197,7 +197,7 @@ class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
-	public Set<String> findTags(String articleId) throws EntityDoesNotExistException {
+	public Set<String> findTags(String articleId) {
 		Article article = Optional.ofNullable(em.find(Article.class, articleId)).orElseThrow(EntityDoesNotExistException::new);
 		return article.getTags().stream().map(Tag::getName).collect(Collectors.toSet());
 	}
@@ -231,7 +231,7 @@ class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
-	public void delete(String slug) throws EntityDoesNotExistException {
+	public void delete(String slug) {
 		try {
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<Article> query = cb.createQuery(Article.class);
@@ -271,7 +271,7 @@ class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
-	public void addFavorite(String userId, String articleId) throws EntityDoesNotExistException {
+	public void addFavorite(String userId, String articleId) {
 		try {
 			ArticleFavorite af = new ArticleFavorite();
 			af.setArticleId(articleId);
@@ -284,7 +284,7 @@ class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
-	public void removeFavorite(String userId, String articleId) throws EntityDoesNotExistException {
+	public void removeFavorite(String userId, String articleId) {
 		try {
 			ArticleFavorite af = em.getReference(ArticleFavorite.class, new ArticleFavoritePK(articleId, userId));
 			em.remove(af);
@@ -305,7 +305,7 @@ class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
-	public void comment(String articleId, String commentId, LocalDateTime commentCreatedAt) throws EntityDoesNotExistException {
+	public void comment(String articleId, String commentId, LocalDateTime commentCreatedAt) {
 		ArticleComment articleComment = new ArticleComment();
 		articleComment.setArticleId(articleId);
 		articleComment.setCommentId(commentId);
@@ -314,7 +314,7 @@ class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
-	public List<String> findCommentIds(String articleId) throws EntityDoesNotExistException {
+	public List<String> findCommentIds(String articleId) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<String> query = cb.createQuery(String.class);
 		Root<ArticleComment> articleComment = query.from(ArticleComment.class);

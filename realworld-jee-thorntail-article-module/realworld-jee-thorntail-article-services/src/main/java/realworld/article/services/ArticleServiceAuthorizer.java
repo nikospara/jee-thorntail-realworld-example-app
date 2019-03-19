@@ -6,10 +6,8 @@ import javax.annotation.Priority;
 import javax.decorator.Decorator;
 import javax.decorator.Delegate;
 import javax.inject.Inject;
-
 import java.util.List;
 
-import realworld.EntityDoesNotExistException;
 import realworld.article.model.ArticleCreationData;
 import realworld.article.model.ArticleData;
 import realworld.article.model.ArticleResult;
@@ -62,7 +60,7 @@ class ArticleServiceAuthorizer implements ArticleService {
 	}
 
 	@Override
-	public String findArticleIdBySlug(String slug) throws EntityDoesNotExistException {
+	public String findArticleIdBySlug(String slug) {
 		return delegate.findArticleIdBySlug(slug);
 	}
 
@@ -79,7 +77,7 @@ class ArticleServiceAuthorizer implements ArticleService {
 	}
 
 	@Override
-	public void delete(String slug) throws EntityDoesNotExistException {
+	public void delete(String slug) {
 		articleAuthorization.requireCurrentUserToBeAuthorOf(slug);
 		delegate.delete(slug);
 	}
@@ -90,25 +88,25 @@ class ArticleServiceAuthorizer implements ArticleService {
 	}
 
 	@Override
-	public ArticleData favorite(String slug) throws EntityDoesNotExistException {
+	public ArticleData favorite(String slug) {
 		authorization.requireLogin();
 		return delegate.favorite(slug);
 	}
 
 	@Override
-	public ArticleData unfavorite(String slug) throws EntityDoesNotExistException {
+	public ArticleData unfavorite(String slug) {
 		authorization.requireLogin();
 		return delegate.unfavorite(slug);
 	}
 
 	@Override
-	public CommentData comment(String articleSlug, CommentCreationData creationData) throws EntityDoesNotExistException {
+	public CommentData comment(String articleSlug, CommentCreationData creationData) {
 		authorization.requireLogin();
 		return delegate.comment(articleSlug, creationData);
 	}
 
 	@Override
-	public List<CommentData> findArticleComments(String slug) throws EntityDoesNotExistException {
+	public List<CommentData> findArticleComments(String slug) {
 		return delegate.findArticleComments(slug);
 	}
 

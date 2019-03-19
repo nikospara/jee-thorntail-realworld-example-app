@@ -62,7 +62,7 @@ public class UserServiceAuthorizerTest {
 	void testGetCurrentUser() {
 		doNothing().when(authorization).requireLogin();
 		Object result = dummy.getCurrentUser();
-		assertSame(result, FROM_GET_CURENT_USER);
+		assertSame(FROM_GET_CURENT_USER, result);
 	}
 
 	@Test
@@ -75,7 +75,7 @@ public class UserServiceAuthorizerTest {
 	void testUpdate() {
 		doNothing().when(authorization).requireLogin();
 		Object result = dummy.update(USER_UPDATE_DATA);
-		assertSame(result, FROM_UPDATE);
+		assertSame(FROM_UPDATE, result);
 	}
 
 	@Test
@@ -88,7 +88,7 @@ public class UserServiceAuthorizerTest {
 	void testFollow() {
 		doNothing().when(authorization).requireLogin();
 		Object result = dummy.follow(USER_TO_FOLLOW);
-		assertSame(result, FROM_FOLLOW);
+		assertSame(FROM_FOLLOW, result);
 	}
 
 	@Test
@@ -101,7 +101,7 @@ public class UserServiceAuthorizerTest {
 	void testUnfollow() {
 		doNothing().when(authorization).requireLogin();
 		Object result = dummy.unfollow(USER_TO_UNFOLLOW);
-		assertSame(result, FROM_UNFOLLOW);
+		assertSame(FROM_UNFOLLOW, result);
 	}
 
 	private void expectNotAuthenticatedException(Runnable f) {

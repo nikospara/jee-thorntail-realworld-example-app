@@ -1,15 +1,14 @@
 package realworld.user.services;
 
 import javax.validation.Valid;
-
 import java.util.List;
 import java.util.Map;
 
 import realworld.EntityDoesNotExistException;
 import realworld.authorization.NotAuthenticatedException;
 import realworld.user.model.ProfileData;
-import realworld.user.model.UserLoginData;
 import realworld.user.model.UserData;
+import realworld.user.model.UserLoginData;
 import realworld.user.model.UserRegistrationData;
 import realworld.user.model.UserUpdateData;
 
@@ -33,7 +32,7 @@ public interface UserService {
 	 * @return The user profile, if the user exists and the password is correct, throws otherwise
 	 * @throws NotAuthenticatedException If authentication fails
 	 */
-	UserData login(@Valid UserLoginData loginData) throws NotAuthenticatedException;
+	UserData login(@Valid UserLoginData loginData);
 
 	/**
 	 * Get the profile data of the current user.
@@ -57,7 +56,7 @@ public interface UserService {
 	 * @return The user
 	 * @throws EntityDoesNotExistException If not found
 	 */
-	UserData findByUserName(String username) throws EntityDoesNotExistException;
+	UserData findByUserName(String username);
 
 	/**
 	 * Find the profile of the user with the given user name.

@@ -1,7 +1,5 @@
 package realworld.user.jaxrs;
 
-import java.io.Serializable;
-
 import realworld.user.model.ProfileData;
 
 /**
@@ -20,9 +18,7 @@ import realworld.user.model.ProfileData;
  * We choose to serialize the {@code ProfileData} as is and manually wrap it in this class,
  * when returned directly.
  */
-public class ProfileDataWrapper implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class ProfileDataWrapper {
 
 	private ProfileData profile;
 

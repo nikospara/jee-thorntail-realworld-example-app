@@ -75,7 +75,7 @@ public class UserServiceImplTest {
 		when(registrationData.getUsername()).thenReturn(USERNAME1);
 		when(userDao.usernameExists(USERNAME1)).thenReturn(true);
 
-		assertDuplicateUsernameException(() -> sut.register(registrationData));
+		assertDuplicateUsername(() -> sut.register(registrationData));
 	}
 
 	@Test
@@ -113,7 +113,7 @@ public class UserServiceImplTest {
 		when(userUpdateData.getUsername()).thenReturn(USERNAME2);
 		when(userDao.usernameExists(USERNAME2)).thenReturn(true);
 
-		assertDuplicateUsernameException(() -> sut.update(userUpdateData));
+		assertDuplicateUsername(() -> sut.update(userUpdateData));
 	}
 
 	@Test
@@ -126,6 +126,8 @@ public class UserServiceImplTest {
 		when(userUpdateData.getUsername()).thenReturn(USERNAME1);
 
 		sut.update(userUpdateData);
+
+		verify(userDao).update(any());
 	}
 
 	@Test
@@ -153,6 +155,8 @@ public class UserServiceImplTest {
 		when(userUpdateData.getEmail()).thenReturn(EMAIL1);
 
 		sut.update(userUpdateData);
+
+		verify(userDao).update(any());
 	}
 
 	@Test
@@ -231,7 +235,7 @@ public class UserServiceImplTest {
 		}
 	}
 
-	private void assertDuplicateUsernameException(Runnable f) {
+	private void assertDuplicateUsername(Runnable f) {
 		try {
 			f.run();
 			fail("duplicate username should have been reported!");

@@ -31,7 +31,7 @@ class AuthorizationImpl implements Authorization {
 	}
 
 	@Override
-	public void requireLogin() throws AppSecurityException {
+	public void requireLogin() {
 		if( authenticationContext.getUserPrincipal() == null ) {
 			throw new NotAuthenticatedException();
 		}

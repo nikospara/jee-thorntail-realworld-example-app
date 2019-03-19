@@ -37,7 +37,7 @@
 		<version.liquibase>3.6.3</version.liquibase>
 		<version.mockito>2.25.1</version.mockito>
 		<version.resteasy-test>3.6.3.Final</version.resteasy-test>
-		<version.wildfly-swarm>2.3.0.Final</version.wildfly-swarm>
+		<version.wildfly-swarm>2.4.0.Final</version.wildfly-swarm>
 	</properties>
 	
 	<dependencyManagement>

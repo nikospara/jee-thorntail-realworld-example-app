@@ -1,7 +1,5 @@
 package realworld.article.jaxrs;
 
-import java.io.Serializable;
-
 import realworld.article.model.ArticleData;
 
 /**
@@ -20,9 +18,7 @@ import realworld.article.model.ArticleData;
  * We choose to serialize the {@code ArticleData} as is and manually wrap it in this class,
  * when returned directly.
  */
-public class ArticleDataWrapper implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class ArticleDataWrapper {
 
 	private ArticleData article;
 

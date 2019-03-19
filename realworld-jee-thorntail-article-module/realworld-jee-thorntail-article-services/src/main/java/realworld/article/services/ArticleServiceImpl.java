@@ -112,7 +112,7 @@ class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public ArticleData findArticleBySlug(String slug) throws EntityDoesNotExistException {
+	public ArticleData findArticleBySlug(String slug) {
 		String userId = Optional.ofNullable(authenticationContext.getUserPrincipal()).map(User::getUniqueId).orElse("");
 		ArticleWithLinks article = articleDao.findArticleBySlug(userId, slug);
 		Set<String> tags = articleDao.findTags(article.getId());
@@ -120,7 +120,7 @@ class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public String findArticleIdBySlug(String slug) throws EntityDoesNotExistException {
+	public String findArticleIdBySlug(String slug) {
 		return articleDao.findArticleIdBySlug(slug);
 	}
 
@@ -132,7 +132,7 @@ class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public ArticleData update(String slug, ArticleUpdateData updateData) throws EntityDoesNotExistException {
+	public ArticleData update(String slug, ArticleUpdateData updateData) {
 		ArticleData a = findArticleBySlug(slug);
 		String newTitle = updateData.isExplicitlySet(TITLE) ? updateData.getTitle() : a.getTitle();
 		String newSlug = updateData.isExplicitlySet(TITLE) ? makeSlug(updateData.getTitle()) : a.getSlug();
@@ -144,7 +144,7 @@ class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public void delete(String slug) throws EntityDoesNotExistException {
+	public void delete(String slug) {
 		articleDao.delete(slug);
 	}
 
@@ -154,7 +154,7 @@ class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public ArticleData favorite(String slug) throws EntityDoesNotExistException {
+	public ArticleData favorite(String slug) {
 		String userId = userService.getCurrentUser().getId();
 		ArticleWithLinks article = articleDao.findArticleBySlug(userId, slug);
 		Set<String> tags = articleDao.findTags(article.getId());
@@ -166,7 +166,7 @@ class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public ArticleData unfavorite(String slug) throws EntityDoesNotExistException {
+	public ArticleData unfavorite(String slug) {
 		String userId = userService.getCurrentUser().getId();
 		ArticleWithLinks article = articleDao.findArticleBySlug(userId, slug);
 		Set<String> tags = articleDao.findTags(article.getId());
@@ -178,7 +178,7 @@ class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public CommentData comment(String slug, CommentCreationData creationData) throws EntityDoesNotExistException {
+	public CommentData comment(String slug, CommentCreationData creationData) {
 		String articleId = articleDao.findArticleIdBySlug(slug);
 		CommentData comment = commentService.create(creationData);
 		articleDao.comment(articleId, comment.getId(), comment.getCreatedAt());
@@ -186,7 +186,7 @@ class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public List<CommentData> findArticleComments(String slug) throws EntityDoesNotExistException {
+	public List<CommentData> findArticleComments(String slug) {
 		String articleId = findArticleIdBySlug(slug);
 		List<String> commentIds = articleDao.findCommentIds(articleId);
 		return commentService.findCommentsWithIds(commentIds);

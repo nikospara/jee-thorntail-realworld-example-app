@@ -13,5 +13,5 @@ public interface CommentAuthorization {
 	 * @param id The comment id
 	 * @throws AppSecurityException If the check fails
 	 */
-	void requireCurrentUserToBeAuthorOf(String id) throws AppSecurityException;
+	void requireCurrentUserToBeAuthorOf(String id);
 }

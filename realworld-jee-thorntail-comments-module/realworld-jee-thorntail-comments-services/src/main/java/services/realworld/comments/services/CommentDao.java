@@ -3,7 +3,6 @@ package services.realworld.comments.services;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import realworld.EntityDoesNotExistException;
 import realworld.comments.model.CommentCreationData;
 import realworld.comments.model.CommentWithLinks;
 
@@ -20,7 +19,7 @@ public interface CommentDao {
 	 * @param createdAt    The creation timestamp
 	 * @return The new comment
 	 */
-	CommentWithLinks create(CommentCreationData creationData, String authorId, LocalDateTime createdAt) throws EntityDoesNotExistException;
+	CommentWithLinks create(CommentCreationData creationData, String authorId, LocalDateTime createdAt);
 
 	/**
 	 * Find the comments with the given ids.

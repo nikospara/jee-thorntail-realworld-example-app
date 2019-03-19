@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import realworld.EntityDoesNotExistException;
 import realworld.comments.model.CommentCreationData;
 import realworld.comments.model.CommentWithLinks;
 import realworld.comments.model.ImmutableCommentWithLinks;
@@ -44,7 +43,7 @@ public class CommentDaoImpl implements CommentDao {
 	}
 
 	@Override
-	public CommentWithLinks create(CommentCreationData creationData, String authorId, LocalDateTime createdAt) throws EntityDoesNotExistException {
+	public CommentWithLinks create(CommentCreationData creationData, String authorId, LocalDateTime createdAt) {
 		Comment comment = new Comment();
 		comment.setId(UUID.randomUUID().toString());
 		comment.setBody(creationData.getBody());

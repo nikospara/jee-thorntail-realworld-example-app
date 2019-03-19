@@ -38,7 +38,7 @@ public interface ArticleService {
 	 * @return The article
 	 * @throws EntityDoesNotExistException If an article with the given slug does not exist
 	 */
-	ArticleData findArticleBySlug(String slug) throws EntityDoesNotExistException;
+	ArticleData findArticleBySlug(String slug);
 
 	/**
 	 * Find article id by slug.
@@ -47,7 +47,7 @@ public interface ArticleService {
 	 * @return The article id
 	 * @throws EntityDoesNotExistException If an article with the given slug does not exist
 	 */
-	String findArticleIdBySlug(String slug) throws EntityDoesNotExistException;
+	String findArticleIdBySlug(String slug);
 
 	/**
 	 * Create an article.
@@ -65,7 +65,7 @@ public interface ArticleService {
 	 * @return The full article
 	 * @throws EntityDoesNotExistException If an article with the given slug does not exist
 	 */
-	ArticleData update(String slug, ArticleUpdateData updateData) throws EntityDoesNotExistException;
+	ArticleData update(String slug, ArticleUpdateData updateData);
 
 	/**
 	 * Delete the article.
@@ -73,7 +73,7 @@ public interface ArticleService {
 	 * @param slug The slug
 	 * @throws EntityDoesNotExistException If the article does not exist
 	 */
-	void delete(String slug) throws EntityDoesNotExistException;
+	void delete(String slug);
 
 	/**
 	 * Transform a title to a slug.
@@ -90,7 +90,7 @@ public interface ArticleService {
 	 * @return The article
 	 * @throws EntityDoesNotExistException If the article does not exist
 	 */
-	ArticleData favorite(String slug) throws EntityDoesNotExistException;
+	ArticleData favorite(String slug);
 
 	/**
 	 * Remove article from favorites.
@@ -99,7 +99,7 @@ public interface ArticleService {
 	 * @return The article
 	 * @throws EntityDoesNotExistException If the article does not exist
 	 */
-	ArticleData unfavorite(String slug) throws EntityDoesNotExistException;
+	ArticleData unfavorite(String slug);
 
 	/**
 	 * Add a comment to an article as the current user.
@@ -109,7 +109,7 @@ public interface ArticleService {
 	 * @return The full comment data
 	 * @throws EntityDoesNotExistException If an article with the given slug does not exist
 	 */
-	CommentData comment(String slug, CommentCreationData creationData) throws EntityDoesNotExistException;
+	CommentData comment(String slug, CommentCreationData creationData);
 
 	/**
 	 * Fetch the comments of an article.
@@ -118,7 +118,7 @@ public interface ArticleService {
 	 * @return The list of full comment data
 	 * @throws EntityDoesNotExistException If an article with the given slug does not exist
 	 */
-	List<CommentData> findArticleComments(String slug) throws EntityDoesNotExistException;
+	List<CommentData> findArticleComments(String slug);
 
 	/**
 	 * Delete the comment from the given article.
