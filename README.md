@@ -1,6 +1,7 @@
 # ![RealWorld Example App using JEE 8 and Thorntail](logo.png)
 
 [![Build Status](https://travis-ci.com/nikospara/jee-thorntail-realworld-example-app.svg?branch=master)](https://travis-ci.com/nikospara/jee-thorntail-realworld-example-app)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=realworld.example%3Arealworld-jee-thorntail-parent&metric=coverage)](https://sonarcloud.io/dashboard?id=realworld.example%3Arealworld-jee-thorntail-parent)
 
 > ### Java EE and Java 11 in Thorntail (with CDI, JAX-RS, JPA and others) codebase containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API.
 
