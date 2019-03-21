@@ -1,0 +1,8 @@
+<configuration>
+	<!--
+		This configuration reduces the verbosity of Liquibase & Hibernate logs
+		for tests using this library.
+	-->
+	<root level="info">
+	</root>
+</configuration>
