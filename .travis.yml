@@ -15,6 +15,11 @@ git:
   depth: 3
   quiet: true
 
+branches:
+  only:
+    - master
+    - /^v\d+\.\d+(\.\d+)?(-\S+)?$/
+
 install: true
 
 script:
