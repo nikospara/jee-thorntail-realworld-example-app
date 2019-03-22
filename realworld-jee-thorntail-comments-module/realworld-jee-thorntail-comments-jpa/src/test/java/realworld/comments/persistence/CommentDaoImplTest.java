@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -53,7 +54,7 @@ public class CommentDaoImplTest {
 		};
 
 		em.getTransaction().begin();
-		LocalDateTime createdAt = LocalDateTime.now();
+		LocalDateTime createdAt = LocalDateTime.of(2019, Month.MARCH, 16, 12, 11, 13);
 		CommentWithLinks comment = sut.create(creationData, AUTHOR_ID, createdAt);
 		em.getTransaction().commit();
 		em.clear();

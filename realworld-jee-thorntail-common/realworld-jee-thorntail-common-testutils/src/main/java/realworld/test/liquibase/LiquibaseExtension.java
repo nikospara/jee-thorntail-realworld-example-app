@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  */
 public class LiquibaseExtension implements BeforeAllCallback {
 
-	static final Logger LOG = LoggerFactory.getLogger(LiquibaseExtension.class);
+	private static final Logger LOG = LoggerFactory.getLogger(LiquibaseExtension.class);
 
 	@Override
 	public void beforeAll(ExtensionContext extensionContext) throws Exception {
@@ -26,12 +26,14 @@ public class LiquibaseExtension implements BeforeAllCallback {
 		String dbuser = System.getProperty("database-test.username");
 		String dbpass = System.getProperty("database-test.password");
 		LOG.debug(
-				"**************************************************************" +
-				"* Liquibase Junit 5 Extension" +
-				"* DB URL: " + dburl +
-				"* Username: " + dbuser +
-				"* Password: " + (dbpass != null ? "****"  : "null") +
-				"**************************************************************"
+				"Running...\n" +
+				"**************************************************************\n" +
+				"* Liquibase Junit 5 Extension\n" +
+				"* DB URL: {}\n" +
+				"* Username: {}\n" +
+				"* Password: {}\n" +
+				"**************************************************************",
+				dburl, dbuser, (dbpass != null ? "(set to secret value)"  : "null")
 		);
 
 		try( Connection conn = DriverManager.getConnection(dburl, dbuser, dbpass) ) {
