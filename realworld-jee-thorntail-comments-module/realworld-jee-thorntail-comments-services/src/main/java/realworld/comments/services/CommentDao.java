@@ -1,4 +1,4 @@
-package services.realworld.comments.services;
+package realworld.comments.services;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -31,7 +31,7 @@ import realworld.comments.model.CommentData;
 import realworld.services.DateTimeService;
 import realworld.user.model.ProfileData;
 import realworld.user.services.UserService;
-import services.realworld.comments.services.CommentService;
+import realworld.comments.services.CommentService;
 
 /**
  * Implementation of the {@link ArticleService}.

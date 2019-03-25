@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 import realworld.comments.model.CommentCreationData;
 import realworld.comments.model.CommentWithLinks;
 import realworld.comments.model.ImmutableCommentWithLinks;
-import services.realworld.comments.services.CommentDao;
+import realworld.comments.services.CommentDao;
 
 /**
  * JPA implementation of the {@link CommentDao}.

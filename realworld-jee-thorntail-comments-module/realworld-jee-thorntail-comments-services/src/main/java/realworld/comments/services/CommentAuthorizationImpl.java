@@ -1,4 +1,4 @@
-package services.realworld.comments.services;
+package realworld.comments.services;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

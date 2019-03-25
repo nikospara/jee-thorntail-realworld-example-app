@@ -29,7 +29,7 @@ import realworld.services.DateTimeService;
 import realworld.user.model.ImmutableProfileData;
 import realworld.user.model.ImmutableUserData;
 import realworld.user.services.UserService;
-import services.realworld.comments.services.CommentService;
+import realworld.comments.services.CommentService;
 
 /**
  * Tests for the {@link ArticleServiceImpl}.
