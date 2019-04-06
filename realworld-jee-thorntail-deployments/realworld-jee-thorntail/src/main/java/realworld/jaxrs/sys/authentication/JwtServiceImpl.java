@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.text.ParseException;
+import java.util.Base64;
 import java.util.Date;
 
 import com.nimbusds.jose.JOSEException;
@@ -13,8 +14,8 @@ import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
-import realworld.user.model.UserData;
 import realworld.services.DateTimeService;
+import realworld.user.model.UserData;
 
 /**
  * Default implementation of the {@link JwtService}.
@@ -55,7 +56,7 @@ public class JwtServiceImpl implements JwtService {
 
 	@PostConstruct
 	void init() {
-		byte[] sharedSecret = javax.xml.bind.DatatypeConverter.parseBase64Binary(tokenAuthenticationConfig.getJwtSecret());
+		byte[] sharedSecret = Base64.getMimeDecoder().decode(tokenAuthenticationConfig.getJwtSecret());
 		try {
 			signer = new MACSigner(sharedSecret);
 			verifier = new MACVerifier(sharedSecret);

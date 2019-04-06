@@ -1,5 +1,8 @@
 package realworld.jaxrs.sys.authentication;
 
+import static javax.ws.rs.Priorities.AUTHENTICATION;
+
+import javax.annotation.Priority;
 import javax.inject.Inject;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -13,6 +16,7 @@ import realworld.authentication.AuthenticationContextHolder;
  * application.
  */
 @Provider
+@Priority(AUTHENTICATION)
 public class JwtAuthenticationFilter implements ContainerRequestFilter {
 	
 	private AuthenticationContextHolder authenticationContextHolder;

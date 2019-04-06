@@ -25,16 +25,18 @@ public class LiquibaseExtension implements BeforeAllCallback {
 		String dburl = System.getProperty("database-test.url");
 		String dbuser = System.getProperty("database-test.username");
 		String dbpass = System.getProperty("database-test.password");
-		LOG.debug(
-				"Running...\n" +
-				"**************************************************************\n" +
-				"* Liquibase Junit 5 Extension\n" +
-				"* DB URL: {}\n" +
-				"* Username: {}\n" +
-				"* Password: {}\n" +
-				"**************************************************************",
-				dburl, dbuser, (dbpass != null ? "(set to secret value)"  : "null")
-		);
+		if( LOG.isDebugEnabled() ) {
+			LOG.debug(
+					"Running...\n" +
+					"**************************************************************\n" +
+					"* Liquibase Junit 5 Extension\n" +
+					"* DB URL: {}\n" +
+					"* Username: {}\n" +
+					"* Password: {}\n" +
+					"**************************************************************",
+					dburl, dbuser, (dbpass != null ? "(set to secret value)" : "null")
+			);
+		}
 
 		try( Connection conn = DriverManager.getConnection(dburl, dbuser, dbpass) ) {
 			Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(conn));
