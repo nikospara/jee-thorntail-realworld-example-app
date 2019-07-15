@@ -63,7 +63,7 @@ public class ArticleFeedResourceImplTest {
 	private static final String DESCRIPTION = "description";
 	private static final String BODY = "The body of the article.";
 	private static final String TITLE = "The Title";
-	private static final LocalDateTime CREATED_AT = LocalDateTime.of(2019, Month.MARCH, 11, 12, 45, 55);
+	private static final LocalDateTime CREATED_AT = LocalDateTime.of(2019, Month.MARCH, 11, 16, 45, 55);
 	private static final Integer LIMIT = 11;
 	private static final Integer OFFSET = 3;
 
@@ -105,7 +105,7 @@ public class ArticleFeedResourceImplTest {
 		assertArticleResult()
 				.next()
 				.assertId(ARTICLE_ID)
-				.assertCreatedAt("2019-03-11T12:45:55.000Z")
+				.assertCreatedAt("2019-03-11T16:45:55.000Z")
 				.assertNoMore();
 	}
 

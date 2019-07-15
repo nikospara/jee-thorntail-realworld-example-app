@@ -17,6 +17,6 @@ class CustomJavaTimeModule extends SimpleModule {
 	 * Construct and customize behavior.
 	 */
 	public CustomJavaTimeModule() {
-		addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm:ss.SSS'Z'").withZone(ZoneId.of("UTC"))));
+		addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").withZone(ZoneId.of("UTC"))));
 	}
 }

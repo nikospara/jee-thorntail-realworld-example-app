@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import realworld.services.SimpleValidationException;
 
 /**
- * Map a {@link SimpleValidationException} the same way a {@code ValidationException} is mapped by  {@link ValidationExceptionMapper}.
+ * Map a {@link SimpleValidationException} the same way a {@code ValidationException} is mapped by {@link ValidationExceptionMapper}.
  */
 @Provider
 public class SimpleValidationExceptionMapper implements ExceptionMapper<SimpleValidationException> {

@@ -23,7 +23,7 @@ import realworld.services.DateTimeService;
 @ApplicationScoped
 public class TokenHelper {
 
-	private static final String AUTHORIZATION_HEADER = "Authorization";
+	public static final String AUTHORIZATION_HEADER = "Authorization";
 	private static final Pattern AUTH_HEADER_RE = Pattern.compile("^Token (.*)$", Pattern.CASE_INSENSITIVE);
 	
 	private JwtService jwtService;

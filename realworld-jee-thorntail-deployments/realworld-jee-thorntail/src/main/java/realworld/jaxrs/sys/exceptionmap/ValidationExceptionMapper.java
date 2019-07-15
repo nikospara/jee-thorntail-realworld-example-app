@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Map the {@code ValidationException} as per specs (see JAX-RS 1.1 ch. 7.6) and
+ * Map the {@code ValidationException} as per specs (see JAX-RS 2.1 ch. 7.6) and
  * <a href="https://github.com/gothinkster/realworld/tree/master/api#errors-and-status-codes">application requirements</a>.
  */
 @Provider
