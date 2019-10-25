@@ -29,15 +29,15 @@
 
 		<version.h2>1.4.197</version.h2>
 		<version.hibernate>5.4.1.Final</version.hibernate>
-		<version.jackson>2.9.8</version.jackson>
-		<version.javax.json-test>1.1.2</version.javax.json-test>
+		<version.jackson>2.10.0.pr3</version.jackson>
+		<version.javax.json-test>1.1.4</version.javax.json-test>
 		<version.jaxb.api>2.3.1</version.jaxb.api>
 		<version.jaxb.impl>2.3.0.1</version.jaxb.impl>
 		<version.junit.jupiter>5.4.1</version.junit.jupiter>
-		<version.liquibase>3.6.3</version.liquibase>
-		<version.mockito>2.25.1</version.mockito>
+		<version.liquibase>3.8.0</version.liquibase>
+		<version.mockito>3.1.0</version.mockito>
 		<version.resteasy-test>3.6.3.Final</version.resteasy-test>
-		<version.wildfly-swarm>2.4.0.Final</version.wildfly-swarm>
+		<version.wildfly-swarm>2.5.0.Final</version.wildfly-swarm>
 	</properties>
 	
 	<dependencyManagement>
@@ -132,7 +132,7 @@
 			<dependency>
 				<groupId>com.nimbusds</groupId>
 				<artifactId>nimbus-jose-jwt</artifactId>
-				<version>7.0.1</version>
+				<version>8.2</version>
 			</dependency>
 			<dependency>
 				<groupId>io.swagger</groupId>
@@ -155,18 +155,18 @@
 			<dependency>
 				<groupId>org.immutables</groupId>
 				<artifactId>value</artifactId>
-				<version>2.7.5</version>
+				<version>2.8.1</version>
 				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.json</groupId>
 				<artifactId>json</artifactId>
-				<version>20180813</version>
+				<version>20190722</version>
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
-				<version>1.7.25</version>
+				<version>1.7.28</version>
 			</dependency>
 			
 			<!-- TEST -->
