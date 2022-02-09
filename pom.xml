@@ -28,7 +28,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<version.h2>1.4.197</version.h2>
-		<version.hibernate>5.4.1.Final</version.hibernate>
+		<version.hibernate>5.4.24.Final</version.hibernate>
 		<version.jackson>2.10.0.pr3</version.jackson>
 		<version.javax.json-test>1.1.4</version.javax.json-test>
 		<version.jaxb.api>2.3.1</version.jaxb.api>
